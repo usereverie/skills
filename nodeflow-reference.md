@@ -25,6 +25,53 @@ Build left → right by stage: **sources → processors → generators → sinks
    re-run only the changed branch with `from_node_id`. Before every re-run,
    `nodeflow_get_graph` to pick up the user's manual canvas edits.
 
+## `apply_batch` payload shapes
+
+`nodeflow_apply_batch` ops take **camelCase** keys; the standalone tools take
+**snake_case** for the same concepts. Mixing them is the most common failed call.
+
+| Concept | Standalone tool | `apply_batch` op |
+|---|---|---|
+| Node type | `nodeflow_add_node(node_type=…)` | `"nodeType": …` |
+| Position | top-level `x` / `y` | nested `"position": {"x": …, "y": …}` |
+| Target handle | `nodeflow_connect(target_handle=…)` | `"targetHandle": …` |
+
+**The error for this mistake points at the wrong thing.** Passing `node_type` inside a
+batch op does not report a missing field — it reports:
+
+```json
+{"ok": false, "error": "invalid_params", "field": "nodeType", "given": "",
+ "reason": "unknown node type ''", "valid_options": [...]}
+```
+
+`"given": ""` reads as "you passed an empty string", which sends you inspecting your
+*value*. If you see `given: ""` on a field you know you set, check the **casing of the
+key** first.
+
+Worked example — one shot row (prompt + first frame → video generator → preview):
+
+```json
+{"ops": [
+  {"kind": "add_node", "id": "t1", "nodeType": "textNode",
+   "position": {"x": 0, "y": 0}, "params": {"text": "she types, then pauses"}},
+  {"kind": "add_node", "id": "i1", "nodeType": "imageNode",
+   "position": {"x": 0, "y": 110}, "params": {"imageUrl": "https://…"}},
+  {"kind": "add_node", "id": "g1", "nodeType": "generatorNode",
+   "position": {"x": 760, "y": 0},
+   "params": {"type": "video", "modelId": "2.0 Pro-Fast", "ratio": "9:16",
+              "resolution": "720p", "duration": 4, "generateAudio": false}},
+  {"kind": "add_node", "id": "p1", "nodeType": "previewNode",
+   "position": {"x": 1520, "y": 0}, "params": {}},
+
+  {"kind": "connect", "source": "t1", "target": "g1"},
+  {"kind": "connect", "source": "i1", "target": "g1", "targetHandle": "first_frame"},
+  {"kind": "connect", "source": "g1", "target": "p1"}
+]}
+```
+
+The `id` on an add op is a **batch-local alias** — connect ops in the same batch refer
+to it directly, so you never need a round-trip to learn real node ids.
+
 ## Node types
 11 types (from `nodeflow_describe_nodes`). Flow: `— → asset` reads left-to-right.
 
@@ -109,6 +156,10 @@ Distilled canonical shapes (all left → right):
    `list_models` (image models don't expose a `maxRefImages` field).
 5. **Video from stills** —
    `textNode(motion) + imageNode(first frame) → generatorNode(type=video) → previewNode`.
+   ⚠️ If the still shows a **human face**, this shape is filter-gated — a photorealistic
+   face on the `first_frame` handle is rejected even when fully AI-generated. Settle the
+   character source before building the graph (see *Human subjects in video* in
+   `mcp-reference.md`).
 6. **Free-form LLM step** — `anyLlmNode`: instruction in `prompt`, context from
    connected text (briefs → shot lists, style transfer, rewriting).
 
@@ -141,8 +192,28 @@ rejected with `invalid_params` naming the field — fix and retry, don't re-gues
 ## Errors
 - **`invalid_params`** — the response names the field, the bad value, and
   `valid_options`. Fix using those options and retry; do not re-guess blindly.
+  If it names a field you believe you set and reports `given: ""`, check the key's
+  casing — see `apply_batch` payload shapes above.
 - **`insufficient_credits`** — stop and tell the user; do not retry.
 - **`partial`** from `nodeflow_run_and_wait` — some tasks are still running.
   Keep polling `nodeflow_run_status` with the returned `task_ids`.
+- **`InputImageSensitiveContentDetected.PrivacyInformation`** on a node — a human
+  likeness was rejected on video input. **Stop the whole run, don't retry the node.**
+  Content-policy rejections escalate against the account; see *Safety gating &
+  blocking errors* in `mcp-reference.md`. Fix the character source before re-running.
+- **`Account is suspended. Generation is not permitted.`** on a node — an account-wide
+  compliance gate, not a canvas problem. Every other node in the run will fail the same
+  way and re-running fixes nothing. Report it and stop.
+
+### Probe one node before running a batch
+
+`nodeflow_run_and_wait` runs every node in the workspace — so when a run trips a gate
+that escalates per attempt, one call can spend several rungs of the ladder before you
+see the first error.
+
+For any run whose inputs could be filter-sensitive — **human faces above all** — build
+the full graph, then run **one row first** with `from_node_id`, confirm it succeeds, and
+only then run the rest. The extra round-trip costs seconds; discovering the problem
+three nodes deep can cost the account.
 
 > Synced against backend 12f352d / nodeflow-mcp cf82821 on 2026-07-18.

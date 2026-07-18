@@ -38,6 +38,17 @@ Write `specs/content/YYYY-MM-DD-<slug>.md`:
   kind vs your balance of X". Exact per-deliverable credit cost is often NOT derivable
   from the tools (video is billed per-second, not per-unit), so don't invent a
   false-precise number; flag if the batch looks close to the balance.
+- Feasibility check — **does any video deliverable show a human face?** If so, the
+  still → `first_frame_url` pattern is filter-gated (ModelArk rejects recognisable
+  human likeness on video input, including faces you generated yourself). Settle the
+  character source here, in the spec, with the user: faceless framing / preset
+  `asset://` portrait in reference mode / stills-only. See *Human subjects in video*
+  in `../../mcp-reference.md`. Getting this wrong is not a retry — the image phase
+  bills and succeeds, and every video derived from it fails.
+- Note the capacity caveat: a pre-flight `get_generation_capacity` on an account that
+  hasn't generated yet reports the fallback `limit: 1`, not the plan's real ceiling.
+  Don't harden a strictly-sequential execution shape around that number — re-check it
+  after the first successful generation.
 GATE: user approves the file (or chat spec).
 
 ## Stage 3: Plan
@@ -52,7 +63,11 @@ GATE: user approves the file (or chat plan).
 ## Stage 4: Execute
 - Canvas path (nodeflow_* available): `nodeflow_create_workspace` named
   `<slug>`; build the WHOLE plan graph in one `nodeflow_apply_batch`; run
-  with `nodeflow_run_and_wait` (`timeout_s` 600+ for video). The canvas has
+  with `nodeflow_run_and_wait` (`timeout_s` 600+ for video). **Build whole, but
+  run one row first** when the inputs are filter-sensitive (any human subject):
+  `from_node_id` a single shot, confirm it succeeds, then run the rest. A full
+  run fails every node against the same gate and spends several escalation
+  rungs before the first error is visible. The canvas has
   no project-targeting mechanism (`generatorNode` / `exportNode` expose no
   project param) — outputs land in the user's gallery/NodeFlow workspace;
   report their actual location in Stage 6.
@@ -83,6 +98,15 @@ Then offer: iterate further, or close out.
 ## Failure rules
 - `insufficient_credits` at any stage → stop at the current gate, report spend
   so far and the shortfall. Never retry.
+- **Content-policy rejection** (e.g. `InputImageSensitiveContentDetected.…`) → stop
+  the stage immediately. Do not retry the deliverable and do not continue to the next
+  one. These escalate against the account (2 in 30 days suspends it), so a batch that
+  keeps going converts one recoverable warning into a lockout. Report the flag, name
+  the offending input, and return to the Stage 2 character-source decision.
+- `Account is suspended. Generation is not permitted.` → an account-wide compliance
+  gate, not a canvas or credit problem. Every tool returns it and nothing bills. Stop
+  the pipeline, report which deliverables completed, and tell the user it needs an
+  operator status reset or an appeal — it cannot be cleared from these tools.
 - `partial` from `nodeflow_run_and_wait` → poll `nodeflow_run_status` with the
   returned task ids before reporting.
 - NodeFlow tools absent → say so once, continue via direct tools.

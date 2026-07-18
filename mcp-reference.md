@@ -205,6 +205,49 @@ Two mutually-exclusive ways to give the model an image:
 | Frame (first + last) | 1.5 Pro, 1.0 Pro, 2.0 Pro, 2.0 Pro-Fast, 2.0 Mini (NOT 1.0 Pro-Fast) | 2 |
 | Reference | 2.0 Pro, 2.0 Pro-Fast, 2.0 Mini | 9 images (2.0 Pro / 2.0 Pro-Fast also accept +3 videos +3 audio — canvas `generatorNode` only, `generate_video` does not expose video/audio reference params; 2.0 Mini is images-only) |
 
+### Human subjects in video — ModelArk digital-asset gating
+
+ModelArk gates recognisable human likeness on **video input**. A photorealistic human
+face reaching a video model as `first_frame_url` is rejected upstream with:
+
+```
+InputImageSensitiveContentDetected.PrivacyInformation
+"The request failed because the input image may contain real person."
+```
+
+**This fires on fully synthetic faces.** A Seedream character sheet generated with
+`aesthetic_mode="photorealism"` trips it. The filter tests likeness, not provenance — it
+has no way to know the face was never real, and the better your character-consistency
+chain works, the more reliably it trips. Image generation is not gated this way; only
+video ingestion is. So a chain can pass Phase A cleanly and fail 100% of Phase B.
+
+`aesthetic_mode` is an **image** parameter and has no effect on this **video** filter.
+Dropping to `cinematic` or `balanced` is not a fix.
+
+ModelArk accepts two compliant sources for a human character in video:
+
+| Path | How | Notes |
+|---|---|---|
+| **Preset digital-character library** | Pass `asset://asset-…` as a reference image | ~5,900 pre-cleared portraits. No extra subscription. |
+| **Actors / authorized real person** | Requires the authorized-real-person subscription on the account | For a specific real person with consent on file. |
+
+`asset://` URIs reach ModelArk **verbatim** and are resolved server-side — never rewrite
+one to `https://`. Because they are *reference* images, they cannot be combined with
+`first_frame_url` in the same call (see Frame vs Reference above).
+
+> **No MCP tool lists the preset portraits today.** The `asset_uri` has to come from the
+> BytePlus console (Seedance 2.0 GenVideo → Virtual Portrait Library). Treat picking one
+> as a step that needs the user — do not stall the job guessing at ids.
+
+**Plan the character source at spec time, before spending stills credits.** For a
+human-subject video job, pick one:
+
+- **Faceless framing** — hands, over-the-shoulder, from behind, or face out of frame.
+  The still → `first_frame_url` chain works normally. Cheapest fix; often no creative loss.
+- **Preset portrait** — build on an `asset://` portrait in reference mode from the start.
+  Trades literal frame control for a character that clears the filter.
+- **A face you generated** — fine for **stills**, but do not plan video off it.
+
 ### Audio / speech behaviour
 
 - **Default to `audio_sync=true`** for every video request, unless the user says "no audio", "silent", "mute", "no sound", or similar. Use any audio-capable model: `1.5 Pro` (cheaper), `2.0 Pro`, or `2.0 Pro-Fast`.
@@ -355,6 +398,48 @@ Analyze images with a vision-capable LLM.
 
 ---
 
+## Safety gating & blocking errors
+
+### Content-policy rejections are cumulative — stop the batch
+
+A rejection carrying a content-policy code (e.g.
+`InputImageSensitiveContentDetected.PrivacyInformation`) is not just a failed
+generation. It is recorded as a **safety event against the account**, and safety events
+escalate:
+
+| Safety events | Window | Result |
+|---|---|---|
+| 1st | 30 days | warning — no status change, nothing visible to the user |
+| 2nd | 30 days | account **suspended** |
+| 3rd | 90 days | account **terminated** |
+
+Because the first event is silent, the second one arrives as a surprise — and it locks
+**all** generation, not just the call that tripped it.
+
+**When a generation fails with a content-policy code: stop.** Do not retry it, and do
+not move on to the next item in the batch. Report the flag to the user and let them
+decide. Retrying a filter-tripping input is the single fastest way to escalate a
+recoverable warning into a locked account, and a batch is the worst place to find out.
+
+This is why human-subject video wants a **one-clip probe before the batch** — see
+*Human subjects in video* above, and the canvas note in `nodeflow-reference.md`.
+
+### `Account is suspended. Generation is not permitted.` (403)
+
+Reverie's **own compliance gate**, not a ModelArk error and not a billing problem. It
+reads the account's status and blocks every generation tool — images, video, canvas,
+3D, all of it — regardless of credit balance. Credits are untouched; nothing bills.
+
+Diagnostic tell: a trivial unrelated `generate_image` also returns it. That confirms the
+block is account-wide rather than specific to the input that tripped the filter.
+
+It cannot be cleared from the MCP tools — it needs an operator status reset or an
+appeal. **Surface it to the user plainly and stop.** Do not retry, do not try another
+model, and do not switch to the canvas hoping for a different path; they all read the
+same gate.
+
+---
+
 ## Utility Tools
 
 ### `list_models`
@@ -365,6 +450,15 @@ Returns the current user's available credits along with `plan_slug` and `plan_cr
 
 ### `get_generation_capacity`
 No parameters. Returns the account's **concurrency** state, not a credit quota: `limit` (the plan's concurrent-generation ceiling), `in_flight` (generations currently pending/processing), and `available` (free slots right now). Pairs with `get_credit_balance` (which covers spend/credits) for pre-flight checks before a batch.
+
+> **`limit: 1` on a cold account is a fallback, not your real ceiling.** `limit` reads the
+> plan's `max_concurrent_generations`, and falls back to **1** when the plan can't be
+> resolved — which is exactly what happens before the account's first generation, since
+> the user row is created lazily on that first call. A pre-flight capacity check on a
+> fresh account therefore under-reports, often badly (a plan whose real ceiling is 8 will
+> read as 1). Re-check after the first successful generation before committing to a
+> strictly sequential execution shape, or you will serialize a batch that could have
+> fanned out.
 
 ---
 

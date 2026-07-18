@@ -31,6 +31,16 @@ After the SD2 production-prompt template is approved (Step 2). Before any `gener
 ### Steps
 
 1. **Pre-flight.** Call `get_credit_balance`. If 0, stop and tell the user to top up. Optionally `create_project(name="<source-stem>-storyboard")` so all stills + downstream videos land in one project.
+
+   **Human-subject check — do this before spending a single stills credit.** Both phases of this sub-skill funnel stills into `first_frame_url`, and ModelArk rejects a recognisable human face on video input *even when the face is fully AI-generated* (see *Human subjects in video* in `../../mcp-reference.md`). Phase 1 will succeed and Phase 2 will fail 100%, after the stills are paid for and approved.
+
+   So if any clip features a visible human face, resolve the character source **now**, with the user:
+
+   - **Faceless framing** — reframe the affected beats to hands, over-the-shoulder, from behind, or face out of frame. Usually the cheapest fix and often no creative loss.
+   - **Preset digital-character portrait** — an `asset://…` portrait from ModelArk's library, used in *reference* mode. Note this rules out frame chaining for those clips: reference mode and `first_frame_url` cannot be combined, so Phase 2's last-frame → first-frame chain does not apply.
+   - **Proceed knowingly** — the user accepts that the stills are deliverables in their own right and video may not be reachable from them.
+
+   Do not silently pick one. Do not try to engineer around the filter with `aesthetic_mode` — it is an image parameter and has no effect on the video-input filter.
 2. **Extract BEAT 1 per clip.** For each clip K:
    - Pull the BEAT 1 paragraph from the prompt template.
    - Strip temporal verbs and pacing language: *"slow push-in"*, *"creeping forward"*, percentages (*"20-25% speed"*), time codes (*"0:00–0:03"*), beat labels. Keep static subject, framing, lighting, lens, color palette, character/prop description.

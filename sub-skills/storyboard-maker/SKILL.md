@@ -37,7 +37,7 @@ After the SD2 production-prompt template is approved (Step 2). Before any `gener
    So if any clip features a visible human face, resolve the character source **now**, with the user:
 
    - **Faceless framing** — reframe the affected beats to hands, over-the-shoulder, from behind, or face out of frame. Usually the cheapest fix and often no creative loss.
-   - **Preset digital-character portrait** — an `asset://…` portrait from ModelArk's library, used in *reference* mode. Note this rules out frame chaining for those clips: reference mode and `first_frame_url` cannot be combined, so Phase 2's last-frame → first-frame chain does not apply.
+   - **Preset digital-character portrait** — call `list_digital_characters(...)` and have the user pick from the returned candidates, then use that `asset_uri` in *reference* mode. Note this rules out frame chaining for those clips: reference mode and `first_frame_url` cannot be combined, so Phase 2's last-frame → first-frame chain does not apply.
    - **Proceed knowingly** — the user accepts that the stills are deliverables in their own right and video may not be reachable from them.
 
    Do not silently pick one. Do not try to engineer around the filter with `aesthetic_mode` — it is an image parameter and has no effect on the video-input filter.

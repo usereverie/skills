@@ -235,9 +235,30 @@ ModelArk accepts two compliant sources for a human character in video:
 one to `https://`. Because they are *reference* images, they cannot be combined with
 `first_frame_url` in the same call (see Frame vs Reference above).
 
-> **No MCP tool lists the preset portraits today.** The `asset_uri` has to come from the
-> BytePlus console (Seedance 2.0 GenVideo → Virtual Portrait Library). Treat picking one
-> as a step that needs the user — do not stall the job guessing at ids.
+### Browsing the preset portraits — `list_digital_characters`
+
+`list_digital_characters` returns 3 candidates at a time: a numbered text index
+followed by one image each, in the same order. Show them to the user and let them
+pick a number.
+
+```
+list_digital_characters(country="Malaysia", gender="female", age_min=28, age_max=42)
+# → text index + 3 images; ask for offset=3 to see the next 3
+generate_video(prompt="...", reference_image_urls=["asset://asset-…"], model="2.0 Pro")
+```
+
+Parameters: `q`, `gender`, `country`, `occupation`, `age_min`, `age_max`, `offset`.
+There is no `limit` — the page size is fixed at 3 to keep image cost predictable.
+
+**Use `q` for role-ish concepts.** `occupation` (93 terms) and `country` (95) are
+closed vocabularies — invent a value like `"Bakery Owner"` and you get zero rows,
+which reads as an empty catalog. `q="bakery"` searches free text including each
+persona's bio and finds them anyway. On a zero-result structured query the tool
+returns the valid values, so recover by retrying rather than telling the user the
+catalog has nobody suitable.
+
+**Do not rank the faces yourself.** The catalog stores no physical description, so
+there is nothing to rank on — present the candidates and let the user choose.
 
 **Plan the character source at spec time, before spending stills credits.** For a
 human-subject video job, pick one:

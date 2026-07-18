@@ -42,9 +42,10 @@ Write `specs/content/YYYY-MM-DD-<slug>.md`:
   still → `first_frame_url` pattern is filter-gated (ModelArk rejects recognisable
   human likeness on video input, including faces you generated yourself). Settle the
   character source here, in the spec, with the user: faceless framing / preset
-  `asset://` portrait in reference mode / stills-only. See *Human subjects in video*
-  in `../../mcp-reference.md`. Getting this wrong is not a retry — the image phase
-  bills and succeeds, and every video derived from it fails.
+  `asset://` portrait in reference mode (browse via `list_digital_characters` and let
+  the user pick) / stills-only. See *Human subjects in video* in
+  `../../mcp-reference.md`. Getting this wrong is not a retry — the image phase bills
+  and succeeds, and every video derived from it fails.
 - Note the capacity caveat: a pre-flight `get_generation_capacity` on an account that
   hasn't generated yet reports the fallback `limit: 1`, not the plan's real ceiling.
   Don't harden a strictly-sequential execution shape around that number — re-check it

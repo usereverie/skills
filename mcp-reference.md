@@ -269,6 +269,29 @@ human-subject video job, pick one:
   Trades literal frame control for a character that clears the filter.
 - **A face you generated** — fine for **stills**, but do not plan video off it.
 
+### Private real-human assets — verified people (quota-gated)
+
+For users granted a private-asset quota, five tools cover a user's own verified
+people (each group = one liveness-verified real person; assets are face-matched
+against that person and yield `asset://` URIs that pass the likeness filter):
+
+| Tool | Purpose |
+|---|---|
+| `start_person_verification(person_name)` | Start identity verification. Returns an H5 link — **hand it to the human**: the person opens it on their phone and completes the face liveness scan (single-use, 30-min expiry). The group is created under `person_name`. |
+| `check_verification_status(session_id)` | Poll ~every 30 s until `completed` (returns the new `group_id`), or `failed`/`expired` (start a new session). |
+| `upload_private_asset(group_id, url, name?)` | Add an asset by public https URL (image ≤30MB / video ≤50MB / audio ≤15MB). Ingestion is async and face-matched — starts as `Processing`. |
+| `check_private_asset_status(asset_id)` | Re-sync from ARK. `Active` → use `asset://<id>` as a generation reference; `Failed` → error code/message (face mismatch is the common cause). |
+| `list_private_assets(group_id?, asset_type?, offset?)` | Browse Active assets, 3 per page with thumbnails. |
+
+The liveness step is the one thing an agent cannot do — always relay the H5
+link and wait. Renaming/deleting people or assets is **not** available via
+MCP: direct the user to **Sources → Private people** in the Studio UI (click a
+group's name to rename it; trash icon "Delete group" removes it and all its
+assets; per-asset pencil/trash icons rename/delete one asset).
+
+Quota errors (403/409) mean the account has no private-asset quota (admin-set)
+or all person slots are used.
+
 ### Audio / speech behaviour
 
 - **Default to `audio_sync=true`** for every video request, unless the user says "no audio", "silent", "mute", "no sound", or similar. Use any audio-capable model: `1.5 Pro` (cheaper), `2.0 Pro`, or `2.0 Pro-Fast`.

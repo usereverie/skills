@@ -25,7 +25,10 @@ For concrete generation requests, read `mcp-reference.md` first (parameter table
 - `generate_video`
 - `generate_text`
 - `understand_image`
+- Media: `import_image_url` (web images) or `create_media_upload` / `finalize_media_upload` (local files)
 - project helpers such as `create_project` / `list_projects` when needed
+
+**Web / product-page images:** call `import_image_url` (or pass the URL and let MCP auto-clone) — do not expect Visualfeed to display a hotlinked third-party CDN URL.
 
 **Iteration on an existing image visual** (e.g. *"try the same shot at sunset"*, *"regenerate, more dramatic"*) → prefer **`create_variant`**, not a fresh `generate_image`. See the `create_variant` section in `mcp-reference.md`.
 

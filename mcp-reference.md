@@ -24,7 +24,7 @@ Generate images from text prompts using Seedream models.
 | `watermark` | bool | `false` | — | No |
 | `optimize_prompt` | string | `"auto"` | `"auto"`, `"fast"`, `"off"` | No |
 | `aesthetic_mode` | string | `"balanced"` | `"balanced"`, `"high_aesthetic"`, `"photorealism"`, `"cinematic"` | No |
-| `reference_image_urls` | list[str] | `null` | Public image URLs | No |
+| `reference_image_urls` | list[str] | `null` | Image URLs (third-party auto-cloned into account storage) | No |
 
 > **Defaults are cost-optimised** (`4.0` @ `1K`, single image) — always pass `model` and `resolution` explicitly rather than relying on the default when the user wants higher quality. `guidance_scale` and `output_format` are **not** `generate_image` parameters — see Model Capabilities below.
 
@@ -435,10 +435,12 @@ Analyze images with a vision-capable LLM.
 | Parameter | Type | Default | Options | Required |
 |-----------|------|---------|---------|----------|
 | `prompt` | string | — | Question about the image | Yes |
-| `image_url` | string | — | Public image URL | Yes |
+| `image_url` | string | — | Image URL (account-hosted preferred; third-party URLs are auto-cloned into account storage) | Yes |
 | `model` | string | `"2.0 Pro LLM"` | `"2.0 Pro LLM"`, `"2.0 Lite"`, `"2.0 Mini"`, `"1.8"`, `"1.6"`, `"1.6-flash"` | No |
 
 > These are Seed **LLM** models (same set as `generate_text`) — `2.0 Lite` / `2.0 Mini` here are text models, distinct from the Seedance **video** models of the same names.
+
+> **Visualfeed thumbs:** never rely on a hotlinked third-party CDN URL remaining displayable. Prefer `import_image_url` first, or pass the URL and let MCP/API auto-clone it.
 
 ---
 
@@ -485,6 +487,26 @@ same gate.
 ---
 
 ## Utility Tools
+
+### Media inputs (images for generation / understanding)
+
+ProjectReverie Visualfeed can only proxy known storage hosts. **Do not hotlink** product-page / Shopify / arbitrary CDN URLs into visuals.
+
+| Source | Tool |
+|--------|------|
+| Local file on the agent machine | `create_media_upload(content_type, size_bytes, filename?)` → PUT bytes to `upload_url` → `finalize_media_upload(upload_id)` → use returned `asset_url` |
+| Web / product-page image URL | `import_image_url(url)` → use returned `url` (account-hosted clone) |
+| Already account-hosted / `asset://…` | Pass through to `generate_*` / `understand_image` / `edit_image` |
+
+MCP tools that accept image URLs (`understand_image`, `edit_image`, `generate_image` refs, `generate_video` frames/refs) **auto-clone** third-party `http(s)` URLs via the same path before calling the API — but prefer calling `import_image_url` explicitly when the user pastes a web image.
+
+### `import_image_url(url)`
+
+Clone a public web image into the user's account storage (≤10 MB; PNG/JPEG/WebP/GIF). Returns `{"url": "<account-hosted>"}`. Errors: `unreachable_url`, `unsupported_media`.
+
+### `create_media_upload` / `finalize_media_upload`
+
+Direct upload of a local file (image ≤10 MB; video ≤50 MB; audio ≤15 MB). See tool descriptions for the 3-step flow. `finalize_media_upload` is the only source of the validated `asset_url`.
 
 ### `list_models`
 Returns all available models with their IDs, display names, and pricing. Call this first to see what's available.
@@ -617,7 +639,7 @@ Use this only when the user explicitly wants multiple visuals to compare in para
 - **Picking a video model**: default to `1.5 Pro` for audio + frame work; reach for `2.0 Pro` (or the cheaper `2.0 Pro-Fast`) when the user wants premium quality, 4K (2.0 Pro only), OR multiple style/character reference images (up to 9). Use `2.0 Mini` (up to 9 image refs, no audio) when cost matters more than premium quality. Default `audio_sync=true` unless the user asks for a silent clip — "make it say", "sings", and similar prompts imply audio is required.
 - **Frame vs reference**: if the user wants the video to literally start (or end) on a specific image, use `first_frame_url` / `last_frame_url`. If they want the model to take stylistic/character cues from images without locking them as frames, use `reference_image_urls` (2.0 Pro, 2.0 Pro-Fast, 2.0 Mini only). Never combine both in the same call.
 - **Video is async.** Always poll `check_generation_status` — do not assume instant results.
-- **Reference images** must be publicly accessible URLs. The MCP server does not support file uploads.
+- **Media inputs:** local file → `create_media_upload` / `finalize_media_upload`; web image → `import_image_url` (or rely on auto-clone). Never depend on hotlinked third-party CDNs for Visualfeed display.
 
 ---
 

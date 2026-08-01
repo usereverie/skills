@@ -1,69 +1,68 @@
-The Seedance model features strong semantic understanding capabilities and can quickly generate high-quality video clips based on user-provided text, images, and other inputs. This tutorial explains how to call <a href="https://docs.byteplus.com/en/docs/ModelArk/Video_Generation_API">Video Generation API</a> to generate videos.
+The Seedance models have excellent semantic understanding capabilities, and can quickly generate high\-quality video clips based on multimodal content such as text, images, videos, and audio input by users. This tutorial introduces the general basic capabilities of the video generation model, and explains how to generate videos with the [Video Generation API](https://docs.byteplus.com/en/docs/ModelArk/Video_Generation_API). To learn about the latest capabilities of Dreamina Seedance 2.0 series (hereinafter referred to as Seedance 2.0 series), see [Dreamina Seedance 2.0 series tutorial](https://docs.byteplus.com/en/docs/ModelArk/2291680).
+
 <span id="a06d249e"></span>
-# Effect preview
+# Demo
 
-| | | | \
-|Domain |\
-|<div style="width:180px"></div> |Input |\
-| |<div style="width:350px"></div> |Output |\
-| | |<div style="width:150px"></div> |
-|---|---|---|
-| | | | \
-|**Audio-Video Generation** |\
-|> Only supported by Seedance 1.5 Pro. |\
-|> Produces high-quality videos with synchronized audio and visuals, supporting environmental sounds, action sounds, synthesized audio, instrument sounds, background music, and human voices. |\
-| |\
-| |\
-| |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/edc0f49ff2af4a918c75dd06ef9ca479~tplv-goo7wpa0wc-image.image =930x) |\
-| |> A young man sits at a piano, playing calmly and confidently. His posture is relaxed and natural, with both hands resting clearly on the keys. As he plays, his fingers move smoothly across the keyboard in a steady rhythm. He slightly sways with the music, occasionally lowering his gaze toward the keys. His expression is focused and peaceful. The camera holds a stable medium shot, keeping his upper body, hands, and the piano keys clearly visible. Soft ambient lighting creates a warm, intimate atmosphere. Gentle piano music plays in sync with his movements, conveying a calm and emotional mood. |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/0642e2dbd00d4fcb87ce30548ae3efd7~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/0642e2dbd00d4fcb87ce30548ae3efd7~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | | |
-|^^| | | \
-| |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/c85ec4a84f4b495694b277e65f09dfc1~tplv-goo7wpa0wc-image.image =930x) |\
-| |> A female opera performer sings on stage in a clear soprano voice. She begins singing calmly and maintains a steady pace. Her gaze slowly shifts in sequence: first looking into the distance, then lowering to the floor, and finally lifting to look directly into the camera. She sings the full lyric clearly and completely with a gentle, warm smile: “Hold on, let go, give trust, lend heart.” The line must be sung from beginning to end without interruption. The video must not cut or end before the final word is fully delivered. After finishing the last word, she holds her gaze and expression briefly before the scene ends. |\
-| | |\
-| | |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/b98110b1363043ee9429802aceb4276e~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/b98110b1363043ee9429802aceb4276e~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | | |
-| | | | \
-|**Multi-Reference Image-to-Video** |\
-|> Supports uploading multiple reference images. The model will generate dynamic video content that matches the features and style of the provided images. |\
-| |\
-| |\
-| |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/2a0691e5748e414c9a91837684d459d3~tplv-goo7wpa0wc-image.image =1200x) |\
-| |> A boy wearing glasses and a blue T-shirt from [Image 1] and a corgi dog from [Image 2], sitting on the lawn from [Image 3], in 3D cartoon style |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/b1a47f5c4bc64a30b7ced1a7511233fb~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/b1a47f5c4bc64a30b7ced1a7511233fb~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | | |\
-| | | |
-| | | | \
-|**First-and-Last Frame Video Generation** |\
-|> Based on the input starting and ending key frames, intelligently creates transitional frames to form a smooth and coherent video sequence.  |\
-| |\
-| |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f8fc1008f23a4908b7c897e8b7eb87df~tplv-goo7wpa0wc-image.image =1160x) |\
-| |> Create a 360-degree orbiting camera shot based on this photo |\
-| | |\
-| | |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/4531a834472c4a2fb7e1d9ab7461d5cd~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/4531a834472c4a2fb7e1d9ab7461d5cd~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | | |
+Visit the [model card](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=dreamina-seedance-2-0) to view more demos.
 
 
-<span id="2c6a9e64"></span>
-# Quick start
+<span aceTableMode="list" aceTableWidth="2,4,2,2"></span>
+|Domain |Input: prompt |Input: image, video, audio |Output |
+|---|---|---|---|
+|**Multimodal reference**<br><br>> Supports reference images, videos, and audio. |Fashion outfit\-change short video. Overall pacing, editing rhythm, and transitions follow [Video1], with strong beat sync, fast cuts, and smooth match cuts. The same cat from the images appears sequentially across four scenes: [Image1], [Image2], [Image3], [Image4], changing outfits in each scene. Every shot must have continuous motion, no static frames allowed. The cat performs natural and cute dynamic actions in each scene, such as walking forward, jumping and landing, spinning, raising a paw to pose, wagging its tail, shaking fur, or light running. Movements should feel smooth, lively, and seamlessly connected. |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/bd0fdc3728bb4a4ba743c67c279ae658~tplv-goo7wpa0wc-image.image" controls></video><br><br><br><span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/b7c6b6127c6c4e428ee40a361c1264cd~tplv-goo7wpa0wc-image.image) </span> |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/0c500b8510944e73a3d827534c04bbc0~tplv-goo7wpa0wc-image.image" controls></video><br> |
+|**Video Editing**<br><br>> Supports replacing the primary subject, adding/removing/modifying objects within the video, and regional repainting/restoration |Change all the fruits in [Video 1] into fresh fruits. |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/d246ca2ae8994500b4857c5ee82bdca5~tplv-goo7wpa0wc-image.image" controls></video><br><br><br><span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f1dc212609d04a1986fbaa1c67b5cf5c~tplv-goo7wpa0wc-image.image) </span> |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/18e4df6a4ada4948a4be6127a9ea14bb~tplv-goo7wpa0wc-image.image" controls></video><br> |
+|**Video Extension**<br><br>> Supports extending a video at the beginning or end, and concatenating multiple clips into one coherent video. |Based on and matching the style of [Video1], add a prequel opening sequence to complete the beginning of the video, showing a caterpillar transforming into a chrysalis. Keep the visual style, tone, and overall aesthetic consistent with the original footage. |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/fea8a03251044ac48c2cb2c13e0c55aa~tplv-goo7wpa0wc-image.image" controls></video><br> |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/44cbbacd822041c2818a3cde1c3b6faf~tplv-goo7wpa0wc-image.image" controls></video><br> |
+|**Audio\-Video Generation** |A female opera performer sings on stage in a clear soprano voice. She begins singing calmly and maintains a steady pace. Her gaze slowly shifts in sequence: first looking into the distance, then lowering to the floor, and finally lifting to look directly into the camera. She sings the full lyric clearly and completely with a gentle, warm smile: "Hold on, let go, give trust, lend heart." The line must be sung from beginning to end without interruption. The video must not cut or end before the final word is fully delivered. After finishing the last word, she holds her gaze and expression briefly before the scene ends. |! [Image](https://p9\-arcosite.byteimg.com/tos\-cn\-i\-goo7wpa0wc/c85ec4a84f4b495694b277e65f09dfc1~tplv\-goo7wpa0wc\-image.image =930x) |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/b98110b1363043ee9429802aceb4276e~tplv-goo7wpa0wc-image.image" controls></video><br> |
+|**Multi\-Reference Image\-to\-Video** |A boy wearing glasses and a blue T\-shirt from [Image 1] and a corgi dog from [Image 2], sitting on the lawn from [Image 3], in 3D cartoon style |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/2a0691e5748e414c9a91837684d459d3~tplv-goo7wpa0wc-image.image) </span> |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/df7e477f9ef14531abce553c199101f3~tplv-goo7wpa0wc-image.image" controls></video><br> |
+|**First\-and\-Last Frame Video Generation** |Create a 360\-degree orbiting camera shot based on this photo |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f8fc1008f23a4908b7c897e8b7eb87df~tplv-goo7wpa0wc-image.image) </span> |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/8f6f11cbac5c404cab37a2b3e4a9fe90~tplv-goo7wpa0wc-image.image" controls></video><br> |
+
+
+<span id="fd30cc1a"></span>
+# Getting started
+
+<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+
+
+<div data-tips="true" data-tips-type="tip">This section explains in detail how to call the video generation API using different programming languages with code samples.</div>
+
+
+
+* <div data-tips="true" data-tips-type="tip">If you have no programming experience, we recommend using the <a href="https://console.byteplus.com/ark/region:ark+ap-southeast-1/experience/vision?modelId=seedance-2-0-260128&tab=GenVideo">Playground</a> in the console. It has a rich template library that allows you to generate the same type of video with one click, so you can start creating quickly without writing any code.</div>
+
+
+* <div data-tips="true" data-tips-type="tip">If you want to quickly experience API calls, we recommend using the <a href="https://api.byteplus.com/api-explorer/?action=CreateContentsGenerationsTasks&groupName=Chat%20API&serviceCode=ark&version=2024-01-01">API Explorer</. It has built\-in preset parameters that allow you to initiate API calls with one click. It also supports flexible parameter adjustment (such as setting video watermarks) to meet diverse testing and usage needs.</a></div>
+
+
+* <div data-tips="true" data-tips-type="tip">If you want to actually start programming, but have difficulties with setting up the development environment, installing dependencies and other issues, see <a href="https://docs.byteplus.com/en/docs/ModelArk/2291680#e000144b">Getting started</a>.</div>
+
+
+
 Video generation is an asynchronous process:
 
-1. After successfully calling the `POST /contents/generations/tasks` endpoint, the API will return a task ID.
-2. You can poll the `GET /contents/generations/tasks/{id}` endpoint until the task status changes to `succeeded`, or use a Webhook to automatically receive status updates for the video generation task.
-3. After the task is completed, you can download the final generated MP4 file from the content.**video_url**  field.
+
+1. After successfully calling the `POST /contents/generations/tasks` API, the API will return a task ID.
+
+2. You can poll the `GET /contents/generations/tasks/{id}` API until the task status becomes `succeeded`, or use a webhook to automatically receive status changes of the video generation task.
+
+3. After the task is completed, you can download the final generated MP4 file from the content. **video_url** parameter.
 
 
 <span id="34b10d6d"></span>
-## Create video generation task
+## Step 1: Create a video generation task
+
 Create a video generation task via `POST /contents/generations/tasks`.
 
-```mixin-react
-return (<Tabs>
-<Tabs.TabPane title="Curl" key="BnGnrZLSGe"><RenderMd content={`\`\`\`Bash
-curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks \\
-  -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer $ARK_API_KEY" \\
+
+<Tabs>
+<Tab zoneid="yNUsIJmnlP" title="cURL">
+<TabTitle>cURL</TabTitle>
+
+```Bash
+curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $ARK_API_KEY" \
   -d '{
-    "model": "seedance-1-5-pro-251215",
+    "model": "dreamina-seedance-2-0-260128",
     "content": [
         {
             "type": "text",
@@ -77,24 +76,27 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks \
         }
     ],
     "generate_audio": true,
-    "ratio": "adaptive",
-    "duration": 5,
-    "watermark": false
+    "ratio": "adaptive"
 }'
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Python" key="UYft09Qu31"><RenderMd content={`\`\`\`Python
+
+
+</Tab>
+<Tab zoneid="QCrhhl4Qfa" title="Python">
+<TabTitle>Python</TabTitle>
+
+```Python
 import os
 from byteplussdkarkruntime import Ark
  
-# Get API Key：https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+# Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
 client = Ark(api_key=os.environ.get("ARK_API_KEY"))
 
 if __name__ == "__main__":
     print("----- create request -----")
     resp = client.content_generation.tasks.create(
-        model="seedance-1-0-pro-250528", # Replace with Model ID
+        model="dreamina-seedance-2-0-260128", #Replace with Model ID  
         content=[
             {
                 "text": (
@@ -118,10 +120,15 @@ if __name__ == "__main__":
     )
     
     print(resp)
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Java" key="jYqAi5pFQo"><RenderMd content={`\`\`\`Java
+
+
+</Tab>
+<Tab zoneid="tHae0rKOC3" title="Java">
+<TabTitle>Java</TabTitle>
+
+```Java
 package com.ark.sample;
 
 import com.byteplus.ark.runtime.model.content.generation.*;
@@ -141,14 +148,14 @@ public class ContentGenerationTaskExample {
     static ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
     static Dispatcher dispatcher = new Dispatcher();
     static ArkService service = ArkService.builder()
-           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") //The base URL for model invocation
            .dispatcher(dispatcher)
            .connectionPool(connectionPool)
            .apiKey(apiKey)
            .build();
            
     public static void main(String[] args) {
-        String model = "seedance-1-5-pro-251215"; // Replace with Model ID
+        String model = "dreamina-seedance-2-0-260128"; //Replace with Model ID
         Boolean generateAudio = true;
         String ratio = "adaptive";
         Long duration = 5L;
@@ -159,13 +166,11 @@ public class ContentGenerationTaskExample {
         // Combination of text prompt and parameters
         contents.add(Content.builder()
                 .type("text")
-                .text("A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl’s hair is blown by the wind, and the sound of the wind can be heard")
                 .build());
         // The URL of the first frame image
         contents.add(Content.builder()
                 .type("image_url")
                 .imageUrl(CreateContentGenerationTaskRequest.ImageUrl.builder()
-                        .url("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png")
                         .build())
                 .build());
 
@@ -185,10 +190,15 @@ public class ContentGenerationTaskExample {
         service.shutdownExecutor(); 
     }
 } 
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Go" key="y9qEbeCs7x"><RenderMd content={`\`\`\`Go
+
+
+</Tab>
+<Tab zoneid="yy9nbqhI3p" title="Go">
+<TabTitle>Go</TabTitle>
+
+```Go
 package main
 
 import (
@@ -208,12 +218,12 @@ func main() {
     client := arkruntime.NewClientWithApiKey(
         // Get your API Key from the environment variable. This is the default mode and you can modify it as required
         os.Getenv("ARK_API_KEY"),
-        // The base URL for model invocation
+        //The base URL for model invocation
         arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
     )
     ctx := context.Background()
-    // Replace with Model ID
-    modelEp := "seedance-1-5-pro-251215"
+    //Replace with Model ID
+    modelEp := "dreamina-seedance-2-0-260128"
 
     // Generate a task
     fmt.Println("----- create request -----")
@@ -246,38 +256,54 @@ func main() {
     taskID := createResp.ID
     fmt.Printf("Task Created with ID: %s", taskID)
 }
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane></Tabs>);
- ```
+
+
+</Tab>
+</Tabs>
+
 
 After the request is successful, the system will return a task ID.
-```Python
+
+```JSON
 {
   "id": "cgt-2025******-****"
 }
 ```
 
-<span id="a4fa0cc8"></span>
-## Query video generation task
-You can query the detailed status and result of the task using the ID returned in the response of the creating video generation task. This endpoint will return the current task status - `queued`, `running`, `succeeded`, etc. Information related to the generated video, like video download link, resolution, duration, will also be returned.
-:::tip
-* Because of variations in model capabilities, API load, and video output requirements, video generation may take a considerable amount of time.
-* To efficiently manage this process, you can poll the API endpoint (see the SDK examples in [Basic usage](/docs/ModelArk/1366799#754e68e3) and [Advanced usage](/docs/ModelArk/1366799#e190e738)) to request status updates, or receive notifications via [Webhook](/docs/ModelArk/1366799#2ea4182d).
-:::
 
-```mixin-react
-return (<Tabs>
-<Tabs.TabPane title="Curl" key="eUZcBtt28d"><RenderMd content={`\`\`\`Bash
+<span id="a4fa0cc8"></span>
+## Step 2: Query video generation task
+
+Using the ID returned from the video generation task, you can query the detailed status and results of the video generation task. This API returns the current status of the task (such as `queued`, `running`, `succeeded`, etc.) and information related to the generated video (such as video download link, resolution, duration, etc.).
+
+<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+
+
+<div data-tips="true" data-tips-type="tip">The video generation process may take a long time depending on the model, API load, and video output specifications. To manage this process efficiently, you can request status updates by polling the API (see the SDK examples in the <a href="https://docs.byteplus.com/en/docs/ModelArk/2298881#1bf58128">Basic usage</a> and <a href="https://docs.byteplus.com/en/docs/ModelArk/2298881#2aa4e615">Advanced usage</a> sections for details), or receive notifications via <a href="https://docs.byteplus.com/en/docs/ModelArk/2298881#caf01f12">Use Webhook notifications</a>.</div>
+
+
+
+<Tabs>
+<Tab zoneid="Xa2JcsejnO" title="cURL">
+<TabTitle>cURL</TabTitle>
+
+```Bash
 # Replace cgt-2025**** with the ID acquired from "Create Video Generation Task".
 
-curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks/cgt-2025**** \\
-  -H "Content-Type: application/json" \\
+curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks/cgt-2025**** \
+  -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY" 
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Python" key="LnyYhZUTNY"><RenderMd content={`\`\`\`Python
+
+
+</Tab>
+<Tab zoneid="HnUzGIi5U9" title="Python">
+<TabTitle>Python</TabTitle>
+
+```Python
 import os
 from byteplussdkarkruntime import Ark
  
@@ -288,10 +314,15 @@ if __name__ == "__main__":
         task_id="cgt-2025****",
     )
     print(resp)
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Java" key="xNsVhKAgA4"><RenderMd content={`\`\`\`Java
+
+
+</Tab>
+<Tab zoneid="R4n1FgOCUJ" title="Java">
+<TabTitle>Java</TabTitle>
+
+```Java
 package com.ark.sample;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -329,10 +360,15 @@ public class Sample {
         service.shutdownExecutor();
     }
 }
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Go" key="nuwms7RIL6"><RenderMd content={`\`\`\`Go
+
+
+</Tab>
+<Tab zoneid="FaxJFMutE5" title="Go">
+<TabTitle>Go</TabTitle>
+
+```Go
 package main
 
 import (
@@ -354,22 +390,25 @@ func main() {
         }
         resp, err := client.GetContentGenerationTask(ctx, req)
         if err != nil {
-                fmt.Printf("get content generation task error: %v\\n", err)
+                fmt.Printf("get content generation task error: %v\n", err)
                 return
         }
-        fmt.Printf("%+v\\n", resp)
+        fmt.Printf("%+v\n", resp)
 }
-\`\`\`
-
-`}></RenderMd></Tabs.TabPane></Tabs>);
- ```
+```
 
 
-When the task status changes to `succeeded`, you can download the final generated video file from the content.**video_url**  field.
+
+</Tab>
+</Tabs>
+
+
+After the task status changes to succeeded, you can download the final generated video file from the content. **video_url** parameter.
+
 ```JSON
 {
     "id": "cgt-2025****",
-    "model": "seedance-1-0-pro-250528",
+    "model": "dreamina-seedance-2-0-260128",
     "status": "succeeded", 
     "content": {
         // Video download URL (file format is MP4)
@@ -391,108 +430,62 @@ When the task status changes to `succeeded`, you can download the final generate
 }
 ```
 
+
 <span id="e7b4c498"></span>
-# Model list
+# Model capabilities
 
-* For the highest generation quality and native audio-visual synchronization, we recommend using the latest model, **Seedance 1.5 pro**.
-* If you prioritize cost and generation speed over top-tier quality, **Seedance 1.0 pro fast** is the ideal choice.
-* To create videos based on multiple reference images, we suggest using **Seedance 1.0 lite**.
+This table lists all capabilities supported by Seedance models for comparison and selection. For the latest instructions of Dreamina Seedance 2.0 series models, see [Dreamina Seedance 2.0 series tutorial](https://docs.byteplus.com/en/docs/ModelArk/2291680).
 
 
-| | | | | | | | | | \
-|**Model Name** |\
-|<div style="width:100px"></div> |**Version** |\
-| |<div style="width:100px"></div> |**Model ID** |\
-| | |<div style="width:150px"></div> |**Model capabilities** |\
-| | | |<div style="width:150px"></div> |**Output Video Format** |\
-| | | | |<div style="width:150px"></div> |**Requests Per Minute** |\
-| | | | | |> default (Online Inference) |\
-| | | | | |> flex (Offline Inference) |\
-| | | | | | |\
-| | | | | |<div style="width:150px"></div> |**Concurrency limit** |**Price** |\
-| | | | | | | |(USD / M Tokens) |**Free Credit** |\
-| | | | | | | | |(Token)  |
-|---|---|---|---|---|---|---|---|---|
-| | | | | | | | | | \
-|[seedance-1.5-pro](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=seedance-1-5-pro) |251215 |\
-| |`recommend` |seedance-1-5-pro-251215 |Image-to-Video - First and Last Frames |\
-| | | |Image-to-Video - First Frame |\
-| | | |Text-to-Video |Resolution:  |\
-| | | | |480p, 720p,  |\
-| | | | |1080p |\
-| | | | |Frame Rate: 24 fps |\
-| | | | |Duration: 4~12 s |\
-| | | | |Video Format: mp4 |default：RPM 600 |\
-| | | | | |flex：TPD 500B |default：10 |\
-| | | | | | |flex：N/A |[ Video Generation](/docs/ModelArk/1099320#e13f68ed) |default：200M |\
-| | | | | | | | |flex：N/A |
-| | | | | | | | | | \
-|[seedance-1.0-pro](/docs/ModelArk/1587798) |250528 |\
-| |`recommend` |seedance-1-0-pro-250528 |Image-to-Video - First and Last Frames |\
-| | | |Image-to-Video - First Frame |\
-| | | |Text-to-Video |Resolution:  |\
-| | | | |480p, |\
-| | | | |720p, |\
-| | | | |1080p`Reference image feature is not supported` |\
-| | | | |Frame Rate: 24 fps |\
-| | | | |Duration: 2~12 s |\
-| | | | |Video Format: mp4 |default：RPM 600 |\
-| | | | | |flex：TPD 500B |default：10 |\
-| | | | | | |flex：N/A |[ Video Generation](/docs/ModelArk/1099320#e13f68ed) |default：200M |\
-| | | | | | | | |flex：N/A |
-| | | | |^^| | | | | \
-|[seedance-1.0-pro-fast](/docs/ModelArk/1901652) |251015 |\
-| |`recommend` |seedance-1-0-pro-fast-251015 |Image-to-Video - First Frame |\
-| | | |Text-to-Video | |default：RPM 600 |\
-| | | | | |flex：TPD 500B |default：10 |\
-| | | | | | |flex：N/A |[ Video Generation](/docs/ModelArk/1099320#e13f68ed) |default：200M |\
-| | | | | | | | |flex：N/A |
-| | | | |^^| | | | | \
-|[seedance-1.0-lite](/docs/ModelArk/1553576) |250428  |seedance-1-0-lite-t2v-250428 |Text-to-Video | |default：RPM 300 |\
-| | | | | |flex：TPD 250B |default：5 |\
-| | | | | | |flex：N/A |[ Video Generation](/docs/ModelArk/1099320#e13f68ed) |default：200M |\
-| | | | | | | | |flex：N/A |
-|^^| | | |^^| | | | | \
-| |250428 |\
-| | |seedance-1-0-lite-i2v-250428 |Image-to-Video - Reference Images |\
-| | | |Image-to-Video - First and Last Frames |\
-| | | |Image-to-Video - First Frame | |default：RPM 300 |\
-| | | | | |flex：TPD 250B |default：5 |\
-| | | | | | |flex：N/A |[ Video Generation](/docs/ModelArk/1099320#e13f68ed) |default：200M |\
-| | | | | | | | |flex：N/A |
+<span aceTableMode="list" aceTableWidth="1,2,2,2,2,2,2"></span>
+|Model Name | |[Dreamina Seedance 2.0](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=dreamina-seedance-2-0) |[Dreamina Seedance 2.0 Fast](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-fast) |[Seedance 1.5 Pro](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=seedance-1-5-pro) |[Seedance 1.0 Pro](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=seedance-1-0-pro) |[Seedance 1.0 Pro Fast](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=seedance-1-0-pro-fast) |
+|---|---|---|---|---|---|---|
+|Model ID | |`dreamina-seedance-2-0-260128` |`dreamina-seedance-2-0-fast-260128` |`seedance-1-5-pro-251215` |`seedance-1-0-pro-250528` |`seedance-1-0-pro-fast-251015` |
+|[Text to video](https://docs.byteplus.com/en/docs/ModelArk/2298881#4e74bcee) | |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |
+|[Image to video (first frame)](https://docs.byteplus.com/en/docs/ModelArk/2298881#979b2d28) | |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |
+|[Image to video (first and last frames)](https://docs.byteplus.com/en/docs/ModelArk/2298881#0d55ca07) | |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |
+|[Multimodal reference](https://docs.byteplus.com/en/docs/ModelArk/2291680#50e1b4ea) [New] |Image reference |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |
+||Video reference |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |
+||Combined reference<br><br><br>* Image + audio<br><br>* Image + video<br><br>* Video + audio<br><br>* Image + video + audio |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |
+|[Edit video](https://docs.byteplus.com/en/docs/ModelArk/2291680#75a28782) | |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |
+|[Extend video](https://docs.byteplus.com/en/docs/ModelArk/2291680#46d77653) | |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |
+|[Generate audio video](https://docs.byteplus.com/en/docs/ModelArk/2298881#979b2d28)<br><br>> "generate_audio": "true" | |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |
+|[Draft mode](https://docs.byteplus.com/en/docs/ModelArk/2298881#5acd28c8) | |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |
+|[Return the last frame of the generated video](https://docs.byteplus.com/en/docs/ModelArk/2298881#141cf7fa)<br><br>> "return_last_frame": "true" | |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |
+|[Output video specifications](https://docs.byteplus.com/en/docs/ModelArk/2298881#9fe4cce0) |Resolution<br><br>> "resolution": "720p" |480p<br><br>720p<br><br>1080p<br><br>4k (10\-bit encoding) |480p<br><br>720p |480p<br><br>720p<br><br>1080p |480p<br><br>720p<br><br>1080p |480p<br><br>720p<br><br>1080p |
+| |Aspect ratio<br><br>> "ratio":"16:9" |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |21:9<br><br>16:9<br><br>4:3<br><br>1:1<br><br>3:4<br><br>9:16 |
+| |Duration<br><br>> "duration": 5 |4–15 seconds |4–15 seconds |4–12 seconds |2–12 seconds |2–12 seconds |
+| |Output format |.mp4 |.mp4 |.mp4 |.mp4 |.mp4 |
+|[Offline inference](https://docs.byteplus.com/en/docs/ModelArk/2298881#a0badaae)<br><br>> "service_tier": "flex" | |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |
+|Online inference rate limits |Max RPM |**Non\-4k** :<br><br><br>* Enterprise users: 600<br><br>* Individual users: 180<br><br>   **4k** :<br><br>* Enterprise users: 15<br><br>* Individual users: 15 |* Enterprise users: 600<br><br>* Individual users: 180 |600 |600 |600 |
+| |Max Concurrency |**Non\-4k** :<br><br><br>* Enterprise users: 10<br><br>* Individual users: 3<br><br>   **4k** :<br><br>* Enterprise users: 1<br><br>* Individual users: 1 |* Enterprise users: 10<br><br>* Individual users: 3 |10 |10 |10 |
+|Offline inference rate limits |TPD |\- |\- |500 billion |500 billion |500 billion |
 
 
-<span id="f5531933"></span>
-# Prerequisites
-
-* Obtain the API key used to authenticate online inference requests.
-   * See [1. Obtaining and Configuring API Key](/docs/ModelArk/1399008#b00dee71) for more information.
-
-* [Obtain an API key](https://console.byteplus.com/ark/apiKey)
-* [Enable the model service](https://console.byteplus.com/ark/openManagement)
-* Obtain the required Model ID from  [Model List](/docs/ModelArk/1330310)
-
-
-<span id="754e68e3"></span>
+<span id="1bf58128"></span>
 # Basic usage
-<span id="42750622"></span>
-## Text-to-video
-Generate video based on user-entered prompts; the results are highly random and can be used to inspire creative ideas.
 
-| | | \
+<span id="4e74bcee"></span>
+## Text to video
+
+Generates videos based on the prompts entered by users. The output is highly random, and can be used as a source of inspiration.
+
+
+<span aceTableMode="list" aceTableWidth="1,1"></span>
 |Prompt |Output |
 |---|---|
-| | | \
-|Photorealistic style: Under a clear blue sky, a vast expanse of white daisy fields stretches out. The camera gradually zooms in and finally fixates on a close - up of a single daisy, with several glistening dewdrops resting on its petals. |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/62699e55f1674309b6692d188c9ed492~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/62699e55f1674309b6692d188c9ed492~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | |
+|Photorealistic style: Under a clear blue sky, a vast expanse of white daisy fields stretches out. The camera gradually zooms in and finally fixates on a close\-up of a single daisy, with several glistening dewdrops resting on its petals. |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/b847f3e831c244b39f7b4d53d904988f~tplv-goo7wpa0wc-image.image" controls></video><br> |
 
 
-```mixin-react
-return (<Tabs>
-<Tabs.TabPane title="Python" key="fT2oe30WFK"><RenderMd content={`\`\`\`Python
+
+<Tabs>
+<Tab zoneid="tRutbw8CqS" title="Python">
+<TabTitle>Python</TabTitle>
+
+```Python
 import os
 import time  
-# Install SDK:  pip install byteplus-python-sdk-v2 
+# Install SDK:pip install 'byteplus-python-sdk-v2[ark]'
 from byteplussdkarkruntime import Ark 
 
 # Make sure that you have stored the API Key in the environment variable ARK_API_KEY
@@ -500,24 +493,24 @@ from byteplussdkarkruntime import Ark
 client = Ark(
     # This is the default path. You can configure it based on the service location
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key：https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
     api_key=os.environ.get("ARK_API_KEY"),
 )
 
 if __name__ == "__main__":
     print("----- create request -----")
     create_result = client.content_generation.tasks.create(
-        model="seedance-1-0-pro-250528", # Replace with Model ID 
+        model="dreamina-seedance-2-0-260128", #Replace with Model ID 
         content=[
             {
                 # Combination of text prompt and parameters
                 "type": "text",
-                "text": "Photorealistic style: Under a clear blue sky, a vast expanse of white daisy fields stretches out. The camera gradually zooms in and finally fixates on a close - up of a single daisy, with several glistening dewdrops resting on its petals."
+                "text": "Photorealistic style: Under a clear blue sky, a vast expanse of white daisy fields stretches out. The camera gradually zooms in and finally fixates on a close-up of a single daisy, with several glistening dewdrops resting on its petals."
             }
         ],
         ratio="16:9",
         duration=5,
-        watermark=False,
+        watermark=True,
     )
     print(create_result)
 
@@ -538,10 +531,15 @@ if __name__ == "__main__":
         else:
             print(f"Current status: {status}, Retrying after 10 seconds...")
             time.sleep(10)
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Java" key="XY3jQVYTLC"><RenderMd content={`\`\`\`Java
+
+
+</Tab>
+<Tab zoneid="zMJlfjuoxq" title="Java">
+<TabTitle>Java</TabTitle>
+
+```Java
 package com.ark.sample;
 
 import com.byteplus.ark.runtime.model.content.generation.*;
@@ -561,14 +559,14 @@ public class ContentGenerationTaskExample {
     static ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
     static Dispatcher dispatcher = new Dispatcher();
     static ArkService service = ArkService.builder()
-           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") //The base URL for model invocation
            .dispatcher(dispatcher)
            .connectionPool(connectionPool)
            .apiKey(apiKey)
            .build();
            
     public static void main(String[] args) {
-        String model = "seedance-1-0-pro-250528"; // Replace with Model ID
+        String model = "dreamina-seedance-2-0-260128"; //Replace with Model ID
         String ratio = "16:9";
         Long duration = 5L;
         Boolean watermark = false;
@@ -578,7 +576,7 @@ public class ContentGenerationTaskExample {
         // Combination of text prompt and parameters
         contents.add(Content.builder()
                 .type("text")
-                .text("Photorealistic style: Under a clear blue sky, a vast expanse of white daisy fields stretches out. The camera gradually zooms in and finally fixates on a close - up of a single daisy, with several glistening dewdrops resting on its petals.")
+                .text("Photorealistic style: Under a clear blue sky, a vast expanse of white daisy fields stretches out. The camera gradually zooms in and finally fixates on a close-up of a single daisy, with several glistening dewdrops resting on its petals.")
                 .build());
 
         // Create a video generation task
@@ -625,10 +623,15 @@ public class ContentGenerationTaskExample {
         }
     }
 }
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Go" key="zHHpcLidea"><RenderMd content={`\`\`\`Go
+
+
+</Tab>
+<Tab zoneid="ABhfR4nDjV" title="Go">
+<TabTitle>Go</TabTitle>
+
+```Go
 package main
 
 import (
@@ -648,12 +651,12 @@ func main() {
     client := arkruntime.NewClientWithApiKey(
         // Get your API Key from the environment variable. This is the default mode and you can modify it as required
         os.Getenv("ARK_API_KEY"),
-        // The base URL for model invocation
+        //The base URL for model invocation
         arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
     )
     ctx := context.Background()
-    // Replace with Model ID
-    modelEp := "seedance-1-0-pro-250528"
+    //Replace with Model ID
+    modelEp := "dreamina-seedance-2-0-260128"
 
     // Generate a task
     fmt.Println("----- create request -----")
@@ -666,7 +669,7 @@ func main() {
             {
                 // Combination of text prompt and parameters
                 Type: model.ContentGenerationContentItemTypeText,
-                Text: byteplus.String("Photorealistic style: Under a clear blue sky, a vast expanse of white daisy fields stretches out. The camera gradually zooms in and finally fixates on a close - up of a single daisy, with several glistening dewdrops resting on its petals."),
+                Text: byteplus.String("Photorealistic style: Under a clear blue sky, a vast expanse of white daisy fields stretches out. The camera gradually zooms in and finally fixates on a close-up of a single daisy, with several glistening dewdrops resting on its petals."),
             },
         },
     }
@@ -691,10 +694,10 @@ func main() {
         status := getResp.Status
         if status == "succeeded" {
             fmt.Println("----- task succeeded -----")
-            fmt.Printf("Task ID: %s \\n", getResp.ID)
-            fmt.Printf("Model: %s \\n", getResp.Model)
-            fmt.Printf("Video URL: %s \\n", getResp.Content.VideoURL)
-            fmt.Printf("Completion Tokens: %d \\n", getResp.Usage.CompletionTokens)
+            fmt.Printf("Task ID: %s \n", getResp.ID)
+            fmt.Printf("Model: %s \n", getResp.Model)
+            fmt.Printf("Video URL: %s \n", getResp.Content.VideoURL)
+            fmt.Printf("Completion Tokens: %d \n", getResp.Usage.CompletionTokens)
             fmt.Printf("Created At: %d, Updated At: %d", getResp.CreatedAt, getResp.UpdatedAt)
             return
         } else if status == "failed" {
@@ -704,38 +707,42 @@ func main() {
             }
             return
         } else {
-            fmt.Printf("Current status: %s, Retrying in 10 seconds... \\n", status)
+            fmt.Printf("Current status: %s, Retrying in 10 seconds... \n", status)
             time.Sleep(10 * time.Second)
         }
     }
 }
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane></Tabs>);
- ```
+
+
+</Tab>
+</Tabs>
+
 
 <span id="979b2d28"></span>
-## **Image-to-video (based on the first frame)**`With audio`
-By specifying the first-frame image of the video, the model can generate visually coherent and contextually related video content based on that image.
-Seedance 1.5 pro can generate audio videos by setting the parameter **generate_audio** to `true`.
+## Image to video – based on the first frame (`with audio`)
 
-| | | | \
-|Prompt |\
-|<div style="width:150px"></div> |First frame |\
-| |<div style="width:260px"></div> |Output |
+By specifying the first frame image of the video, the model can generate video content that is related to and visually coherent with the image.
+
+For Seedance 2.0 / Seedance 1.5 Pro, you can generate videos with audio by setting the **generate_audio** parameter to `true`.
+
+
+<span aceTableMode="list" aceTableWidth="3,4,4"></span>
+|Prompt |First frame |Output |
 |---|---|---|
-| | | | \
-|A girl holding a fox. She opens her eyes, looks gently at the camera. The fox hugs affectionately. The camera slowly pulls out, and the hair is blown by the wind. |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/a28ec84ff9fc4287a0d98191020a3218~tplv-goo7wpa0wc-image.image =1456x) |\
-| | |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/211c2a641cbd400e99298aa211155acc~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/211c2a641cbd400e99298aa211155acc~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | | |
+|A girl holding a fox, the girl opens her eyes and gently looks at the camera, the fox is held gently, the camera slowly pulls back, the girl's hair is blown by the wind, and the sound of the wind can be heard. |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/a28ec84ff9fc4287a0d98191020a3218~tplv-goo7wpa0wc-image.image) </span> |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f1f7b95a38ee4ee094c724233e4da4f8~tplv-goo7wpa0wc-image.image" controls></video><br> |
 
 
-```mixin-react
-return (<Tabs>
-<Tabs.TabPane title="Python" key="uUea5qfNwG"><RenderMd content={`\`\`\`Python
+
+<Tabs>
+<Tab zoneid="RnNFACkcbC" title="Python">
+<TabTitle>Python</TabTitle>
+
+```Python
 import os
 import time  
-# Install SDK:  pip install byteplus-python-sdk-v2 
+# Install SDK:pip install 'byteplus-python-sdk-v2[ark]'
 from byteplussdkarkruntime import Ark 
 
 # Make sure that you have stored the API Key in the environment variable ARK_API_KEY
@@ -743,14 +750,14 @@ from byteplussdkarkruntime import Ark
 client = Ark(
     # This is the default path. You can configure it based on the service location
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key：https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
     api_key=os.environ.get("ARK_API_KEY"),
 )
 
 if __name__ == "__main__":
     print("----- create request -----")
     create_result = client.content_generation.tasks.create(
-        model="seedance-1-5-pro-251215", # Replace with Model ID
+        model="dreamina-seedance-2-0-260128", #Replace with Model ID
         content=[
             {
                 # Combination of text prompt and parameters
@@ -768,7 +775,7 @@ if __name__ == "__main__":
         generate_audio=True,
         ratio="adaptive",
         duration=5,
-        watermark=False,
+        watermark=True,
     )
     print(create_result)
 
@@ -789,10 +796,15 @@ if __name__ == "__main__":
         else:
             print(f"Current status: {status}, Retrying after 10 seconds...")
             time.sleep(10)
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Java" key="Cb42VjekdE"><RenderMd content={`\`\`\`Java
+
+
+</Tab>
+<Tab zoneid="OHuIxopjC2" title="Java">
+<TabTitle>Java</TabTitle>
+
+```Java
 package com.ark.sample;
 
 import com.byteplus.ark.runtime.model.content.generation.*;
@@ -812,14 +824,14 @@ public class ContentGenerationTaskExample {
     static ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
     static Dispatcher dispatcher = new Dispatcher();
     static ArkService service = ArkService.builder()
-           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") //The base URL for model invocation
            .dispatcher(dispatcher)
            .connectionPool(connectionPool)
            .apiKey(apiKey)
            .build();
            
     public static void main(String[] args) {
-        String model = "seedance-1-5-pro-251215"; // Replace with Model ID
+        String model = "dreamina-seedance-2-0-260128"; //Replace with Model ID
         Boolean generateAudio = true;
         String ratio = "adaptive";
         Long duration = 5L;
@@ -885,10 +897,15 @@ public class ContentGenerationTaskExample {
         }
     }
 }
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Go" key="ZlzbyAKoL5"><RenderMd content={`\`\`\`Go
+
+
+</Tab>
+<Tab zoneid="o3hSHGzJja" title="Go">
+<TabTitle>Go</TabTitle>
+
+```Go
 package main
 
 import (
@@ -908,12 +925,12 @@ func main() {
     client := arkruntime.NewClientWithApiKey(
         // Get your API Key from the environment variable. This is the default mode and you can modify it as required
         os.Getenv("ARK_API_KEY"),
-        // The base URL for model invocation
+        //The base URL for model invocation
         arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
     )
     ctx := context.Background()
-    // Replace with Model ID
-    modelEp := "seedance-1-5-pro-251215"
+    //Replace with Model ID
+    modelEp := "dreamina-seedance-2-0-260128"
 
     // Generate a task
     fmt.Println("----- create request -----")
@@ -959,10 +976,10 @@ func main() {
         status := getResp.Status
         if status == "succeeded" {
             fmt.Println("----- task succeeded -----")
-            fmt.Printf("Task ID: %s \\n", getResp.ID)
-            fmt.Printf("Model: %s \\n", getResp.Model)
-            fmt.Printf("Video URL: %s \\n", getResp.Content.VideoURL)
-            fmt.Printf("Completion Tokens: %d \\n", getResp.Usage.CompletionTokens)
+            fmt.Printf("Task ID: %s \n", getResp.ID)
+            fmt.Printf("Model: %s \n", getResp.Model)
+            fmt.Printf("Video URL: %s \n", getResp.Content.VideoURL)
+            fmt.Printf("Completion Tokens: %d \n", getResp.Usage.CompletionTokens)
             fmt.Printf("Created At: %d, Updated At: %d", getResp.CreatedAt, getResp.UpdatedAt)
             return
         } else if status == "failed" {
@@ -972,40 +989,42 @@ func main() {
             }
             return
         } else {
-            fmt.Printf("Current status: %s, Retrying in 10 seconds... \\n", status)
+            fmt.Printf("Current status: %s, Retrying in 10 seconds... \n", status)
             time.Sleep(10 * time.Second)
         }
     }
 }
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane></Tabs>);
- ```
+
+
+</Tab>
+</Tabs>
+
 
 <span id="0d55ca07"></span>
-## Image-to-video (based on the first and last frames)`With audio`
-By specifying the starting and ending images of the video, the model can generate video that smoothly transitions between the first and last frames, achieving natural and coherent transitions between scenes.
-Seedance 1.5 pro can generate audio videos by setting the parameter **generate_audio** to `true`.
+## Image to video – based on the first and last frames (`with audio`)
 
-| | | | | \
-|Prompt |\
-|<div style="width:150px"></div> |First frame |\
-| |<div style="width:150px"></div> |Last frame |\
-| | |<div style="width:150px"></div> |Output |
+By specifying the starting and ending images of the video, the model can generate a video that smoothly connects the first and last frames, achieving natural and coherent transition effects between scenes.
+
+For Seedance 2.0 / Seedance 1.5 Pro, you can generate videos with audio by setting the **generate_audio** parameter to `true`.
+
+
+<span aceTableMode="list" aceTableWidth="2,3,3,3"></span>
+|Prompt |First frame |Last frame |Output |
 |---|---|---|---|
-| | | | | \
-|Create a 360-degree orbiting camera shot based on this photo. |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/649cb2057eae48d6a6eec872d912c75c~tplv-goo7wpa0wc-image.image =2048x) |\
-| | |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e39fd8e500a34bbdad50d06659c4ea6b~tplv-goo7wpa0wc-image.image =2048x) |\
-| | | |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/fce78e0b735946f3b68fcca4f478befe~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/fce78e0b735946f3b68fcca4f478befe~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | | | |
+|The girl in the frame says "Cheese" to the camera, with a 360\-degree orbiting camera shot |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/649cb2057eae48d6a6eec872d912c75c~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e39fd8e500a34bbdad50d06659c4ea6b~tplv-goo7wpa0wc-image.image) </span> |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/3aa8c84b8a29408ab29e95992d61c559~tplv-goo7wpa0wc-image.image" controls></video><br> |
 
 
-```mixin-react
-return (<Tabs>
-<Tabs.TabPane title="Python" key="H45NmsbrqK"><RenderMd content={`\`\`\`Python
+
+<Tabs>
+<Tab zoneid="Fg92juPBId" title="Python">
+<TabTitle>Python</TabTitle>
+
+```Python
 import os
 import time  
-# Install SDK:  pip install byteplus-python-sdk-v2 
+# Install SDK:pip install 'byteplus-python-sdk-v2[ark]'
 from byteplussdkarkruntime import Ark 
 
 # Make sure that you have stored the API Key in the environment variable ARK_API_KEY
@@ -1013,7 +1032,7 @@ from byteplussdkarkruntime import Ark
 client = Ark(
     # This is the default path. You can configure it based on the service location
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key：https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
     api_key=os.environ.get("ARK_API_KEY"),
 )  
 
@@ -1021,7 +1040,7 @@ client = Ark(
 if __name__ == "__main__": 
     print("----- create request -----") 
     create_result = client.content_generation.tasks.create( 
-        model="seedance-1-5-pro-251215", # Replace with Model ID
+        model="dreamina-seedance-2-0-260128", #Replace with Model ID
         content=[ 
             { 
                 # Combination of text prompt and parameters
@@ -1037,7 +1056,7 @@ if __name__ == "__main__":
                 "role": "first_frame"
             }, 
             { 
-                # The URL of the last frame image  
+                # The URL of the last frame image
                 "type": "image_url", 
                 "image_url": { 
                     "url": "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seepro_last_frame.jpeg"
@@ -1048,11 +1067,11 @@ if __name__ == "__main__":
         generate_audio=True,
         ratio="adaptive",
         duration=5,
-        watermark=False,
+        watermark=True,
     ) 
     print(create_result)
     
-    # Polling query section 
+    # Polling query section
     print("----- polling task status -----") 
     task_id = create_result.id 
     while True: 
@@ -1069,10 +1088,15 @@ if __name__ == "__main__":
         else: 
             print(f"Current status: {status}, Retrying after 10 seconds...") 
             time.sleep(10)
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Java" key="EARpG98o0q"><RenderMd content={`\`\`\`Java
+
+
+</Tab>
+<Tab zoneid="BBGnXU5O9r" title="Java">
+<TabTitle>Java</TabTitle>
+
+```Java
 package com.ark.sample;
 
 import com.byteplus.ark.runtime.model.content.generation.*;
@@ -1092,14 +1116,14 @@ public class ContentGenerationTaskExample {
     static ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
     static Dispatcher dispatcher = new Dispatcher();
     static ArkService service = ArkService.builder()
-           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") //The base URL for model invocation
            .dispatcher(dispatcher)
            .connectionPool(connectionPool)
            .apiKey(apiKey)
            .build();
            
     public static void main(String[] args) {
-        String model = "seedance-1-5-pro-251215"; // Replace with Model ID
+        String model = "dreamina-seedance-2-0-260128"; //Replace with Model ID
         Boolean generateAudio = true;
         String ratio = "adaptive";
         Long duration = 5L;
@@ -1175,10 +1199,15 @@ public class ContentGenerationTaskExample {
         }
     }
 } 
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Go" key="SJgEdY8w9n"><RenderMd content={`\`\`\`Go
+
+
+</Tab>
+<Tab zoneid="yeNjiLtRIV" title="Go">
+<TabTitle>Go</TabTitle>
+
+```Go
 package main
 
 import (
@@ -1198,12 +1227,12 @@ func main() {
     client := arkruntime.NewClientWithApiKey(
         // Get your API Key from the environment variable. This is the default mode and you can modify it as required
         os.Getenv("ARK_API_KEY"),
-        // The base URL for model invocation
+        //The base URL for model invocation
         arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
     )
     ctx := context.Background()
-    // Replace with Model ID
-    modelEp := "seedance-1-5-pro-251215"
+    //Replace with Model ID
+    modelEp := "dreamina-seedance-2-0-260128"
 
     // Generate a task
     fmt.Println("----- create request -----")
@@ -1258,10 +1287,10 @@ func main() {
         status := getResp.Status
         if status == "succeeded" {
             fmt.Println("----- task succeeded -----")
-            fmt.Printf("Task ID: %s \\n", getResp.ID)
-            fmt.Printf("Model: %s \\n", getResp.Model)
-            fmt.Printf("Video URL: %s \\n", getResp.Content.VideoURL)
-            fmt.Printf("Completion Tokens: %d \\n", getResp.Usage.CompletionTokens)
+            fmt.Printf("Task ID: %s \n", getResp.ID)
+            fmt.Printf("Model: %s \n", getResp.Model)
+            fmt.Printf("Video URL: %s \n", getResp.Content.VideoURL)
+            fmt.Printf("Completion Tokens: %d \n", getResp.Usage.CompletionTokens)
             fmt.Printf("Created At: %d, Updated At: %d", getResp.CreatedAt, getResp.UpdatedAt)
             return
         } else if status == "failed" {
@@ -1271,354 +1300,45 @@ func main() {
             }
             return
         } else {
-            fmt.Printf("Current status: %s, Retrying in 10 seconds... \\n", status)
+            fmt.Printf("Current status: %s, Retrying in 10 seconds... \n", status)
             time.Sleep(10 * time.Second)
         }
     }
 }
-\`\`\`
-
-`}></RenderMd></Tabs.TabPane></Tabs>);
- ```
-
-<span id="c5f5f577"></span>
-## Image-to-video (based on image reference)
-The model can accurately extract key features of objects from reference images (supporting 1 to 4 images). Based on these features, it faithfully reproduces object shapes, colors, and texture details during video generation, ensuring visual consistency with the style of the reference images.
-
-| | | | | | \
-|Prompt |\
-|<div style="width:150px"></div> |Reference image 1 |\
-| |<div style="width:100px"></div> |Reference image 2 |\
-| | |<div style="width:100px"></div> |Reference image 3 |\
-| | | |<div style="width:100px"></div> |Output |
-|---|---|---|---|---|
-| | | | | | \
-|A boy wearing glasses and a blue T-shirt from [Image 1] and a corgi dog from [Image 2], sitting on the lawn from [Image 3], in 3D cartoon style |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/2637ac87f1e64bd897bfc651fe7d0386~tplv-goo7wpa0wc-image.image =222x) |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/9450c9444b574112a9f228db9e81cdf4~tplv-goo7wpa0wc-image.image =222x) |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/574b8785f4b740ddaff791655e8633ba~tplv-goo7wpa0wc-image.image =222x) |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/2a7739fb339d4390ad79c40f450f8ac7~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/2a7739fb339d4390ad79c40f450f8ac7~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | | | | |
+```
 
 
-```mixin-react
-return (<Tabs>
-<Tabs.TabPane title="Python" key="CJ3lyrPzbh"><RenderMd content={`\`\`\`Python
-import os
-import time  
-# Install SDK:  pip install byteplus-python-sdk-v2 
-from byteplussdkarkruntime import Ark 
 
-# Make sure that you have stored the API Key in the environment variable ARK_API_KEY
-# Initialize the Ark client to read your API Key from an environment variable
-client = Ark(
-    # This is the default path. You can configure it based on the service location
-    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key：https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
-    api_key=os.environ.get("ARK_API_KEY"),
-)
-  
-if __name__ == "__main__": 
-    print("----- create request -----") 
-    try:
-        create_result = client.content_generation.tasks.create( 
-            model="seedance-1-0-lite-i2v-250428",  # Replace with Model ID 
-            content=[ 
-                { 
-                    # Combination of text prompt and parameters 
-                    "type": "text", 
-                    "text": "A boy wearing glasses and a blue T-shirt from [Image 1] and a corgi dog from [Image 2], sitting on the lawn from [Image 3], in 3D cartoon style" 
-                },
-                { 
-                    # The URL of the first reference image  
-                    # 1-4 reference images need to be provided
-                    "type": "image_url", 
-                    "image_url": { 
-                        "url": "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seelite_ref_1.png"
-                    },
-                    "role": "reference_image"  
-                },
-                { 
-                    # The URL of the second reference image  
-                    "type": "image_url", 
-                    "image_url": { 
-                        "url": "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seelite_ref_2.png" 
-                    },
-                    "role": "reference_image"  
-                },
-                { 
-                    # The URL of the third reference image  
-                    "type": "image_url", 
-                    "image_url": { 
-                        "url": "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seelite_ref_3.png" 
-                    },
-                    "role": "reference_image"  
-                } 
-            ],
-            ratio="16:9",
-            duration=5,
-            watermark=False,
-        ) 
-        print(create_result) 
-    
-        # Polling query section 
-        print("----- polling task status -----") 
-        task_id = create_result.id 
-        while True: 
-            get_result = client.content_generation.tasks.get(task_id=task_id) 
-            status = get_result.status 
-            if status == "succeeded": 
-                print("----- task succeeded -----") 
-                print(get_result) 
-                break 
-            elif status == "failed": 
-                print("----- task failed -----") 
-                print(f"Error: {get_result.error}") 
-                break 
-            else: 
-                print(f"Current status: {status}, Retrying after 10 seconds...") 
-                time.sleep(10)
-    except Exception as e:
-        print(f"An error occurred: {e}")
-\`\`\`
+</Tab>
+</Tabs>
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Java" key="rIx7CjXdsj"><RenderMd content={`\`\`\`Java
-package com.ark.sample;
-
-import com.byteplus.ark.runtime.model.content.generation.*;
-import com.byteplus.ark.runtime.model.content.generation.CreateContentGenerationTaskRequest.Content;
-import com.byteplus.ark.runtime.service.ArkService;
-import okhttp3.ConnectionPool;
-import okhttp3.Dispatcher;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-
-public class ContentGenerationTaskExample {
-    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
-    // Initialize the Ark client to read your API Key from an environment variable
-    static String apiKey = System.getenv("ARK_API_KEY");
-    static ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
-    static Dispatcher dispatcher = new Dispatcher();
-    static ArkService service = ArkService.builder()
-           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
-           .dispatcher(dispatcher)
-           .connectionPool(connectionPool)
-           .apiKey(apiKey)
-           .build();
-           
-    public static void main(String[] args) {
-        String model = "seedance-1-0-lite-i2v-250428"; // Replace with Model ID
-        String ratio = "16:9";
-        Long duration = 5L;
-        Boolean watermark = false;
-        System.out.println("----- create request -----");
-        List<Content> contents = new ArrayList<>();
-        
-        // Combination of text prompt and parameters
-        contents.add(Content.builder()
-                .type("text")
-                .text("A boy wearing glasses and a blue T-shirt from [Image 1] and a corgi dog from [Image 2], sitting on the lawn from [Image 3], in 3D cartoon style") 
-                .build());
-        // The URL of the first reference image 
-        contents.add(Content.builder() 
-                .type("image_url") 
-                .imageUrl(CreateContentGenerationTaskRequest.ImageUrl.builder() 
-                        .url("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seelite_ref_1.png") 
-                        .build()) 
-                .role("reference_image") 
-                .build()); 
-        // The URL of the second reference image 
-        contents.add(Content.builder() 
-                .type("image_url") 
-                .imageUrl(CreateContentGenerationTaskRequest.ImageUrl.builder() 
-                        .url("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seelite_ref_2.png") 
-                        .build()) 
-                .role("reference_image") 
-                .build()); 
-        // The URL of the third reference image 
-        contents.add(Content.builder() 
-                .type("image_url") 
-                .imageUrl(CreateContentGenerationTaskRequest.ImageUrl.builder() 
-                        .url("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seelite_ref_3.png")
-                        .build()) 
-                .role("reference_image") 
-                .build()); 
-
-        // Create a video generation task
-        CreateContentGenerationTaskRequest createRequest = CreateContentGenerationTaskRequest.builder()
-                .model(model)
-                .content(contents)
-                .ratio(ratio)
-                .duration(duration)
-                .watermark(watermark)
-                .build();
-
-        CreateContentGenerationTaskResult createResult = service.createContentGenerationTask(createRequest);
-        System.out.println(createResult);
-
-        // Get the details of the task
-        String taskId = createResult.getId();
-        GetContentGenerationTaskRequest getRequest = GetContentGenerationTaskRequest.builder()
-                .taskId(taskId)
-                .build();
-        
-        // Polling query section
-        System.out.println("----- polling task status -----");
-        while (true) {
-            try {
-                GetContentGenerationTaskResponse getResponse = service.getContentGenerationTask(getRequest);
-                String status = getResponse.getStatus();
-                if ("succeeded".equalsIgnoreCase(status)) {
-                    System.out.println("----- task succeeded -----");
-                    System.out.println(getResponse);
-                    break;
-                } else if ("failed".equalsIgnoreCase(status)) {
-                    System.out.println("----- task failed -----");
-                    System.out.println("Error: " + getResponse.getStatus());
-                    break;
-                } else {
-                    System.out.printf("Current status: %s, Retrying in 10 seconds...", status);
-                    TimeUnit.SECONDS.sleep(10);
-                }
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-                System.err.println("Polling interrupted");
-                break;
-            }
-        }
-    }
-}
-\`\`\`
-
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Go" key="patfkMQVjq"><RenderMd content={`\`\`\`Go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    "time"
-
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
-)
-
-func main() {
-    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
-    // Initialize the Ark client to read your API Key from an environment variable
-    client := arkruntime.NewClientWithApiKey(
-        // Get your API Key from the environment variable. This is the default mode and you can modify it as required
-        os.Getenv("ARK_API_KEY"),
-        // The base URL for model invocation
-        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
-    )
-    ctx := context.Background()
-    // Replace with Model ID
-    modelEp := "seedance-1-0-lite-i2v-250428"
-
-    // Generate a task
-    fmt.Println("----- create request -----")
-    createReq := model.CreateContentGenerationTaskRequest{
-        Model: modelEp,
-        Ratio:         byteplus.String("16:9"),
-        Duration:      byteplus.Int64(5),
-        Watermark:     byteplus.Bool(false),
-        Content: []*model.CreateContentGenerationContentItem{
-            {
-                // Combination of text prompt and parameters
-                Type: model.ContentGenerationContentItemTypeText,
-                Text: byteplus.String("A boy wearing glasses and a blue T-shirt from [Image 1] and a corgi dog from [Image 2], sitting on the lawn from [Image 3], in 3D cartoon style"),
-            },
-            {
-                // The URL of the first reference image  
-                // # 1-4 reference images need to be provided
-                Type: model.ContentGenerationContentItemTypeImage,
-                ImageURL: &model.ImageURL{
-                    URL: "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seelite_ref_1.png",
-                },
-                Role: byteplus.String("reference_image"),
-            },
-            {
-                // The URL of the second reference image  
-                Type: model.ContentGenerationContentItemTypeImage,
-                ImageURL: &model.ImageURL{
-                    URL: "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seelite_ref_2.png",
-                },
-                Role: byteplus.String("reference_image"),
-            },
-            {
-                // The URL of the third reference image  
-                Type: model.ContentGenerationContentItemTypeImage,
-                ImageURL: &model.ImageURL{
-                    URL: "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seelite_ref_3.png",
-                },
-                Role: byteplus.String("reference_image"),
-            },
-        },
-    }
-    
-    createResp, err := client.CreateContentGenerationTask(ctx, createReq)
-    if err != nil {
-        fmt.Printf("create content generation error: %v", err)
-        return
-    }
-    taskID := createResp.ID
-    fmt.Printf("Task Created with ID: %s", taskID)
-
-    // Polling query section
-    fmt.Println("----- polling task status -----")
-    for {
-        getReq := model.GetContentGenerationTaskRequest{ID: taskID}
-        getResp, err := client.GetContentGenerationTask(ctx, getReq)
-        if err != nil {
-            fmt.Printf("get content generation task error: %v", err)
-            return
-        }
-
-        status := getResp.Status
-        if status == "succeeded" {
-            fmt.Println("----- task succeeded -----")
-            fmt.Printf("Task ID: %s \\n", getResp.ID)
-            fmt.Printf("Model: %s \\n", getResp.Model)
-            fmt.Printf("Video URL: %s \\n", getResp.Content.VideoURL)
-            fmt.Printf("Completion Tokens: %d \\n", getResp.Usage.CompletionTokens)
-            fmt.Printf("Created At: %d, Updated At: %d", getResp.CreatedAt, getResp.UpdatedAt)
-            return
-        } else if status == "failed" {
-            fmt.Println("----- task failed -----")
-            if getResp.Error != nil {
-                fmt.Printf("Error Code: %s, Message: %s", getResp.Error.Code, getResp.Error.Message)
-            }
-            return
-        } else {
-            fmt.Printf("Current status: %s, Retrying in 10 seconds... \\n", status)
-            time.Sleep(10 * time.Second)
-        }
-    }
-}
-\`\`\`
-
-`}></RenderMd></Tabs.TabPane></Tabs>);
- ```
 
 <span id="68fd42bf"></span>
 ## Manage video tasks
+
 <span id="360a1a86"></span>
-### Query a list of video generation tasks
-This API supports passing filter parameters to query the list of video generation tasks that meet the specified criteria.
+### Query video generation task list
 
-```mixin-react
-return (<Tabs>
-<Tabs.TabPane title="Curl" key="Cf25t9Sq3R"><RenderMd content={`\`\`\`Bash
-curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks?page_size=2&filter.status=succeeded& \\
-  -H "Content-Type: application/json" \\
+This API supports passing filter parameters to query the list of video generation tasks that meet the specified conditions.
+
+
+<Tabs>
+<Tab zoneid="Kg0rBMfU0A" title="cURL">
+<TabTitle>cURL</TabTitle>
+
+```Bash
+curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks?page_size=2&filter.status=succeeded& \
+  -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY" 
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Python" key="lu7DrikeLd"><RenderMd content={`\`\`\`Python
+
+
+</Tab>
+<Tab zoneid="TJmAPQv4GE" title="Python">
+<TabTitle>Python</TabTitle>
+
+```Python
 import os
 from byteplussdkarkruntime import Ark
 
@@ -1630,10 +1350,15 @@ if __name__ == "__main__":
         status="succeeded",
     )
     print(resp)
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Java" key="NbZ6YoGJjO"><RenderMd content={`\`\`\`Java
+
+
+</Tab>
+<Tab zoneid="bcyv1mIRaD" title="Java">
+<TabTitle>Java</TabTitle>
+
+```Java
 package com.ark.sample;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -1669,10 +1394,15 @@ public class Sample {
         service.shutdownExecutor();
     }
 }
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Go" key="dN8uLd8DWE"><RenderMd content={`\`\`\`Go
+
+
+</Tab>
+<Tab zoneid="icRxkWAyRe" title="Go">
+<TabTitle>Go</TabTitle>
+
+```Go
 package main
 
 import (
@@ -1690,7 +1420,7 @@ func main() {
         ctx := context.Background()
 
         req := model.ListContentGenerationTasksRequest{
-                PageSize: volcengine.Int(3),
+                PageSize: byteplus.Int(3),
                 Filter: &model.ListContentGenerationTasksFilter{
                         Status: byteplus.String("succeeded"),
                 },
@@ -1698,32 +1428,44 @@ func main() {
 
         resp, err := client.ListContentGenerationTasks(ctx, req)
         if err != nil {
-                fmt.Printf("failed to list content generation tasks: %v\\n", err)
+                fmt.Printf("failed to list content generation tasks: %v\n", err)
                 return
         }
-        fmt.Printf("%+v\\n", resp)
+        fmt.Printf("%+v\n", resp)
 }
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane></Tabs>);
- ```
+
+
+</Tab>
+</Tabs>
+
 
 <span id="64914c89"></span>
 ### Delete or cancel video generation tasks
-Cancel video generation tasks in the queue, or delete video generation task records.
 
-```mixin-react
-return (<Tabs>
-<Tabs.TabPane title="Curl" key="GjuckvdMEs"><RenderMd content={`\`\`\`Bash
+Cancel queued video generation tasks, or delete video generation task records.
+
+
+<Tabs>
+<Tab zoneid="kZ7BAePljx" title="cURL">
+<TabTitle>cURL</TabTitle>
+
+```Bash
 # Replace cgt-2025**** with the ID acquired from "Create Video Generation Task".
 
-curl -X DELETE https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks/cgt-2025**** \\
-  -H "Content-Type: application/json" \\
+curl -X DELETE https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks/cgt-2025**** \
+  -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ARK_API_KEY" 
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Python" key="Do67DdCK7o"><RenderMd content={`\`\`\`Python
+
+
+</Tab>
+<Tab zoneid="Ru2r3v6Smj" title="Python">
+<TabTitle>Python</TabTitle>
+
+```Python
 import os
 from byteplussdkarkruntime import Ark
 
@@ -1736,14 +1478,19 @@ if __name__ == "__main__":
         )
     except Exception as e:
         print(f"failed to delete task: {e}")
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Java" key="mB4D2jmlnj"><RenderMd content={`\`\`\`Java
+
+
+</Tab>
+<Tab zoneid="PKEiLDMBon" title="Java">
+<TabTitle>Java</TabTitle>
+
+```Java
 package com.ark.sample;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.byteplus.ark.runtime.model.content.generation.DeleteContentGenerationTasksRequest;
+import com.byteplus.ark.runtime.model.content.generation.DeleteContentGenerationTaskRequest;
 import com.byteplus.ark.runtime.service.ArkService;
 import java.util.concurrent.TimeUnit;
 import okhttp3.ConnectionPool;
@@ -1774,10 +1521,15 @@ public class Sample {
         service.shutdownExecutor();
     }
 }
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Go" key="bSbtfIfSyV"><RenderMd content={`\`\`\`Go
+
+
+</Tab>
+<Tab zoneid="zeoucF6DOb" title="Go">
+<TabTitle>Go</TabTitle>
+
+```Go
 package main
 
 import (
@@ -1799,263 +1551,1285 @@ func main() {
         }
         err := client.DeleteContentGenerationTask(ctx, req)
         if err != nil {
-                fmt.Printf("delete content generation task error: %v\\n", err)
+                fmt.Printf("delete content generation task error: %v\n", err)
                 return
         }
 }
-\`\`\`
+```
 
-`}></RenderMd></Tabs.TabPane></Tabs>);
- ```
+
+
+</Tab>
+</Tabs>
+
 
 <span id="9fe4cce0"></span>
-## **Configure video output specifications【New】**
- You can control video output specifications using parameters such as `resolution`, `ratio`, `duration`, `frames`, `seed`, `camera_fixed`, and `watermark`. 
-:::warning
-The supported parameters may vary slightly by model, as detailed in the table below. When the input parameters or values do not match the selected model, the parameter will either be ignored or trigger an error.
+## Set video output specifications
 
-* **New method: Pass the** **paramters directly** **in the request body.** This method uses strict validation—if a parameter is incorrect, the model will return an error prompt.
-* **Legacy** **method: Append --[parameter] after the text prompt.** This method uses lenient validation—if a parameter is incorrect, the model will automatically use the default value without raising an error.
-:::
+You can control the video output specifications via the **resolution, ratio, duration, frames, seed, camera_fixed, watermark** parameters.
 
-* **New method (Recommended): Pass the** **paramters directly** **in the request body**
+<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
 
-```JSON
-...
-   // Strongly recommended
+
+<div data-tips="true" data-tips-type="warning">Supported parameters and their options vary with models. See the table below for details. If the input parameters or options are not supported by the selected model, the parameter will be ignored or an error will be thrown.</div>
+
+
+
+* <div data-tips="true" data-tips-type="warning"><strong>New method</strong> : Pass parameters directly in the request body. This method uses <strong>strict validation</strong> . If parameters are filled incorrectly, the model will return an error.</div>
+
+
+* <div data-tips="true" data-tips-type="warning"><strong>Legacy method</strong> : Append \-\-[parameters] after the text prompt. This method uses <strong>loose validation</strong> . If parameters are filled incorrectly, the model will automatically use the default value and will not report an error.</div>
+
+
+* **New method (recommended): Pass parameters directly in the request body**
+
+   ```JSON
+   ...
+      // Strongly recommended
+   "model": "dreamina-seedance-2-0-260128",
+       "content": [
+           {
+               "type": "text",
+           "text": "The kitten is yawning at the camera."
+           }
+       ],
+       // All parameters must be written in full; abbreviations are not supported
+       "resolution": "720p",
+       "ratio":"16:9",
+       "duration": 5,
+       // "frames": 29, Either duration or frames is required
+       "seed": 11,
+       "camera_fixed": false,
+   ...
+   ```
+   
+
+* **Legacy method: Append \-\-[parameters] after the text prompt**
+
+   ```JSON
+   ...
    // Specify the aspect ratio of the generated video as 16:9, duration as 5 seconds, resolution as 720p, seed as 11, and include a watermark. The camera is not fixed.
+   "content": [
+           {
+               "type": "text",
+           "text": "The kitten is yawning at the camera --rs 720p --rt 16:9 --dur 5 --seed 11 --cf false --wm true"
+           // "text": "The kitten is yawning at the camera --resolution 720p --ratio 16:9 --duration 5 --seed 11 --camerafixed false --watermark true"
+           }
+    ]
+    ...
+   ```
+   
+
+
+<span id="resolution-and-aspect-ratio"></span>
+### Resolution and aspect ratio
+
+> Only Seedance 2.0 supports 4K output.
+
+> Seedance 2.0 Fast and Seedance 2.0 Mini do not support 1080p output.
+
+
+Use the following parameters to control the output video resolution and aspect ratio. Together, they determine the final video dimensions.
+
+
+* **resolution** : Specifies the output video resolution. Supported values: 480p, 720p, 1080p, and 4k.
+
+* **ratio** : Specifies the output video aspect ratio. Supported values: 16:9, 4:3, 1:1, 3:4, 9:16, 21:9, and adaptive.
+
+
+<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Note</div>
+
+
+
+* <div data-tips="true" data-tips-type="tip">Compared with standard 8\-bit video, Seedance 2.0 4K output uses 10\-bit encoding, preserving richer color gradations and smoother tonal transitions. This makes it suitable for professional video production and HDR content.</div>
+
+
+* <div data-tips="true" data-tips-type="tip">4K videos are encoded in H.265 (HEVC). Some players and browsers may not support direct playback.</div>
+
+
+
+```Json
+{
+    "resolution": "720p",
+    "ratio":"16:9"
+}
+```
+
+
+
+<span aceTableMode="list" aceTableWidth="3,3,3,3,3"></span>
+| |[Dreamina Seedance 2.0](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=dreamina-seedance-2-0) |[Dreamina Seedance 2.0 Fast](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=dreamina-seedance-2-0-fast) |[Seedance 1.5 Pro](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=seedance-1-5-pro) |[Seedance 1.0 Pro](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=seedance-1-0-pro)<br><br>[Seedance 1.0 Pro Fast](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=seedance-1-0-pro-fast) |
+|---|---|---|---|---|
+|resolution<br><br>Resolution |* 480p<br><br>* 720p<br><br>* 1080p<br><br>* 4k |* 480p<br><br>* 720p |* 480p<br><br>* 720p<br><br>* 1080p |* 480p<br><br>* 720p<br><br>* 1080p |
+|ratio<br><br>Aspect ratio |* 16:9<br><br>* 4:3<br><br>* 1:1<br><br>* 3:4<br><br>* 9:16<br><br>* 21:9<br><br>* adaptive<br><br><br><br>---<br><br><br><br>Pixel dimensions for each aspect ratio at 480p are as follows:<br><br><br>* `16:9`: 864×496<br><br>* `4:3`: 752×560<br><br>* `1:1`: 640×640<br><br>* `3:4`: 560×752<br><br>* `9:16`: 496×864<br><br>* `21:9`: 992×432<br><br><br><br>---<br><br><br><br>Pixel dimensions for each aspect ratio at 720p are as follows:<br><br><br>* `16:9`: 1280×720<br><br>* `4:3`: 1112×834<br><br>* `1:1`: 960×960<br><br>* `3:4`: 834×1112<br><br>* `9:16`: 720×1280<br><br>* `21:9`: 1470×630<br><br><br><br>---<br><br><br><br>Pixel dimensions for each aspect ratio at 1080p are as follows:<br><br><br>* `16:9`: 1920×1080<br><br>* `4:3`: 1664×1248<br><br>* `1:1`: 1440×1440<br><br>* `3:4`: 1248×1664<br><br>* `9:16`: 1080×1920<br><br>* `21:9`: 2206×946<br><br><br><br>---<br><br><br><br>Pixel dimensions for each aspect ratio at 4k are as follows:<br><br><br>* `16:9`: 3840×2160<br><br>* `4:3`: 3326×2494<br><br>* `1:1`: 2880×2880<br><br>* `3:4`: 2494×3326<br><br>* `9:16`: 2160×3840<br><br>* `21:9`: 4398×1886 |* 16:9<br><br>* 4:3<br><br>* 1:1<br><br>* 3:4<br><br>* 9:16<br><br>* 21:9<br><br>* adaptive<br><br><br><br>---<br><br><br><br>Pixel dimensions for each aspect ratio at 480p are as follows:<br><br><br>* `16:9`: 864×496<br><br>* `4:3`: 752×560<br><br>* `1:1`: 640×640<br><br>* `3:4`: 560×752<br><br>* `9:16`: 496×864<br><br>* `21:9`: 992×432<br><br><br><br>---<br><br><br><br>Pixel dimensions for each aspect ratio at 720p are as follows:<br><br><br>* `16:9`: 1280×720<br><br>* `4:3`: 1112×834<br><br>* `1:1`: 960×960<br><br>* `3:4`: 834×1112<br><br>* `9:16`: 720×1280<br><br>* `21:9`: 1470×630 |* 16:9<br><br>* 4:3<br><br>* 1:1<br><br>* 3:4<br><br>* 9:16<br><br>* 21:9<br><br>* adaptive<br><br><br><br>---<br><br><br><br>Pixel dimensions for each aspect ratio at 480p are as follows:<br><br><br>* `16:9`: 864×496<br><br>* `4:3`: 752×560<br><br>* `1:1`: 640×640<br><br>* `3:4`: 560×752<br><br>* `9:16`: 496×864<br><br>* `21:9`: 992×432<br><br><br><br>---<br><br><br><br>Pixel dimensions for each aspect ratio at 720p are as follows:<br><br><br>* `16:9`: 1280×720<br><br>* `4:3`: 1112×834<br><br>* `1:1`: 960×960<br><br>* `3:4`: 834×1112<br><br>* `9:16`: 720×1280<br><br>* `21:9`: 1470×630<br><br><br><br>---<br><br><br><br>Pixel dimensions for each aspect ratio at 1080p are as follows:<br><br><br>* `16:9`: 1920×1080<br><br>* `4:3`: 1664×1248<br><br>* `1:1`: 1440×1440<br><br>* `3:4`: 1248×1664<br><br>* `9:16`: 1080×1920<br><br>* `21:9`: 2206×946 |* 16:9<br><br>* 4:3<br><br>* 1:1<br><br>* 3:4<br><br>* 9:16<br><br>* 21:9<br><br>* adaptive `Text-to-video scenario not supported`<br><br><br><br>---<br><br><br><br>Pixel dimensions for each aspect ratio at 480p are as follows:<br><br><br>* `16:9`: 864×480<br><br>* `4:3`: 736×544<br><br>* `1:1`: 640×640<br><br>* `3:4`: 544×736<br><br>* `9:16`: 480×864<br><br>* `21:9`: 960×416<br><br><br><br>---<br><br><br><br>Pixel dimensions for each aspect ratio at 720p are as follows:<br><br><br>* `16:9`: 1248×704<br><br>* `4:3`: 1120×832<br><br>* `1:1`: 960×960<br><br>* `3:4`: 832×1120<br><br>* `9:16`: 704×1248<br><br>* `21:9`: 1504×640<br><br><br><br>---<br><br><br><br>Pixel dimensions for each aspect ratio at 1080p are as follows:<br><br><br>* `16:9`: 1920×1088<br><br>* `4:3`: 1664×1248<br><br>* `1:1`: 1440×1440<br><br>* `3:4`: 1248×1664<br><br>* `9:16`: 1088×1920<br><br>* `21:9`: 2176×928 |
+|duration<br><br>Output video duration (seconds) |4–15 seconds |4–15 seconds |4–12 seconds |2–12 seconds |
+|frames<br><br>Generated video frame count |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |All integer values in the range [29, 289] that fit the format 25 + 4n are supported, where n is a positive integer. |
+|seed<br><br>Seed integer |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |
+|camera_fixed<br><br>Whether the camera is fixed |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/f359753773c94d97885008ca1223c9bc~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ee51ce32c1914aed81ff95080bb7db1d~tplv-goo7wpa0wc-image.image) </span> |
+
+
+<span id="video-duration"></span>
+### Video duration
+
+Use the `duration` parameter to control the generated video length, in whole seconds:
+
+
+* **Seedance 1.0 series:**  `[2, 12]`
+
+* **Seedance 1.5 Pro:**  `[4, 12]` or `-1`
+
+* **Seedance 2.0 series:**  `[4, 15]` or `-1`
+
+> A value of `-1` enables intelligent duration selection, allowing the model to choose an appropriate video length within the supported range, in whole seconds.
+
+
+```json
+{
+  "duration": 5
+}
+```
+
+
+Seedance 1.0 models also support the `frames` parameter, which lets you specify the number of generated frames and create videos with fractional\-second durations.
+
+
+* **Calculation:**  : `frames = duration × frame rate (24)`
+
+* **Valid values:**  `frames` supports integer values in the range `[29, 289]` that follow the format `25 + 4n`, where `n` is a positive integer.
+
+* **Note:**  Specify either `duration` or `frames`. If both are provided, `frames` takes precedence over `duration`.
+
+
+```json
+{
+  "frames": 29
+}
+```
+
+
+<span id="add-watermark"></span>
+### Add a watermark to the video
+
+Use the `watermark` parameter to control whether an AI\-generated watermark is added to the output video.
+
+
+* `true`: Adds an AI\-generated watermark in the lower\-right corner of the video.
+
+* `false`: Does not add a watermark.
+
+
+```json
+{
+  "watermark": true
+}
+```
+
+
+<span id="44236b6a"></span>
+## Prompt engineering techniques
+
+
+* **Prompt = subject + motion, background + motion, camera + motion ...** 
+
+* Describe what you want in concise and accurate natural language.
+
+* If you have relatively clear expectations, it is recommended to first use an image generation model to generate images that meet your expectations, then generate video clips based on those images.
+
+* The output of text\-to\-video generation is highly random, and can be used as a source of inspiration.
+
+* When using image\-to\-video generation, please try to upload high\-definition, high\-quality images. The quality of the uploaded image has a significant impact on the image\-to\-video result.
+
+* When the generated video does not meet expectations, it is recommended to modify the prompt, replace abstract descriptions with concrete ones, remove unimportant parts, and place important content at the front.
+
+* For more prompt usage tips, see [Seedance-1.5-pro prompt guide](https://docs.byteplus.com/en/docs/ModelArk/2168087), [Seedance-1.0-pro&pro-fast prompt guide](https://docs.byteplus.com/en/docs/ModelArk/1631633), and [Seedance-1.0-lite prompt guide](https://docs.byteplus.com/en/docs/ModelArk/1587797).
+
+
+<span id="2aa4e615"></span>
+# Advanced usage
+
+<span id="a0badaae"></span>
+## Offline inference
+
+> Seedance 2.0 series models are not supported.
+
+
+For scenarios with low inference latency sensitivity (e.g., hour\-level response), it is recommended to set **service_tier** to `flex` to switch to offline inference mode with one click. The cost is only 50% of that of online inference, which significantly reduces costs.
+
+Note that you should set an appropriate timeout period according to your business needs. Tasks will be automatically terminated after the timeout period expires.
+
+
+<Tabs>
+<Tab zoneid="quZupMsZ4c" title="Python">
+<TabTitle>Python</TabTitle>
+
+```Python
+import os
+import time  
+# Install SDK:pip install 'byteplus-python-sdk-v2[ark]'
+from byteplussdkarkruntime import Ark 
+
+# Make sure that you have stored the API Key in the environment variable ARK_API_KEY
+# Initialize the Ark client to read your API Key from an environment variable
+client = Ark(
+    # This is the default path. You can configure it based on the service location
+    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
+    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    api_key=os.environ.get("ARK_API_KEY"),
+)
+
+if __name__ == "__main__":
+    print("----- create request -----")
+    create_result = client.content_generation.tasks.create(
+        model="seedance-1-5-pro-251215", #Replace with Model ID
+        content=[
+            {
+                # Combination of text prompt and parameters
+                "type": "text",
+                "text": "A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl’s hair is blown by the wind"             
+            },
+            {
+                # The URL of the first frame image
+                "type": "image_url",
+                "image_url": {
+                    "url": "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png" 
+                }
+            }
+        ],
+        ratio="adaptive",
+        duration=5,
+        watermark=False,
+        service_tier="flex",
+        execution_expires_after=172800,
+    )
+    print(create_result)
+
+    # Polling query section
+    print("----- polling task status -----")
+    task_id = create_result.id
+    while True:
+        get_result = client.content_generation.tasks.get(task_id=task_id)
+        status = get_result.status
+        if status == "succeeded":
+            print("----- task succeeded -----")
+            print(get_result)
+            break
+        elif status == "failed":
+            print("----- task failed -----")
+            print(f"Error: {get_result.error}")
+            break
+        else:
+            print(f"Current status: {status}, Retrying after 60 seconds...")
+            time.sleep(60)
+```
+
+
+
+</Tab>
+<Tab zoneid="fEC4qzFmFZ" title="Java">
+<TabTitle>Java</TabTitle>
+
+```Java
+package com.ark.sample;
+
+import com.byteplus.ark.runtime.model.content.generation.*;
+import com.byteplus.ark.runtime.model.content.generation.CreateContentGenerationTaskRequest.Content;
+import com.byteplus.ark.runtime.service.ArkService;
+import okhttp3.ConnectionPool;
+import okhttp3.Dispatcher;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+public class ContentGenerationTaskExample {
+    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
+    // Initialize the Ark client to read your API Key from an environment variable
+    static String apiKey = System.getenv("ARK_API_KEY");
+    static ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
+    static Dispatcher dispatcher = new Dispatcher();
+    static ArkService service = ArkService.builder()
+           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") //The base URL for model invocation
+           .dispatcher(dispatcher)
+           .connectionPool(connectionPool)
+           .apiKey(apiKey)
+           .build();
+           
+    public static void main(String[] args) {
+        String model = "dreamina-seedance-2-0-260128"; //Replace with Model ID
+        String ratio = "adaptive";
+        Long duration = 5L;
+        Boolean watermark = false;
+        String serviceTier = "flex";
+        Long executionExpiresAfter = 172800L;
+        System.out.println("----- create request -----");
+        List<Content> contents = new ArrayList<>();
+        
+        // Combination of text prompt and parameters
+        contents.add(Content.builder()
+                .type("text")
+                .text("A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl's hair is blown by the wind")
+                .build());
+        // The URL of the first frame image
+        contents.add(Content.builder()
+                .type("image_url")
+                .imageUrl(CreateContentGenerationTaskRequest.ImageUrl.builder()
+                        .url("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png")
+                        .build())
+                .build());
+
+        // Create a video generation task
+        CreateContentGenerationTaskRequest createRequest = CreateContentGenerationTaskRequest.builder()
+                .model(model)
+                .content(contents)
+                .ratio(ratio)
+                .duration(duration)
+                .watermark(watermark)
+                .serviceTier(serviceTier)
+                .executionExpiresAfter(executionExpiresAfter)
+                .build();
+
+        CreateContentGenerationTaskResult createResult = service.createContentGenerationTask(createRequest);
+        System.out.println(createResult);
+
+        // Get the details of the task
+        String taskId = createResult.getId();
+        GetContentGenerationTaskRequest getRequest = GetContentGenerationTaskRequest.builder()
+                .taskId(taskId)
+                .build();
+        
+        // Polling query section
+        System.out.println("----- polling task status -----");
+        while (true) {
+            try {
+                GetContentGenerationTaskResponse getResponse = service.getContentGenerationTask(getRequest);
+                String status = getResponse.getStatus();
+                if ("succeeded".equalsIgnoreCase(status)) {
+                    System.out.println("----- task succeeded -----");
+                    System.out.println(getResponse);
+                    break;
+                } else if ("failed".equalsIgnoreCase(status)) {
+                    System.out.println("----- task failed -----");
+                    System.out.println("Error: " + getResponse.getStatus());
+                    break;
+                } else {
+                    System.out.printf("Current status: %s, Retrying in 60 seconds...", status);
+                    TimeUnit.SECONDS.sleep(60);
+                }
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                System.err.println("Polling interrupted");
+                break;
+            }
+        }
+    }
+}
+```
+
+
+
+</Tab>
+<Tab zoneid="IfpSU6TogE" title="Go">
+<TabTitle>Go</TabTitle>
+
+```Go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    "time"
+
+    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
+    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
+    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
+)
+
+func main() {
+    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
+    // Initialize the Ark client to read your API Key from an environment variable
+    client := arkruntime.NewClientWithApiKey(
+        // Get your API Key from the environment variable. This is the default mode and you can modify it as required
+        os.Getenv("ARK_API_KEY"),
+        //The base URL for model invocation
+        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
+    )
+    ctx := context.Background()
+    //Replace with Model ID
+    modelEp := "dreamina-seedance-2-0-260128"
+
+    // Generate a task
+    fmt.Println("----- create request -----")
+    createReq := model.CreateContentGenerationTaskRequest{
+        Model: modelEp,
+        Ratio:                 byteplus.String("adaptive"),
+        Duration:              byteplus.Int64(5),
+        Watermark:             byteplus.Bool(false),
+        ServiceTier:           byteplus.String("flex"),
+        ExecutionExpiresAfter: byteplus.Int64(172800),
+        Content: []*model.CreateContentGenerationContentItem{
+            {
+                // Combination of text prompt and parameters
+                Type: model.ContentGenerationContentItemTypeText,
+                Text: byteplus.String("A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl's hair is blown by the wind"),
+            },
+            {
+                // The URL of the first frame image
+                Type: model.ContentGenerationContentItemTypeImage,
+                ImageURL: &model.ImageURL{
+                    URL: "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png", 
+                },
+            },
+        },
+    }
+    createResp, err := client.CreateContentGenerationTask(ctx, createReq)
+    if err != nil {
+        fmt.Printf("create content generation error: %v", err)
+        return
+    }
+    taskID := createResp.ID
+    fmt.Printf("Task Created with ID: %s", taskID)
+
+    // Polling query section
+    fmt.Println("----- polling task status -----")
+    for {
+        getReq := model.GetContentGenerationTaskRequest{ID: taskID}
+        getResp, err := client.GetContentGenerationTask(ctx, getReq)
+        if err != nil {
+            fmt.Printf("get content generation task error: %v", err)
+            return
+        }
+
+        status := getResp.Status
+        if status == "succeeded" {
+            fmt.Println("----- task succeeded -----")
+            fmt.Printf("Task ID: %s \n", getResp.ID)
+            fmt.Printf("Model: %s \n", getResp.Model)
+            fmt.Printf("Video URL: %s \n", getResp.Content.VideoURL)
+            fmt.Printf("Completion Tokens: %d \n", getResp.Usage.CompletionTokens)
+            fmt.Printf("Created At: %d, Updated At: %d", getResp.CreatedAt, getResp.UpdatedAt)
+            return
+        } else if status == "failed" {
+            fmt.Println("----- task failed -----")
+            if getResp.Error != nil {
+                fmt.Printf("Error Code: %s, Message: %s", getResp.Error.Code, getResp.Error.Message)
+            }
+            return
+        } else {
+            fmt.Printf("Current status: %s, Retrying in 60 seconds... \n", status)
+            time.Sleep(60 * time.Second)
+        }
+    }
+}
+```
+
+
+
+</Tab>
+</Tabs>
+
+
+<span id="5acd28c8"></span>
+## Draft mode
+
+> Only Seedance 1.5 Pro is supported.
+
+
+Obtaining an enterprise\-grade video that meets expectations usually requires multiple attempts, which is time\-consuming and labor\-intensive. The draft mode is an intermediate product visualization feature launched by ModelArk. After enabling this feature, a preview video will be generated to help you **verify at low cost** whether key elements such as the scene structure, shot scheduling, subject actions of the generated video and prompt intent meet expectations, so as to quickly adjust the direction. After confirming that it meets expectations, generate the final high\-quality video based on the draft video.
+
+
+<span aceTableMode="list" aceTableWidth="1,1,1"></span>
+|Input |Draft video |Final video |
+|---|---|---|
+|<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ebb5217645b04cfc94209a6f7d36a523~tplv-goo7wpa0wc-image.image) </span><br><br>> Prompt: A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl's hair is blown by the wind, and the sound of the wind can be heard. |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/7c190b3a0ed34b29bc1192acbce2f4d2~tplv-goo7wpa0wc-image.image" controls></video><br><br><br>> Generate a preview video to verify the result at low cost. |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/a82cd582a5d54f34a8adec10f2815081~tplv-goo7wpa0wc-image.image" controls></video><br><br><br>> Reuse the **model, prompt, input image, seed value, audio settings, video aspect ratio, video duration, etc.**  used for the draft video to generate the final video, to ensure that the key elements of the video are consistent. |
+
+
+This feature can be used in two steps:
+
+<span id="13ae3900"></span>
+### Step 1: Generate a draft video
+
+
+1. Set `"draft": true` and call the `POST /contents/generations/tasks` API to create a draft video generation task.
+
+2. Call the `GET /contents/generations/tasks/{id}` API to query the generation status and result, download the draft video, and confirm whether it meets expectations.
+
+
+<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+
+
+
+* <div data-tips="true" data-tips-type="tip">Only Seedance 1.5 Pro supports this feature.</div>
+
+
+* <div data-tips="true" data-tips-type="tip">Only 480p resolution is supported (using other resolutions will cause an error). The return last frame feature and offline inference feature are not supported.</div>
+
+
+* <div data-tips="true" data-tips-type="tip">The unit price of tokens for draft videos remains the same, but fewer tokens are consumed. <code>Draft video token usage = Normal video token usage × Conversion factor</code>. Take Seedance 1.5 Pro as an example, the conversion factor for videos with audio is 0.6, so the cost of generating a draft video with audio is 0.6 times that of a normal video, which significantly reduces the cost.</div>
+
+
+
+```Plain Text
+```mixin-react
+return (<Tabs>
+<Tabs.TabPane title="cURL" key="pevSAYUtgs"><RenderMd content={`1. Create a draft video generation task.
+
+\`\`\`Bash
+curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $ARK_API_KEY" \
+  -d '{
     "model": "seedance-1-5-pro-251215",
     "content": [
         {
             "type": "text",
-            "text": "The kitten is yawning at the camera"
+        "text": "A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl’s hair is blown by the wind"
+        },
+        {
+            "type": "image_url",
+            "image_url": {
+                "url": "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png"
+            }
         }
     ],
-    // All parameters must be written in full; abbreviations are not supported
-    "resolution": "720p",
-    "ratio":"16:9",
-    "duration": 5,
-    // "frames": 29, Either duration or frames is required
-    "seed": 11,
-    "camera_fixed": false,
-    "watermark": true
-...
-```
+    "seed": 20, 
+    "duration": 6, 
+    "draft": true
+}'
+\`\`\`
 
+After the request succeeds, the system will return a task ID. This ID is the draft video task ID, which will be used to generate the final video later.
+2. Use the draft video task ID to query the generation status and result.
 
+\`\`\`Bash
+# Replace cgt-2026****-pzjqb with the ID acquired from last step
 
-* **Legacy method: Append --[parameter] after the text prompt**
+curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks/cgt-2026****-pzjqb \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $ARK_API_KEY" 
+\`\`\`
 
-```JSON
-...
-// Specify the aspect ratio of the generated video to 16:9, duration to 5 seconds, resolution to 720p, seed to 11, and include a watermark. The camera is not fixed.
-"content": [
-        {
-            "type": "text",
-            "text": "The kitten is yawning at the camera --rs 720p --rt 16:9 --dur 5 --seed 11 --cf false --wm true"
-            // "text": "The kitten is yawning at the camera --resolution 720p --ratio 16:9 --duration 5 --seed 11 --camerafixed false --watermark true"
+After the task status changes to succeeded, you can download the final generated draft video file from the content.**video_url** parameter, and check whether the result meets expectations. If it does not meet expectations, you can readjust the parameters and create a draft video generation task again. After confirming that the result of the draft video meets expectations, you can generate the final video according to the subsequent steps.`}></RenderMd></Tabs.TabPane>
+<Tabs.TabPane title="Python" key="GvHFhLFfj2"><RenderMd content={`1. Create a draft video task and poll the task status;
+2. After the task status changes to \`succeeded\`, you can download the final generated draft video file from the content.**video_url** parameter, and check whether the result meets expectations. If it does not meet expectations, you can readjust the parameters and create a draft video generation task again. After confirming that the result of the draft video meets expectations, you can generate the final video according to the subsequent steps.
+
+\`\`\`Python
+import os
+import time
+# Install SDK:pip install 'byteplus-python-sdk-v2[ark]'
+from byteplussdkarkruntime import Ark 
+
+# Make sure that you have stored the API Key in the environment variable ARK_API_KEY
+# Initialize the Ark client to read your API Key from an environment variable
+client = Ark(
+    # This is the default path. You can configure it based on the service location
+    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
+    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    api_key=os.environ.get("ARK_API_KEY"),
+)
+
+if __name__ == "__main__":
+    print("----- create request -----")
+    create_result = client.content_generation.tasks.create(
+        model="seedance-1-5-pro-251215", #Replace with Model ID
+        content=[
+            {
+                # Combination of text prompt and parameters
+                "type": "text",
+            "text": "A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl’s hair is blown by the wind"         
+            },
+            {
+                # The URL of the first frame image
+                "type": "image_url",
+                "image_url": {
+                "url": "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png"
+                }
+            }
+        ],
+        seed= 20,
+        duration= 6,
+        draft= True,
+    )
+    print(create_result)
+    
+    # Polling query section
+    print("----- polling task status -----")
+    task_id = create_result.id
+    while True:
+        get_result = client.content_generation.tasks.get(task_id=task_id)
+        status = get_result.status
+        if status == "succeeded":
+            print("----- task succeeded -----")
+            print(get_result)
+            break
+        elif status == "failed":
+            print("----- task failed -----")
+            print(f"Error: {get_result.error}")
+            break
+        else:
+            print(f"Current status: {status}, Retrying after 10 seconds...")
+            time.sleep(10)
+\`\`\``}></RenderMd></Tabs.TabPane>
+<Tabs.TabPane title="Java" key="Ld1IV0aZ5T"><RenderMd content={`1. Create a draft video task and poll the task status;
+2. After the task status changes to \`succeeded\`, you can download the final generated draft video file from the content.**video_url** parameter, and check whether the result meets expectations. If it does not meet expectations, you can readjust the parameters and create a draft video generation task again. After confirming that the result of the draft video meets expectations, you can generate the final video according to the subsequent steps.
+
+\`\`\`Java
+package com.ark.sample;
+
+import com.byteplus.ark.runtime.model.content.generation.*;
+import com.byteplus.ark.runtime.model.content.generation.CreateContentGenerationTaskRequest.Content;
+import com.byteplus.ark.runtime.service.ArkService;
+import okhttp3.ConnectionPool;
+import okhttp3.Dispatcher;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+public class ContentGenerationTaskExample {
+    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
+    // Initialize the Ark client to read your API Key from an environment variable
+    static String apiKey = System.getenv("ARK_API_KEY");
+    static ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
+    static Dispatcher dispatcher = new Dispatcher();
+    static ArkService service = ArkService.builder()
+           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") //The base URL for model invocation
+           .dispatcher(dispatcher)
+           .connectionPool(connectionPool)
+           .apiKey(apiKey)
+           .build();
+           
+    public static void main(String[] args) {
+        String model = "seedance-1-5-pro-251215"; //Replace with Model ID
+        Long seed = 20L;
+        Long duration = 6L;
+        Boolean draft = true;
+        System.out.println("----- create request -----");
+        List<Content> contents = new ArrayList<>();
+        
+        // Combination of text prompt and parameters
+        contents.add(Content.builder()
+                .type("text")
+            .text("A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl’s hair is blown by the wind")
+                .build());
+        // The URL of the first frame image
+        contents.add(Content.builder()
+                .type("image_url")
+                .imageUrl(CreateContentGenerationTaskRequest.ImageUrl.builder()
+                    .url("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png")
+                        .build())
+                .build());
+
+        // Create a video generation task
+        CreateContentGenerationTaskRequest createRequest = CreateContentGenerationTaskRequest.builder()
+                .model(model)
+                .content(contents)
+                .seed(seed)
+                .duration(duration)
+                .draft(draft)
+                .build();
+
+        CreateContentGenerationTaskResult createResult = service.createContentGenerationTask(createRequest);
+        System.out.println(createResult);
+
+        // Get the details of the task
+        String taskId = createResult.getId();
+        GetContentGenerationTaskRequest getRequest = GetContentGenerationTaskRequest.builder()
+                .taskId(taskId)
+                .build();
+
+        // Polling query section
+        System.out.println("----- polling task status -----");
+        while (true) {
+            try {
+                GetContentGenerationTaskResponse getResponse = service.getContentGenerationTask(getRequest);
+                String status = getResponse.getStatus();
+                if ("succeeded".equalsIgnoreCase(status)) {
+                    System.out.println("----- task succeeded -----");
+                    System.out.println(getResponse);
+                    break;
+                } else if ("failed".equalsIgnoreCase(status)) {
+                    System.out.println("----- task failed -----");
+                    System.out.println("Error: " + getResponse.getStatus());
+                    break;
+                } else {
+                    System.out.printf("Current status: %s, Retrying in 10 seconds...", status);
+                    TimeUnit.SECONDS.sleep(10);
+                }
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                System.err.println("Polling interrupted");
+                break;
+            }
         }
- ]
- ...
+    }
+}
+\`\`\``}></RenderMd></Tabs.TabPane>
+<Tabs.TabPane title="Go" key="wOOVN1s7GC"><RenderMd content={`1. Create a draft video task and poll the task status;
+2. After the task status changes to \`succeeded\`, you can download the final generated draft video file from the content.**video_url** parameter, and check whether the result meets expectations. If it does not meet expectations, you can readjust the parameters and create a draft video generation task again. After confirming that the result of the draft video meets expectations, you can generate the final video according to the subsequent steps.
+
+\`\`\`Go
+package main
+
+import (
+    "context"
+    "fmt"
+    "time"
+    "os"
+
+    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
+    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
+    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
+)
+
+func main() {
+    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
+    // Initialize the Ark client to read your API Key from an environment variable
+    client := arkruntime.NewClientWithApiKey(
+        // Get your API Key from the environment variable. This is the default mode and you can modify it as required
+        os.Getenv("ARK_API_KEY"),
+        //The base URL for model invocation
+        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
+    )
+    ctx := context.Background()
+    //Replace with Model ID
+    modelEp := "seedance-1-5-pro-251215"
+
+    // Generate a task
+    fmt.Println("----- create request -----")
+    createReq := model.CreateContentGenerationTaskRequest{
+        Model: modelEp,
+        Seed:          byteplus.Int64(20),
+        Duration:      byteplus.Int64(6),
+        Draft:         byteplus.Bool(true),
+        Content: []*model.CreateContentGenerationContentItem{
+            {
+                // Combination of text prompt and parameters
+                Type: model.ContentGenerationContentItemTypeText,
+            Text: byteplus.String("A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl’s hair is blown by the wind"),
+            },
+            {
+                // The URL of the first frame image
+                Type: model.ContentGenerationContentItemTypeImage,
+                ImageURL: &model.ImageURL{
+                URL: "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png",
+                },
+            },
+        },
+    }
+    createResp, err := client.CreateContentGenerationTask(ctx, createReq)
+    if err != nil {
+        fmt.Printf("create content generation error: %v", err)
+        return
+    }
+    taskID := createResp.ID
+    fmt.Printf("Task Created with ID: %s", taskID)
+
+    // Polling query section
+    fmt.Println("----- polling task status -----")
+    for {
+        getReq := model.GetContentGenerationTaskRequest{ID: taskID}
+        getResp, err := client.GetContentGenerationTask(ctx, getReq)
+        if err != nil {
+            fmt.Printf("get content generation task error: %v", err)
+            return
+        }
+
+        status := getResp.Status
+        if status == "succeeded" {
+            fmt.Println("----- task succeeded -----")
+            fmt.Printf("Task ID: %s \n", getResp.ID)
+            fmt.Printf("Model: %s \n", getResp.Model)
+            fmt.Printf("Video URL: %s \n", getResp.Content.VideoURL)
+            fmt.Printf("Completion Tokens: %d \n", getResp.Usage.CompletionTokens)
+            fmt.Printf("Created At: %d, Updated At: %d", getResp.CreatedAt, getResp.UpdatedAt)
+            return
+        } else if status == "failed" {
+            fmt.Println("----- task failed -----")
+            if getResp.Error != nil {
+                fmt.Printf("Error Code: %s, Message: %s", getResp.Error.Code, getResp.Error.Message)
+            }
+            return
+        } else {
+            fmt.Printf("Current status: %s, Retrying in 10 seconds... \n", status)
+            time.Sleep(10 * time.Second)
+        }
+    }
+}
+\`\`\``}></RenderMd></Tabs.TabPane></Tabs>);
+```
+```
+
+
+<span id="015173ef"></span>
+### Step 2: Generate the final video based on the draft video
+
+If you confirm that the draft video meets your expectations, you can call the `POST /contents/generations/tasks` API again based on the draft video task ID returned in Step 1 to generate the final video.
+
+<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+
+
+
+* <div data-tips="true" data-tips-type="tip">ModelArk will automatically reuse the user input used for the draft video ( <strong>model</strong> , <strong>content.text</strong> , <strong>content.image_url, generate_audio, seed, ratio, duration, camera_fixed</strong> ) to generate the final video.</div>
+
+
+* <div data-tips="true" data-tips-type="tip">Other parameters can be specified manually. If not specified, the default values of this model will be used. For example: You can specify the resolution of the final video, whether to include a watermark, whether to use offline inference, whether to return the last frame, etc.</div>
+
+
+* <div data-tips="true" data-tips-type="tip">Generating the final video from a draft video is a normal inference process, and will be billed based on the number of tokens consumed for normal video generation.</div>
+
+
+* <div data-tips="true" data-tips-type="tip">The draft video task ID is valid for 7 days (calculated from the <strong>created at</strong> timestamp). After expiration, you can no longer use this draft video to generate the final video.</div>
+
+
+
+
+<Tabs>
+<Tab zoneid="dOuQR95N6I" title="cURL">
+<TabTitle>cURL</TabTitle>
+
+1. Create a video generation task based on the `content.draft_task.id`.
+
+
+```Bash
+curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $ARK_API_KEY" \
+  -d '{
+    "model": "seedance-1-5-pro-251215",
+    "content": [
+        {
+            "type": "draft_task",
+            "draft_task": {"id": "cgt-2026****-pzjqb"}
+        }
+    ],
+      "watermark": false,
+      "resolution": "720p",
+      "return_last_frame": true,
+      "service_tier": "default"
+  }'  
+```
+
+
+After the request succeeds, the system will return a task ID.
+
+
+2. Use the video task ID to query the generation status and result.
+
+
+```Bash
+# Replace cgt-2026****-bn6zj with the ID acquired from last step
+
+curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks/cgt-2026****-bn6zj \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $ARK_API_KEY" 
+```
+
+
+After the task status changes to succeeded, you can download the generated video file from the content.**video_url** parameter.
+
+
+</Tab>
+<Tab zoneid="c71xip3K67" title="Python">
+<TabTitle>Python</TabTitle>
+
+1. Create a video generation task based on `content.draft_task.id` (this ID is obtained from the response of Step 1) and poll to get the task status;
+
+2. After the task status changes to `succeeded`, you can download the generated video file from the content.**video_url** parameter.
+
+
+```Python
+import os
+import time
+# Install SDK:pip install 'byteplus-python-sdk-v2[ark]'
+from byteplussdkarkruntime import Ark 
+
+# Make sure that you have stored the API Key in the environment variable ARK_API_KEY
+# Initialize the Ark client to read your API Key from an environment variable
+client = Ark(
+    # This is the default path. You can configure it based on the service location
+    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
+    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    api_key=os.environ.get("ARK_API_KEY"),
+)
+
+if __name__ == "__main__":
+    print("----- create request -----")
+    create_result = client.content_generation.tasks.create(
+        model="seedance-1-5-pro-251215", #Replace with Model ID
+        content=[
+            {
+                "type": "draft_task",
+                "draft_task": {
+                    "id": "cgt-2026****-pzjqb"
+                }
+            }
+        ],
+        watermark= False,
+        resolution= "720p",
+        return_last_frame= True,
+        service_tier= "default",
+    )
+    print(create_result)
+    
+    # Polling query section
+    print("----- polling task status -----")
+    task_id = create_result.id
+    while True:
+        get_result = client.content_generation.tasks.get(task_id=task_id)
+        status = get_result.status
+        if status == "succeeded":
+            print("----- task succeeded -----")
+            print(get_result)
+            break
+        elif status == "failed":
+            print("----- task failed -----")
+            print(f"Error: {get_result.error}")
+            break
+        else:
+            print(f"Current status: {status}, Retrying after 10 seconds...")
+            time.sleep(10)
 ```
 
 
 
-| | | | | \
-|<div style="width:100px"></div> |seedance-1-5-pro |\
-| |<div style="width:150px"></div> |seedance-1-0-pro |\
-| | |seedance-1-0-pro-fast |\
-| | |<div style="width:150px"></div> |seedance-1-0-lite-t2v |\
-| | | |seedance-1-0-lite-i2v |\
-| | | |<div style="width:150px"></div> |
-|---|---|---|---|
-| | | | | \
-|**resolution** |\
-| |* 480p |\
-| |* 720p |\
-| |* 1080p |* 480p |\
-| | |* 720p |\
-| | |* 1080p |* 480P |\
-| | | |* 720P |\
-| | | |* 1080p`Not supported by the reference image feature` |
-| | | | | \
-|**ratio** |\
-| |* 16:9  |\
-| |* 4:3 |\
-| |* 1:1 |\
-| |* 3:4 |\
-| |* 9:16 |\
-| |* 21:9 |\
-| |* adaptive |\
-| | |\
-| | |\
-| |--- |\
-| | |\
-| | |\
-| | |\
-| |* 480p: The resolutions corresponding to different video aspect ratios: |\
-| |   * `16:9`：864×496  |\
-| |   * `4:3`：752×560 |\
-| |   * `1:1`：640×640  |\
-| |   * `3:4`：560×752  |\
-| |   * `9:16`：496×864  |\
-| |   * `21:9`：992×432 |\
-| | |\
-| | |\
-| |--- |\
-| | |\
-| | |\
-| | |\
-| |* 720p: The resolutions corresponding to different video aspect ratios: |\
-| |   * `16:9`：1280×720 |\
-| |   * `4:3`：1112×834 |\
-| |   * `1:1`：960×960 |\
-| |   * `3:4`：834×1112 |\
-| |   * `9:16`：720×1280 |\
-| |   * `21:9`：1470×630 |\
-| | |\
-| | |\
-| |--- |\
-| | |\
-| | |\
-| | |\
-| |* 1080p: The resolutions corresponding to different video aspect ratios: |\
-| |* `16:9`：1920×1080 |\
-| |* `4:3`：1664×1248 |\
-| |* `1:1`：1440×1440 |\
-| |* `3:4`：1248×1664 |\
-| |* `9:16`：1080×1920 |\
-| |* `21:9`：2206×946 |* 16:9  |\
-| | |* 4:3 |\
-| | |* 1:1 |\
-| | |* 3:4 |\
-| | |* 9:16 |\
-| | |* 21:9 |\
-| | |* adaptive`Not supported by the text-to-video feature` |\
-| | | |\
-| | | |\
-| | |--- |\
-| | | |\
-| | | |\
-| | | |\
-| | |* 480p: The resolutions corresponding to different video aspect ratios: |\
-| | |   * `16:9`：864×480 |\
-| | |   * `4:3`：736×544 |\
-| | |   * `1:1`：640×640 |\
-| | |   * `3:4`：544×736 |\
-| | |   * `9:16`：480×864 |\
-| | |   * `21:9`：960×416 |\
-| | | |\
-| | | |\
-| | |--- |\
-| | | |\
-| | | |\
-| | | |\
-| | |* 720p: The resolutions corresponding to different video aspect ratios: |\
-| | |   * `16:9`: 1248 × 704 |\
-| | |   * `4:3`: 1120 × 832 |\
-| | |   * `1:1`: 960 × 960 |\
-| | |   * `3:4`: 832 × 1120 |\
-| | |   * `9:16`: 704 × 1248 |\
-| | |   * `21:9`：1504×640 |\
-| | | |\
-| | | |\
-| | |--- |\
-| | | |\
-| | | |\
-| | | |\
-| | |* 1080p: The resolutions corresponding to different video aspect ratios: |\
-| | |   * `16:9`：1920×1088 |\
-| | |   * `4:3`：1664×1248 |\
-| | |   * `1:1`：1440×1440 |\
-| | |   * `3:4`：1248×1664 |\
-| | |   * `9:16`：1088×1920 |\
-| | |   * `21:9`：2176×928 |* 16:9  |\
-| | | |* 4:3 |\
-| | | |* 1:1 |\
-| | | |* 3:4 |\
-| | | |* 9:16 |\
-| | | |* 21:9 |\
-| | | |* adaptive`Not supported by the text-to-video and reference image feature` |\
-| | | | |\
-| | | | |\
-| | | |--- |\
-| | | | |\
-| | | | |\
-| | | | |\
-| | | |* 480p: The resolutions corresponding to different video aspect ratios: |\
-| | | |   * `16:9`: 864 × 480 |\
-| | | |   * `4:3`: 736 × 544 |\
-| | | |   * `1:1`: 640 × 640 |\
-| | | |   * `3:4`: 544 × 736 |\
-| | | |   * `9:16`: 480 × 864 |\
-| | | |   * `21:9`：960×416 |\
-| | | | |\
-| | | | |\
-| | | |--- |\
-| | | | |\
-| | | | |\
-| | | | |\
-| | | |* 720p: The resolutions corresponding to different video aspect ratios: |\
-| | | |   * `16:9`: 1248 × 704 |\
-| | | |   * `4:3`: 1120 × 832 |\
-| | | |   * `1:1`: 960 × 960 |\
-| | | |   * `3:4`: 832 × 1120 |\
-| | | |   * `9:16`: 704 × 1248 |\
-| | | |   * `21:9`：1504×640 |\
-| | | | |\
-| | | | |\
-| | | |--- |\
-| | | | |\
-| | | | |\
-| | | | |\
-| | | |* 1080p: The resolutions corresponding to different video aspect ratios:  |\
-| | | |   **Note**: Not supported by the reference image feature |\
-| | | |   * `16:9`：1920×1088 |\
-| | | |   * `4:3`：1664×1248 |\
-| | | |   * `1:1`：1440×1440 |\
-| | | |   * `3:4`：1248×1664 |\
-| | | |   * `9:16`：1088×1920 |\
-| | | |   * `21:9`：2176×928 |
-| | | | | \
-|**duration** |\
-|Duration of the generated video (seconds)  |4 ~12 s | 2~12 s |2~12 s |
-| | | | | \
-|**frames** |\
-|Number of frames |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/96a134db51ea4e8d83b5c9dccff686c3~tplv-goo7wpa0wc-image.image =25x) |Supports all integer values within the range [29, 289] that conform to the format **25 + 4n**, where **n** is a positive integer. |Supports all integer values within the range [29, 289] that conform to the format **25 + 4n**, where **n** is a positive integer. |
-| | | | | \
-|**framespersecond** |\
-|Frame rate |24 |24 |24 |
-| | | | | \
-|**seed** |\
-|Seed integer |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/aba4522e4aab46318574c8c3e460d20b~tplv-goo7wpa0wc-image.image =20x) |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/aba4522e4aab46318574c8c3e460d20b~tplv-goo7wpa0wc-image.image =20x) |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/aba4522e4aab46318574c8c3e460d20b~tplv-goo7wpa0wc-image.image =20x) |
-| | | | | \
-|**camerafixed** |\
-|Whether to fix the camera |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/aba4522e4aab46318574c8c3e460d20b~tplv-goo7wpa0wc-image.image =20x) |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/aba4522e4aab46318574c8c3e460d20b~tplv-goo7wpa0wc-image.image =20x) |![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/aba4522e4aab46318574c8c3e460d20b~tplv-goo7wpa0wc-image.image =20x) |\
-| | | | |\
-| | | |   **Note**: Not supported by the reference image feature |
+</Tab>
+<Tab zoneid="EJSdo3LEav" title="Java">
+<TabTitle>Java</TabTitle>
+
+1. Create a video generation task based on `content.draft_task.id` (this ID is obtained from the response of Step 1) and poll to get the task status;
+
+2. After the task status changes to `succeeded`, you can download the generated video file from the content.**video_url** parameter.
 
 
-<span id="44236b6a"></span>
-## Prompt suggestions
+```Java
+package com.ark.sample;
 
-* **Prompt = subject + movement , background + movement , camera + movement ...**
-* Describe the desired effect using concise and precise natural language.
-* For clearer expected results, it is recommended to first use the image generation model to create images that meet the expected criteria, then use image-to-video to generate video clips.
-* Text-to-video generation produces highly variable results and can be used to inspire creative ideas.
-* When using image-to-video, upload high-definition, high-quality images - the quality of the uploaded images has a significant impact on image-to-video results.
-* When the generated video does not meet expectations, it is recommended to modify the prompt by replacing abstract descriptions with concrete ones, removing unimportant parts, and placing important content first.
-* For more prompt usage tips, please refer to [Seedance-1.5-pro Prompt Guide](/docs/ModelArk/2168087), [Seedance-1.0-pro&pro-fast Prompt Guide](/docs/ModelArk/1631633), [Seedance-1.0-lite Prompt Guide](/docs/ModelArk/1587797).
+import com.byteplus.ark.runtime.model.content.generation.*;
+import com.byteplus.ark.runtime.model.content.generation.CreateContentGenerationTaskRequest.Content;
+import com.byteplus.ark.runtime.service.ArkService;
+import okhttp3.ConnectionPool;
+import okhttp3.Dispatcher;
 
-<span id="e190e738"></span>
-# Advanced usage
-<span id="724d67c3"></span>
-## Use webhook notification
-By specifying a callback notification address with the **callback_url** parameter, ModelArk will send a POST request to the specified address when the status of a video generation task changes, allowing you to receive timely updates on the latest task status. The request content structure is consistent with the response body of [Creating a video generation task](https://docs.byteplus.com/en/docs/ModelArk/1520757).
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+public class ContentGenerationTaskExample {
+    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
+    // Initialize the Ark client to read your API Key from an environment variable
+    static String apiKey = System.getenv("ARK_API_KEY");
+    static ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
+    static Dispatcher dispatcher = new Dispatcher();
+    static ArkService service = ArkService.builder()
+           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") //The base URL for model invocation
+           .dispatcher(dispatcher)
+           .connectionPool(connectionPool)
+           .apiKey(apiKey)
+           .build();
+           
+    public static void main(String[] args) {
+        String model = "seedance-1-5-pro-251215"; //Replace with Model ID
+        Boolean watermark = false;
+        String resolution = "720p";
+        Boolean returnLastFrame = true;
+        String serviceTier = "default";
+        System.out.println("----- create request -----");
+        List<Content> contents = new ArrayList<>();
+        
+        // Combination of text prompt and parameters
+        contents.add(Content.builder()
+                .type("draft_task")
+                .draftTask(CreateContentGenerationTaskRequest.DraftTask.builder()
+                        .id("cgt-2026****-pzjqb")
+                        .build())
+                 .build());
+                        
+
+        // Create a video generation task
+        CreateContentGenerationTaskRequest createRequest = CreateContentGenerationTaskRequest.builder()
+                .model(model)
+                .content(contents)
+                .watermark(watermark)
+                .resolution(resolution)
+                .returnLastFrame(returnLastFrame)
+                .serviceTier(serviceTier)
+                .build();
+
+        CreateContentGenerationTaskResult createResult = service.createContentGenerationTask(createRequest);
+        System.out.println(createResult);
+
+        // Get the details of the task
+        String taskId = createResult.getId();
+        GetContentGenerationTaskRequest getRequest = GetContentGenerationTaskRequest.builder()
+                .taskId(taskId)
+                .build();
+
+        // Polling query section
+        System.out.println("----- polling task status -----");
+        while (true) {
+            try {
+                GetContentGenerationTaskResponse getResponse = service.getContentGenerationTask(getRequest);
+                String status = getResponse.getStatus();
+                if ("succeeded".equalsIgnoreCase(status)) {
+                    System.out.println("----- task succeeded -----");
+                    System.out.println(getResponse);
+                    break;
+                } else if ("failed".equalsIgnoreCase(status)) {
+                    System.out.println("----- task failed -----");
+                    System.out.println("Error: " + getResponse.getStatus());
+                    break;
+                } else {
+                    System.out.printf("Current status: %s, Retrying in 10 seconds...", status);
+                    TimeUnit.SECONDS.sleep(10);
+                }
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+                System.err.println("Polling interrupted");
+                break;
+            }
+        }
+    }
+}
+```
+
+
+
+</Tab>
+<Tab zoneid="nmk4j5vmWE" title="Go">
+<TabTitle>Go</TabTitle>
+
+1. Create a video generation task based on `content.draft_task.id` (this ID is obtained from the response of Step 1) and poll to get the task status;
+
+2. After the task status changes to `succeeded`, you can download the generated video file from the content.**video_url** parameter.
+
+
+```Go
+package main
+
+import (
+    "context"
+    "fmt"
+    "time"
+    "os"
+
+    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
+    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
+    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
+)
+
+func main() {
+    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
+    // Initialize the Ark client to read your API Key from an environment variable
+    client := arkruntime.NewClientWithApiKey(
+        // Get your API Key from the environment variable. This is the default mode and you can modify it as required
+        os.Getenv("ARK_API_KEY"),
+        //The base URL for model invocation
+        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
+    )
+    ctx := context.Background()
+    //Replace with Model ID
+    modelEp := "seedance-1-5-pro-251215"
+
+    // Generate a task
+    fmt.Println("----- create request -----")
+    createReq := model.CreateContentGenerationTaskRequest{
+        Model: modelEp,
+         Watermark:         byteplus.Bool(false),
+         Resolution:        byteplus.String("720p"),
+         ReturnLastFrame:   byteplus.Bool(true),
+         ServiceTier:       byteplus.String("default"),
+        Content: []*model.CreateContentGenerationContentItem{
+            {
+                Type:      model.ContentGenerationContentItemTypeDraftTask,
+                DraftTask: &model.DraftTask{ID: "cgt-2026****-pzjqb"},
+            },
+        },
+    }
+
+    createResp, err := client.CreateContentGenerationTask(ctx, createReq)
+    if err != nil {
+        fmt.Printf("create content generation error: %v", err)
+        return
+    }
+    taskID := createResp.ID
+    fmt.Printf("Task Created with ID: %s", taskID)
+
+    // Polling query section
+    fmt.Println("----- polling task status -----")
+    for {
+        getReq := model.GetContentGenerationTaskRequest{ID: taskID}
+        getResp, err := client.GetContentGenerationTask(ctx, getReq)
+        if err != nil {
+            fmt.Printf("get content generation task error: %v", err)
+            return
+        }
+
+        status := getResp.Status
+        if status == "succeeded" {
+            fmt.Println("----- task succeeded -----")
+            fmt.Printf("Task ID: %s \n", getResp.ID)
+            fmt.Printf("Model: %s \n", getResp.Model)
+            fmt.Printf("Video URL: %s \n", getResp.Content.VideoURL)
+            fmt.Printf("Completion Tokens: %d \n", getResp.Usage.CompletionTokens)
+            fmt.Printf("Created At: %d, Updated At: %d", getResp.CreatedAt, getResp.UpdatedAt)
+            return
+        } else if status == "failed" {
+            fmt.Println("----- task failed -----")
+            if getResp.Error != nil {
+                fmt.Printf("Error Code: %s, Message: %s", getResp.Error.Code, getResp.Error.Message)
+            }
+            return
+        } else {
+            fmt.Printf("Current status: %s, Retrying in 10 seconds... \n", status)
+            time.Sleep(10 * time.Second)
+        }
+    }
+}
+```
+
+
+
+</Tab>
+</Tabs>
+
+
+<span id="141cf7fa"></span>
+## Generate multiple consecutive videos
+
+Use the last frame of the previously generated video as the first frame of the next video task, and generate multiple consecutive videos in a loop.
+
+Afterward, you can use tools such as FFmpeg by yourself to stitch the generated multiple short videos into a complete long video.
+
+
+<span aceTableMode="list" aceTableWidth="1,1,1"></span>
+|Output 1 |Output 2 |Output 3 |
+|---|---|---|
+|<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/c984894e448f43ca8a593babe411a078~tplv-goo7wpa0wc-image.image" controls></video><br><br><br>> A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl's hair is blown by the wind |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ccb8cebc70bd42738ba8d4bb894b69e6~tplv-goo7wpa0wc-image.image" controls></video><br><br><br>> A girl and a fox running on the grass, sunny weather, the girl's smile is brilliant, the fox jumps happily |<video src="https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/b78ed8dd418a4c97ac94253cb0c00728~tplv-goo7wpa0wc-image.image" controls></video><br><br><br>> A girl and a fox resting under a tree, the girl gently strokes the fox's fur, the fox lies meekly on the girl's lap |
+
+
+```Python
+import os
+import time  
+# Install SDK:pip install 'byteplus-python-sdk-v2[ark]'
+from byteplussdkarkruntime import Ark 
+
+# Make sure that you have stored the API Key in the environment variable ARK_API_KEY
+# Initialize the Ark client to read your API Key from an environment variable
+client = Ark(
+    # This is the default path. You can configure it based on the service location
+    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
+    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    api_key=os.environ.get("ARK_API_KEY"),
+)
+
+def generate_video_with_last_frame(prompt, initial_image_url=None):
+    """
+    Generate video and return video URL and last frame URL
+    Parameters:
+    prompt: Text prompt for video generation
+    initial_image_url: Initial image URL (optional) 
+    Returns:
+    video_url: Generated video URL
+    last_frame_url: URL of the last frame of the video
+    """
+    print(f"----- Generating video: {prompt} -----")
+    
+    # Build content list
+    content = [{
+        "text": prompt,
+        "type": "text"
+    }]
+    
+    # If initial image is provided, add to content
+    if initial_image_url:
+        content.append({
+            "image_url": {
+                "url": initial_image_url
+            },
+            "type": "image_url"
+        })
+    
+    # Create video generation task
+    create_result = client.content_generation.tasks.create(
+        model="dreamina-seedance-2-0-260128", #Replace with Model ID
+        content=content,
+        return_last_frame=True, 
+        ratio="adaptive",
+        duration=5,
+        watermark=False,
+    )
+    
+    # Poll to check task status
+    task_id = create_result.id
+    while True:
+        get_result = client.content_generation.tasks.get(task_id=task_id)
+        status = get_result.status
+        
+        if get_result.status == "succeeded":
+            print("Video generation succeeded")
+            try:
+                if hasattr(get_result, 'content') and hasattr(get_result.content, 'video_url') and hasattr(get_result.content, 'last_frame_url'):
+                    return get_result.content.video_url, get_result.content.last_frame_url
+                print("Failed to obtain video URL or last frame URL")
+                return None, None
+            except Exception as e:
+                print(f"Error occurred while obtaining video URL and last frame URL: {e}")
+                return None, None
+        elif status == "failed":
+            print(f"----- Video generation failed -----")
+            print(f"Error: {get_result.error}")
+            return None, None
+        else:
+            print(f"Current status: {status}, retrying in 10 seconds...")
+            time.sleep(10)
+
+
+
+if __name__ == "__main__":
+    # Define 3 video prompts
+    prompts = [
+        "A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl's hair is blown by the wind",
+        "A girl and a fox running on the grass, sunny weather, the girl's smile is brilliant, the fox jumps happily",
+        "A girl and a fox resting under a tree, the girl gently strokes the fox's fur, the fox lies meekly on the girl's lap"
+    ]
+    
+    # Store generated video URLs
+    video_urls = []
+    
+    # Initial image URL
+    initial_image_url = "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png"
+    
+    # Generate 3 short videos
+    for i, prompt in enumerate(prompts):
+        print(f"Generating video {i+1}")
+        video_url, last_frame_url = generate_video_with_last_frame(prompt, initial_image_url)
+        
+        if video_url and last_frame_url:
+            video_urls.append(video_url)
+            print(f"Video {i+1} URL: {video_url}")
+            # Use the last frame of the current video as the first frame of the next video
+            initial_image_url = last_frame_url
+        else:
+            print(f"Video {i+1} generation failed, exiting program")
+            exit(1)
+    
+    print("All videos generated successfully!")
+    print("Generated video URL list:")
+    for i, url in enumerate(video_urls):
+        print(f"Video {i+1}: {url}")
+```
+
+
+<span id="caf01f12"></span>
+## Use webhook notifications
+
+You can specify a callback notification address via the **callback_url** parameter. When the status of a video generation task changes, ModelArk will send a POST request to this address, so you can get the latest status of the task in time. The request content structure is consistent with the response body of the [Retrieve a video generation task](https://docs.byteplus.com/en/docs/ModelArk/1521309) API.
+
 ```Bash
 {
   "id": "cgt-2025****",
-  "model": "seedance-1-0-pro-250528",
+  "model": "dreamina-seedance-2-0-260128",
   "status": "running", # Possible status values: queued, running, succeeded, failed, expired
   "created_at": 1765434920,
   "updated_at": 1765434920,
@@ -2065,7 +2839,8 @@ By specifying a callback notification address with the **callback_url** paramete
 ```
 
 
-You need to set up a publicly accessible web server yourself to receive webhook notifications. The following is a simple web server code example for your reference.
+You need to build a publicly accessible web server on your own to receive Webhook notifications. See the following simple web server code sample for your reference.
+
 ```Python
 # Building a Simple Web Server with Python Flask for Webhook Notification Processing
 
@@ -2186,1136 +2961,179 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=False)
 ```
 
-<span id="c30d9829"></span>
-## Offline inference
-For scenarios where inference latency sensitivity is low (for example, response times on the order of hours), it is recommended to set **service_tier** to `flex` to switch to offline inference mode with one click—the price is only 50% of online inference, significantly reducing business costs.
-Set an appropriate timeout according to the business scenario; tasks will be automatically terminated if they exceed this time.
-
-```mixin-react
-return (<Tabs>
-<Tabs.TabPane title="Python" key="XewL8xxWV3"><RenderMd content={`\`\`\`Python
-import os
-import time  
-# Install SDK:  pip install byteplus-python-sdk-v2 
-from byteplussdkarkruntime import Ark 
-
-# Make sure that you have stored the API Key in the environment variable ARK_API_KEY
-# Initialize the Ark client to read your API Key from an environment variable
-client = Ark(
-    # This is the default path. You can configure it based on the service location
-    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key：https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
-    api_key=os.environ.get("ARK_API_KEY"),
-)
-
-if __name__ == "__main__":
-    print("----- create request -----")
-    create_result = client.content_generation.tasks.create(
-        model="seedance-1-0-pro-250528", # Replace with Model ID
-        content=[
-            {
-                # Combination of text prompt and parameters
-                "type": "text",
-                "text": "A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl’s hair is blown by the wind"         
-            },
-            {
-                # The URL of the first frame image
-                "type": "image_url",
-                "image_url": {
-                    "url": "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png" 
-                }
-            }
-        ],
-        ratio="adaptive",
-        duration=5,
-        watermark=False,
-        service_tier="flex",
-        execution_expires_after=172800,
-    )
-    print(create_result)
-
-    # Polling query section
-    print("----- polling task status -----")
-    task_id = create_result.id
-    while True:
-        get_result = client.content_generation.tasks.get(task_id=task_id)
-        status = get_result.status
-        if status == "succeeded":
-            print("----- task succeeded -----")
-            print(get_result)
-            break
-        elif status == "failed":
-            print("----- task failed -----")
-            print(f"Error: {get_result.error}")
-            break
-        else:
-            print(f"Current status: {status}, Retrying after 60 seconds...")
-            time.sleep(60)
-\`\`\`
-
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Java" key="N3VUOMBOce"><RenderMd content={`\`\`\`Java
-package com.ark.sample;
-
-import com.byteplus.ark.runtime.model.content.generation.*;
-import com.byteplus.ark.runtime.model.content.generation.CreateContentGenerationTaskRequest.Content;
-import com.byteplus.ark.runtime.service.ArkService;
-import okhttp3.ConnectionPool;
-import okhttp3.Dispatcher;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-public class ContentGenerationTaskExample {
-    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
-    // Initialize the Ark client to read your API Key from an environment variable
-    static String apiKey = System.getenv("ARK_API_KEY");
-    static ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
-    static Dispatcher dispatcher = new Dispatcher();
-    static ArkService service = ArkService.builder()
-           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
-           .dispatcher(dispatcher)
-           .connectionPool(connectionPool)
-           .apiKey(apiKey)
-           .build();
-           
-    public static void main(String[] args) {
-        String model = "seedance-1-0-pro-250528"; // Replace with Model ID
-        String ratio = "adaptive";
-        Long duration = 5L;
-        Boolean watermark = false;
-        String serviceTier = "flex";
-        Long executionExpiresAfter = 172800L;
-        System.out.println("----- create request -----");
-        List<Content> contents = new ArrayList<>();
-        
-        // Combination of text prompt and parameters
-        contents.add(Content.builder()
-                .type("text")
-                .text("A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl's hair is blown by the wind")
-                .build());
-        // The URL of the first frame image
-        contents.add(Content.builder()
-                .type("image_url")
-                .imageUrl(CreateContentGenerationTaskRequest.ImageUrl.builder()
-                        .url("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png")
-                        .build())
-                .build());
-
-        // Create a video generation task
-        CreateContentGenerationTaskRequest createRequest = CreateContentGenerationTaskRequest.builder()
-                .model(model)
-                .content(contents)
-                .ratio(ratio)
-                .duration(duration)
-                .watermark(watermark)
-                .serviceTier(serviceTier)
-                .executionExpiresAfter(executionExpiresAfter)
-                .build();
-
-        CreateContentGenerationTaskResult createResult = service.createContentGenerationTask(createRequest);
-        System.out.println(createResult);
-
-        // Get the details of the task
-        String taskId = createResult.getId();
-        GetContentGenerationTaskRequest getRequest = GetContentGenerationTaskRequest.builder()
-                .taskId(taskId)
-                .build();
-        
-        // Polling query section
-        System.out.println("----- polling task status -----");
-        while (true) {
-            try {
-                GetContentGenerationTaskResponse getResponse = service.getContentGenerationTask(getRequest);
-                String status = getResponse.getStatus();
-                if ("succeeded".equalsIgnoreCase(status)) {
-                    System.out.println("----- task succeeded -----");
-                    System.out.println(getResponse);
-                    break;
-                } else if ("failed".equalsIgnoreCase(status)) {
-                    System.out.println("----- task failed -----");
-                    System.out.println("Error: " + getResponse.getStatus());
-                    break;
-                } else {
-                    System.out.printf("Current status: %s, Retrying in 60 seconds...", status);
-                    TimeUnit.SECONDS.sleep(60);
-                }
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-                System.err.println("Polling interrupted");
-                break;
-            }
-        }
-    }
-}
-\`\`\`
-
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Go" key="NjaBaFqCMd"><RenderMd content={`\`\`\`Go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    "time"
-
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
-)
-
-func main() {
-    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
-    // Initialize the Ark client to read your API Key from an environment variable
-    client := arkruntime.NewClientWithApiKey(
-        // Get your API Key from the environment variable. This is the default mode and you can modify it as required
-        os.Getenv("ARK_API_KEY"),
-        // The base URL for model invocation
-        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
-    )
-    ctx := context.Background()
-    // Replace with Model ID
-    modelEp := "seedance-1-0-pro-250528"
-
-    // Generate a task
-    fmt.Println("----- create request -----")
-    createReq := model.CreateContentGenerationTaskRequest{
-        Model: modelEp,
-        Ratio:                 byteplus.String("adaptive"),
-        Duration:              byteplus.Int64(5),
-        Watermark:             byteplus.Bool(false),
-        ServiceTier:           byteplus.String("flex"),
-        ExecutionExpiresAfter: byteplus.Int64(172800),
-        Content: []*model.CreateContentGenerationContentItem{
-            {
-                // Combination of text prompt and parameters
-                Type: model.ContentGenerationContentItemTypeText,
-                Text: byteplus.String("A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl's hair is blown by the wind"),
-            },
-            {
-                // The URL of the first frame image
-                Type: model.ContentGenerationContentItemTypeImage,
-                ImageURL: &model.ImageURL{
-                    URL: "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png", 
-                },
-            },
-        },
-    }
-    createResp, err := client.CreateContentGenerationTask(ctx, createReq)
-    if err != nil {
-        fmt.Printf("create content generation error: %v", err)
-        return
-    }
-    taskID := createResp.ID
-    fmt.Printf("Task Created with ID: %s", taskID)
-
-    // Polling query section
-    fmt.Println("----- polling task status -----")
-    for {
-        getReq := model.GetContentGenerationTaskRequest{ID: taskID}
-        getResp, err := client.GetContentGenerationTask(ctx, getReq)
-        if err != nil {
-            fmt.Printf("get content generation task error: %v", err)
-            return
-        }
-
-        status := getResp.Status
-        if status == "succeeded" {
-            fmt.Println("----- task succeeded -----")
-            fmt.Printf("Task ID: %s \\n", getResp.ID)
-            fmt.Printf("Model: %s \\n", getResp.Model)
-            fmt.Printf("Video URL: %s \\n", getResp.Content.VideoURL)
-            fmt.Printf("Completion Tokens: %d \\n", getResp.Usage.CompletionTokens)
-            fmt.Printf("Created At: %d, Updated At: %d", getResp.CreatedAt, getResp.UpdatedAt)
-            return
-        } else if status == "failed" {
-            fmt.Println("----- task failed -----")
-            if getResp.Error != nil {
-                fmt.Printf("Error Code: %s, Message: %s", getResp.Error.Code, getResp.Error.Message)
-            }
-            return
-        } else {
-            fmt.Printf("Current status: %s, Retrying in 60 seconds... \\n", status)
-            time.Sleep(60 * time.Second)
-        }
-    }
-}
-\`\`\`
-
-`}></RenderMd></Tabs.TabPane></Tabs>);
- ```
-
-<span id="75568695"></span>
-## Draft sample mode【New】
-
-Producing a production-quality video that meets expectations typically requires multiple generation attempts, which can be time-consuming and resource-intensive. Draft sample mode is an intermediate visualization feature introduced by ModelArk to address this challenge.
-When enabled, Modelark generates a preview video that allows users to validate key aspects at low cost, such as scene structure, camera movement, subject actions, and alignment with the prompt intent. This enables rapid iteration and direction adjustment.
-Once the preview meets expectations, users can then generate the final high-quality video based on the Draft output.
-
-| | | | \
-|Input |\
-|<div style="width:260px"></div> |Draft Video |Official Video |
-|---|---|---|
-| | | | \
-|![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/ebb5217645b04cfc94209a6f7d36a523~tplv-goo7wpa0wc-image.image =240x) |\
-|> Prompt：A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl’s hair is blown by the wind, and the sound of the wind can be heard |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/1c92b2d2fb1749d28a21ad56d46bd2d1~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/1c92b2d2fb1749d28a21ad56d46bd2d1~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| |> Generates a preview video to help users **validate at low cost** |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/1aa51109dee44b8a9b263f713754dd40~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/1aa51109dee44b8a9b263f713754dd40~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | |> Generate the final video by reusing the Draft video’s **model**, **prompt**, **input images**, **seed value**, **audio settings**, **video aspect ratio**, and **video duration**, ensuring consistency across key video elements. |
-
-
-Take the steps below to use this feature:
-<span id="ba79c508"></span>
-### Step1: Generate a Draft video
-
-1. Set `"draft": true` and call the `POST /contents/generations/tasks` API to create a Draft video generation task.
-2. Call the `GET /contents/generations/tasks/{id}` API to query the generation status and results, download the Draft video, and confirm whether it meets your expectations.
-
-:::tip
-* This feature is supported only by Seedance 1.5 Pro.
-* Only 480p resolution is supported. Using any other resolution will result in an error. Returning the last frame is not supported, and offline inference is not supported.
-* The unit price per token for Draft videos remains the same, but fewer tokens are consumed. **** Draft video token usage is calculated as: `Draft video token usage = Standard video token usage × Conversion factor`
-   Taking **Seedance 1.5 Pro** as an example: For **videos with audio**, the conversion factor is **0.6**. Therefore, generating a Draft video with audio costs **60% of the price of a standard video**, significantly reducing overall cost.
-
- 
-:::
-
-```mixin-react
-return (<Tabs>
-<Tabs.TabPane title="Curl" key="P8mVT0oGs8"><RenderMd content={`1. Create a Draft video generation task.
-
-\`\`\`Bash
-curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks \\
-  -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer $ARK_API_KEY" \\
-  -d '{
-    "model": "seedance-1-5-pro-251215",
-    "content": [
-        {
-            "type": "text",
-            "text": "A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl’s hair is blown by the wind"
-        },
-        {
-            "type": "image_url",
-            "image_url": {
-                "url": "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png"
-            }
-        }
-    ],
-    "seed": 20, 
-    "duration": 6, 
-    "draft": true
-}'
-\`\`\`
-
-Upon a successful request, the system will return a task ID. This ID is the **Draft Video Task ID**, which is required for generating the final video in subsequent steps.
-
-
-2. Use the Draft video task ID to query the generation status and results.
-
-\`\`\`Bash
-# Replace cgt-2026****-pzjqb with the ID acquired from last step
-
-curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks/cgt-2026****-pzjqb \\
-  -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer $ARK_API_KEY" 
-\`\`\`
-
-Once the task status changes to \`succeeded\`, you can download the generated Draft video from the content.**video_url** field to review whether the result meets your expectations.
-
-* If the result does not meet expectations, you can adjust the parameters and create a new Draft video generation task.
-* After confirming that the Draft video meets your expectations, proceed with the subsequent steps to generate the final video. 
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Python" key="qwvYx3tHGY"><RenderMd content={`1. Create a Draft video task and poll for its status.
-2. Once the task status changes to \`succeeded\`, you can download the generated Draft video from the content.**video_url** field to review whether the result meets your expectations.
-   * If the result does not meet expectations, you can adjust the parameters and create a new Draft video generation task.
-   * After confirming that the Draft video meets your expectations, proceed with the subsequent steps to generate the final video. 
-
-\`\`\`Python
-import os
-import time
-# Install SDK:  pip install byteplus-python-sdk-v2 
-from byteplussdkarkruntime import Ark 
-
-# Make sure that you have stored the API Key in the environment variable ARK_API_KEY
-# Initialize the Ark client to read your API Key from an environment variable
-client = Ark(
-    # This is the default path. You can configure it based on the service location
-    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key：https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
-    api_key=os.environ.get("ARK_API_KEY"),
-)
-
-if __name__ == "__main__":
-    print("----- create request -----")
-    create_result = client.content_generation.tasks.create(
-        model="seedance-1-5-pro-251215", # Replace with Model ID
-        content=[
-            {
-                # Combination of text prompt and parameters
-                "type": "text",
-                "text": "A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl’s hair is blown by the wind"             
-            },
-            {
-                # The URL of the first frame image
-                "type": "image_url",
-                "image_url": {
-                    "url": "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png"
-                }
-            }
-        ],
-        seed= 20,
-        duration= 6,
-        draft= True,
-    )
-    print(create_result)
-    
-    # Polling query section
-    print("----- polling task status -----")
-    task_id = create_result.id
-    while True:
-        get_result = client.content_generation.tasks.get(task_id=task_id)
-        status = get_result.status
-        if status == "succeeded":
-            print("----- task succeeded -----")
-            print(get_result)
-            break
-        elif status == "failed":
-            print("----- task failed -----")
-            print(f"Error: {get_result.error}")
-            break
-        else:
-            print(f"Current status: {status}, Retrying after 10 seconds...")
-            time.sleep(10)
-\`\`\`
-
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Java" key="kP7pnv7rAx"><RenderMd content={`1. Create a Draft video task and poll for its status.
-2. Once the task status changes to \`succeeded\`, you can download the generated Draft video from the content.**video_url** field to review whether the result meets your expectations.
-   * If the result does not meet expectations, you can adjust the parameters and create a new Draft video generation task.
-   * After confirming that the Draft video meets your expectations, proceed with the subsequent steps to generate the final video. 
-
-\`\`\`Java
-package com.ark.sample;
-
-import com.byteplus.ark.runtime.model.content.generation.*;
-import com.byteplus.ark.runtime.model.content.generation.CreateContentGenerationTaskRequest.Content;
-import com.byteplus.ark.runtime.service.ArkService;
-import okhttp3.ConnectionPool;
-import okhttp3.Dispatcher;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-public class ContentGenerationTaskExample {
-    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
-    // Initialize the Ark client to read your API Key from an environment variable
-    static String apiKey = System.getenv("ARK_API_KEY");
-    static ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
-    static Dispatcher dispatcher = new Dispatcher();
-    static ArkService service = ArkService.builder()
-           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
-           .dispatcher(dispatcher)
-           .connectionPool(connectionPool)
-           .apiKey(apiKey)
-           .build();
-           
-    public static void main(String[] args) {
-        String model = "seedance-1-5-pro-251215"; // Replace with Model ID
-        Long seed = 20L;
-        Long duration = 6L;
-        Boolean draft = true;
-        System.out.println("----- create request -----");
-        List<Content> contents = new ArrayList<>();
-        
-        // Combination of text prompt and parameters
-        contents.add(Content.builder()
-                .type("text")
-                .text("A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl’s hair is blown by the wind")
-                .build());
-        // The URL of the first frame image
-        contents.add(Content.builder()
-                .type("image_url")
-                .imageUrl(CreateContentGenerationTaskRequest.ImageUrl.builder()
-                        .url("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png")
-                        .build())
-                .build());
-
-        // Create a video generation task
-        CreateContentGenerationTaskRequest createRequest = CreateContentGenerationTaskRequest.builder()
-                .model(model)
-                .content(contents)
-                .seed(seed)
-                .duration(duration)
-                .draft(draft)
-                .build();
-
-        CreateContentGenerationTaskResult createResult = service.createContentGenerationTask(createRequest);
-        System.out.println(createResult);
-
-        // Get the details of the task
-        String taskId = createResult.getId();
-        GetContentGenerationTaskRequest getRequest = GetContentGenerationTaskRequest.builder()
-                .taskId(taskId)
-                .build();
-
-        // Polling query section
-        System.out.println("----- polling task status -----");
-        while (true) {
-            try {
-                GetContentGenerationTaskResponse getResponse = service.getContentGenerationTask(getRequest);
-                String status = getResponse.getStatus();
-                if ("succeeded".equalsIgnoreCase(status)) {
-                    System.out.println("----- task succeeded -----");
-                    System.out.println(getResponse);
-                    break;
-                } else if ("failed".equalsIgnoreCase(status)) {
-                    System.out.println("----- task failed -----");
-                    System.out.println("Error: " + getResponse.getStatus());
-                    break;
-                } else {
-                    System.out.printf("Current status: %s, Retrying in 10 seconds...", status);
-                    TimeUnit.SECONDS.sleep(10);
-                }
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-                System.err.println("Polling interrupted");
-                break;
-            }
-        }
-    }
-}
-\`\`\`
-
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Go" key="yra4ufIeDb"><RenderMd content={`1. Create a Draft video task and poll for its status.
-2. Once the task status changes to \`succeeded\`, you can download the generated Draft video from the content.**video_url** field to review whether the result meets your expectations.
-   * If the result does not meet expectations, you can adjust the parameters and create a new Draft video generation task.
-   * After confirming that the Draft video meets your expectations, proceed with the subsequent steps to generate the final video. 
-
-\`\`\`Go
-package main
-
-import (
-    "context"
-    "fmt"
-    "time"
-    "os"
-
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
-)
-
-func main() {
-    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
-    // Initialize the Ark client to read your API Key from an environment variable
-    client := arkruntime.NewClientWithApiKey(
-        // Get your API Key from the environment variable. This is the default mode and you can modify it as required
-        os.Getenv("ARK_API_KEY"),
-        // The base URL for model invocation
-        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
-    )
-    ctx := context.Background()
-    // Replace with Model ID
-    modelEp := "seedance-1-5-pro-251215"
-
-    // Generate a task
-    fmt.Println("----- create request -----")
-    createReq := model.CreateContentGenerationTaskRequest{
-        Model: modelEp,
-        Seed:          byteplus.Int64(20),
-        Duration:      byteplus.Int64(6),
-        Draft:         byteplus.Bool(true),
-        Content: []*model.CreateContentGenerationContentItem{
-            {
-                // Combination of text prompt and parameters
-                Type: model.ContentGenerationContentItemTypeText,
-                Text: byteplus.String("A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl’s hair is blown by the wind"),
-            },
-            {
-                // The URL of the first frame image
-                Type: model.ContentGenerationContentItemTypeImage,
-                ImageURL: &model.ImageURL{
-                    URL: "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png",
-                },
-            },
-        },
-    }
-    createResp, err := client.CreateContentGenerationTask(ctx, createReq)
-    if err != nil {
-        fmt.Printf("create content generation error: %v", err)
-        return
-    }
-    taskID := createResp.ID
-    fmt.Printf("Task Created with ID: %s", taskID)
-}
-
-    // Polling query section
-    fmt.Println("----- polling task status -----")
-    for {
-        getReq := model.GetContentGenerationTaskRequest{ID: taskID}
-        getResp, err := client.GetContentGenerationTask(ctx, getReq)
-        if err != nil {
-            fmt.Printf("get content generation task error: %v", err)
-            return
-        }
-
-        status := getResp.Status
-        if status == "succeeded" {
-            fmt.Println("----- task succeeded -----")
-            fmt.Printf("Task ID: %s \\n", getResp.ID)
-            fmt.Printf("Model: %s \\n", getResp.Model)
-            fmt.Printf("Video URL: %s \\n", getResp.Content.VideoURL)
-            fmt.Printf("Completion Tokens: %d \\n", getResp.Usage.CompletionTokens)
-            fmt.Printf("Created At: %d, Updated At: %d", getResp.CreatedAt, getResp.UpdatedAt)
-            return
-        } else if status == "failed" {
-            fmt.Println("----- task failed -----")
-            if getResp.Error != nil {
-                fmt.Printf("Error Code: %s, Message: %s", getResp.Error.Code, getResp.Error.Message)
-            }
-            return
-        } else {
-            fmt.Printf("Current status: %s, Retrying in 10 seconds... \\n", status)
-            time.Sleep(10 * time.Second)
-        }
-    }
-}
-\`\`\`
-
-`}></RenderMd></Tabs.TabPane></Tabs>);
- ```
-
-<span id="0524d4a2"></span>
-### Step2: Generate the official video based on the Draft video
-If the Draft video meets your expectations, you can call the `POST /contents/generations/tasks` API again with the Draft video task ID returned in Step 1 to generate the final video.
-:::tip
-* ModelArk will automatically reuse the user inputs applied by the Draft video (including `model`, `content.text`, `content.image_url`, `generate_audio`, `seed`, `ratio`, `duration`, `camera_fixed`) to generate the final video.
-* Other parameters can be specified as needed. If not specified, the model’s default values will be used.
-   For example, you can configure the output resolution of the final video, whether to include a watermark, whether to use offline inference, and whether to return the last frame.
-* Generating the final video based on the Draft is a standard inference process, which will be billed according to the token consumption rate of standard videos.
-* The validity period of the Draft video task ID is 7 days (calculated from the `created at` timestamp). Once expired, this Draft video cannot be used to generate the official video.
-:::
-
-```mixin-react
-return (<Tabs>
-<Tabs.TabPane title="Curl" key="SxUNRNt3ik"><RenderMd content={`1. Create a video generation task based on **content.draft_task.id**.
-
-\`\`\`Bash
-curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks \\
-  -H "Content-Type: application/json" \\
-  -H "Authorization: Bearer $ARK_API_KEY" \\
-  -d '{
-    "model": "seedance-1-5-pro-251215",
-    "content": [
-        {
-            "type": "draft_task",
-            "draft_task": {"id": "cgt-2026****-pzjqb"}
-        }
-    ],
-      "watermark": false,
-      "resolution": "720p",
-      "return_last_frame": true,
-      "service_tier": "default"
-  }'  
-\`\`\`
-
-Upon a successful request, a task ID is returned.
-
-
-2. Use the **video task ID** to query the generation status and results.
-
-\`\`\`Bash
-# Replace cgt-2026****-bn6zj with the ID acquired from last step
-
-curl https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks/cgt-2026****-bn6zj \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer $ARK_API_KEY" 
-\`\`\`
-
-When the task status changes to \`succeeded\`, you can download the generated video file from the **content.video_url** field.
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Python" key="WiTU0LBbMS"><RenderMd content={`1. Using the \`content.draft_task.id\`  (obtained from the response in Step 1), initiate a video generation task and continue polling until the task status is retrieved.
-2. Once the task status changes to \`succeeded\`, you can download the generated video file from the content.**video_url** field.
-
-\`\`\`Python
-import os
-import time
-# Install SDK:  pip install byteplus-python-sdk-v2 
-from byteplussdkarkruntime import Ark 
-
-# Make sure that you have stored the API Key in the environment variable ARK_API_KEY
-# Initialize the Ark client to read your API Key from an environment variable
-client = Ark(
-    # This is the default path. You can configure it based on the service location
-    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key：https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
-    api_key=os.environ.get("ARK_API_KEY"),
-)
-
-if __name__ == "__main__":
-    print("----- create request -----")
-    create_result = client.content_generation.tasks.create(
-        model="seedance-1-5-pro-251215", # Replace with Model ID
-        content=[
-            {
-                "type": "draft_task",
-                "draft_task": {
-                    "id": "cgt-2026****-pzjqb"
-                }
-            }
-        ],
-        watermark= False,
-        resolution= "720p",
-        return_last_frame= True,
-        service_tier= "default",
-    )
-    print(create_result)
-    
-    # Polling query section
-    print("----- polling task status -----")
-    task_id = create_result.id
-    while True:
-        get_result = client.content_generation.tasks.get(task_id=task_id)
-        status = get_result.status
-        if status == "succeeded":
-            print("----- task succeeded -----")
-            print(get_result)
-            break
-        elif status == "failed":
-            print("----- task failed -----")
-            print(f"Error: {get_result.error}")
-            break
-        else:
-            print(f"Current status: {status}, Retrying after 10 seconds...")
-            time.sleep(10)
-\`\`\`
-
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Java" key="SlxdA50UY5"><RenderMd content={`1. Using the \`content.draft_task.id\`  (obtained from the response in Step 1), initiate a video generation task and continue polling until the task status is retrieved.
-2. Once the task status changes to \`succeeded\`, you can download the generated video file from the content.**video_url** field.
-
-\`\`\`Java
-package com.ark.sample;
-
-import com.byteplus.ark.runtime.model.content.generation.*;
-import com.byteplus.ark.runtime.model.content.generation.CreateContentGenerationTaskRequest.Content;
-import com.byteplus.ark.runtime.service.ArkService;
-import okhttp3.ConnectionPool;
-import okhttp3.Dispatcher;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-public class ContentGenerationTaskExample {
-    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
-    // Initialize the Ark client to read your API Key from an environment variable
-    static String apiKey = System.getenv("ARK_API_KEY");
-    static ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
-    static Dispatcher dispatcher = new Dispatcher();
-    static ArkService service = ArkService.builder()
-           .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
-           .dispatcher(dispatcher)
-           .connectionPool(connectionPool)
-           .apiKey(apiKey)
-           .build();
-           
-    public static void main(String[] args) {
-        String model = "seedance-1-5-pro-251215"; // Replace with Model ID
-        Boolean watermark = false;
-        String resolution = "720p";
-        Boolean returnLastFrame = true;
-        String serviceTier = "default";
-        System.out.println("----- create request -----");
-        List<Content> contents = new ArrayList<>();
-        
-        // Combination of text prompt and parameters
-        contents.add(Content.builder()
-                .type("draft_task")
-                .draftTask(CreateContentGenerationTaskRequest.DraftTask.builder()
-                        .id("cgt-2026****-pzjqb")
-                        .build())
-                 .build());
-                        
-
-        // Create a video generation task
-        CreateContentGenerationTaskRequest createRequest = CreateContentGenerationTaskRequest.builder()
-                .model(model)
-                .content(contents)
-                .watermark(watermark)
-                .resolution(resolution)
-                .returnLastFrame(returnLastFrame)
-                .serviceTier(serviceTier);
-                .build();
-
-        CreateContentGenerationTaskResult createResult = service.createContentGenerationTask(createRequest);
-        System.out.println(createResult);
-
-        // Get the details of the task
-        String taskId = createResult.getId();
-        GetContentGenerationTaskRequest getRequest = GetContentGenerationTaskRequest.builder()
-                .taskId(taskId)
-                .build();
-
-        // Polling query section
-        System.out.println("----- polling task status -----");
-        while (true) {
-            try {
-                GetContentGenerationTaskResponse getResponse = service.getContentGenerationTask(getRequest);
-                String status = getResponse.getStatus();
-                if ("succeeded".equalsIgnoreCase(status)) {
-                    System.out.println("----- task succeeded -----");
-                    System.out.println(getResponse);
-                    break;
-                } else if ("failed".equalsIgnoreCase(status)) {
-                    System.out.println("----- task failed -----");
-                    System.out.println("Error: " + getResponse.getStatus());
-                    break;
-                } else {
-                    System.out.printf("Current status: %s, Retrying in 10 seconds...", status);
-                    TimeUnit.SECONDS.sleep(10);
-                }
-            } catch (InterruptedException ie) {
-                Thread.currentThread().interrupt();
-                System.err.println("Polling interrupted");
-                break;
-            }
-        }
-    }
-}
-\`\`\`
-
-
-`}></RenderMd></Tabs.TabPane>
-<Tabs.TabPane title="Go" key="wVT5Sv8bZD"><RenderMd content={`1. Using the \`content.draft_task.id\`  (obtained from the response in Step 1), initiate a video generation task and continue polling until the task status is retrieved.
-2. Once the task status changes to \`succeeded\`, you can download the generated video file from the content.**video_url** field.
-
-\`\`\`Go
-package main
-
-import (
-    "context"
-    "fmt"
-    "time"
-    "os"
-
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
-)
-
-func main() {
-    // Make sure that you have stored the API Key in the environment variable ARK_API_KEY
-    // Initialize the Ark client to read your API Key from an environment variable
-    client := arkruntime.NewClientWithApiKey(
-        // Get your API Key from the environment variable. This is the default mode and you can modify it as required
-        os.Getenv("ARK_API_KEY"),
-        // The base URL for model invocation
-        arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
-    )
-    ctx := context.Background()
-    // Replace with Model ID
-    modelEp := "seedance-1-5-pro-251215"
-
-    // Generate a task
-    fmt.Println("----- create request -----")
-    createReq := model.CreateContentGenerationTaskRequest{
-        Model: modelEp,
-         Watermark:         byteplus.Bool(false),
-         Resolution:        byteplus.String("720p"),
-         ReturnLastFrame:   byteplus.Bool(true),
-         ServiceTier:       byteplus.String("default"),
-        Content: []*model.CreateContentGenerationContentItem{
-            {
-                Type:      model.ContentGenerationContentItemTypeDraftTask,
-                DraftTask: &model.DraftTask{ID: "cgt-2026****-pzjqb"},
-            },
-        },
-    }
-
-    createResp, err := client.CreateContentGenerationTask(ctx, createReq)
-    if err != nil {
-        fmt.Printf("create content generation error: %v", err)
-        return
-    }
-    taskID := createResp.ID
-    fmt.Printf("Task Created with ID: %s", taskID)
-
-    // Polling query section
-    fmt.Println("----- polling task status -----")
-    for {
-        getReq := model.GetContentGenerationTaskRequest{ID: taskID}
-        getResp, err := client.GetContentGenerationTask(ctx, getReq)
-        if err != nil {
-            fmt.Printf("get content generation task error: %v", err)
-            return
-        }
-
-        status := getResp.Status
-        if status == "succeeded" {
-            fmt.Println("----- task succeeded -----")
-            fmt.Printf("Task ID: %s \\n", getResp.ID)
-            fmt.Printf("Model: %s \\n", getResp.Model)
-            fmt.Printf("Video URL: %s \\n", getResp.Content.VideoURL)
-            fmt.Printf("Completion Tokens: %d \\n", getResp.Usage.CompletionTokens)
-            fmt.Printf("Created At: %d, Updated At: %d", getResp.CreatedAt, getResp.UpdatedAt)
-            return
-        } else if status == "failed" {
-            fmt.Println("----- task failed -----")
-            if getResp.Error != nil {
-                fmt.Printf("Error Code: %s, Message: %s", getResp.Error.Code, getResp.Error.Message)
-            }
-            return
-        } else {
-            fmt.Printf("Current status: %s, Retrying in 10 seconds... \\n", status)
-            time.Sleep(10 * time.Second)
-        }
-    }
-}
-\`\`\`
-
-`}></RenderMd></Tabs.TabPane></Tabs>);
- ```
-
-<span id="141cf7fa"></span>
-## Generate multiple consecutive videos
-Use the last frame of the previously generated video as the first frame of the next video task, and repeat to generate multiple consecutive videos.
-FFmpeg or other tools can be used to concatenate the generated short videos into a complete long video.
-
-| | | | \
-|Output1 |Output2 |Output3 |
-|---|---|---|
-| | | | \
-|<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/09e5e4cf5aed462fb426ab9ce1eec485~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/09e5e4cf5aed462fb426ab9ce1eec485~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-|> A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl's hair is blown by the wind |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/d3f181984db040ac98d4d16f5c0115e6~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/d3f181984db040ac98d4d16f5c0115e6~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| |> A girl and a fox running on the grass, sunny weather, the girl's smile is brilliant, the fox jumps happily |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/4bc452920fa94ffc838d871c2619323b~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/4bc452920fa94ffc838d871c2619323b~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | |> A girl and a fox resting under a tree, the girl gently strokes the fox's fur, the fox lies meekly on the girl's lap |
-
-```Python
-import os
-import time  
-# Install SDK:  pip install byteplus-python-sdk-v2 
-from byteplussdkarkruntime import Ark 
-
-# Make sure that you have stored the API Key in the environment variable ARK_API_KEY
-# Initialize the Ark client to read your API Key from an environment variable
-client = Ark(
-    # This is the default path. You can configure it based on the service location
-    base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key：https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
-    api_key=os.environ.get("ARK_API_KEY"),
-)
-
-def generate_video_with_last_frame(prompt, initial_image_url=None):
-    """
-    Generate video and return video URL and last frame URL
-    Parameters:
-    prompt: Text prompt for video generation
-    initial_image_url: Initial image URL (optional) 
-    Returns:
-    video_url: Generated video URL
-    last_frame_url: URL of the last frame of the video
-    """
-    print(f"----- Generating video: {prompt} -----")
-    
-    # Build content list
-    content = [{
-        "text": prompt,
-        "type": "text"
-    }]
-    
-    # If initial image is provided, add to content
-    if initial_image_url:
-        content.append({
-            "image_url": {
-                "url": initial_image_url
-            },
-            "type": "image_url"
-        })
-    
-    # Create video generation task
-    create_result = client.content_generation.tasks.create(
-        model="seedance-1-0-pro-250528", # Replace with Model ID
-        content=content,
-        return_last_frame=True, 
-        ratio="adaptive",
-        duration=5,
-        watermark=False,
-    )
-    
-    # Poll to check task status
-    task_id = create_result.id
-    while True:
-        get_result = client.content_generation.tasks.get(task_id=task_id)
-        status = get_result.status
-        
-        if get_result.status == "succeeded":
-            print("Video generation succeeded")
-            try:
-                if hasattr(get_result, 'content') and hasattr(get_result.content, 'video_url') and hasattr(get_result.content, 'last_frame_url'):
-                    return get_result.content.video_url, get_result.content.last_frame_url
-                print("Failed to obtain video URL or last frame URL")
-                return None, None
-            except Exception as e:
-                print(f"Error occurred while obtaining video URL and last frame URL: {e}")
-                return None, None
-        elif status == "failed":
-            print(f"----- Video generation failed -----")
-            print(f"Error: {get_result.error}")
-            return None, None
-        else:
-            print(f"Current status: {status}, retrying in 10 seconds...")
-            time.sleep(10)
-
-
-
-if __name__ == "__main__":
-    # Define 3 video prompts
-    prompts = [
-        "A girl holding a fox, the girl opens her eyes, looks gently at the camera, the fox hugs affectionately, the camera slowly pulls out, the girl's hair is blown by the wind",
-        "A girl and a fox running on the grass, sunny weather, the girl's smile is brilliant, the fox jumps happily",
-        "A girl and a fox resting under a tree, the girl gently strokes the fox's fur, the fox lies meekly on the girl's lap"
-    ]
-    
-    # Store generated video URLs
-    video_urls = []
-    
-    # Initial image URL
-    initial_image_url = "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/i2v_foxrgirl.png"
-    
-    # Generate 3 short videos
-    for i, prompt in enumerate(prompts):
-        print(f"Generating video {i+1}")
-        video_url, last_frame_url = generate_video_with_last_frame(prompt, initial_image_url)
-        
-        if video_url and last_frame_url:
-            video_urls.append(video_url)
-            print(f"Video {i+1} URL: {video_url}")
-            # Use the last frame of the current video as the first frame of the next video
-            initial_image_url = last_frame_url
-        else:
-            print(f"Video {i+1} generation failed, exiting program")
-            exit(1)
-    
-    print("All videos generated successfully!")
-    print("Generated video URL list:")
-    for i, url in enumerate(video_urls):
-        print(f"Video {i+1}: {url}")
-```
 
 <span id="66cb028f"></span>
 # Limitations
+
+<span id="63a97f09"></span>
+## Multimodal input
+
+<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
+
+
+<div data-tips="true" data-tips-type="warning">Seedance 2.0 series models do not support direct upload of reference images or videos containing real human faces. A series of solutions are provided to make it easier for creatives to use portraits. For details, see <a href="https://docs.byteplus.com/en/docs/ModelArk/2291680#5c67c9a1">Create with ease</a>.</div>
+
+
+**Image requirements**
+
+
+* Input methods: Image URL, Base64 string of image, or asset ID.
+
+* Image formats: .jpeg, .png, .webp, .bmp, .tiff, .gif. In addition, Seedance 1.5 Pro and Seedance 2.0 series also support .heic and .heif.
+
+* Single image dimensions:
+
+   * Aspect ratio (width/height): (0.4, 2.5)
+
+   * Width and height (px): (300, 6000)
+
+* Size: Single image is less than 30 MB. Request body size must not exceed 64 MB. Do not use Base64 encoding for large files.
+
+* Number of images:
+
+   * Image\-to\-video (first frame): 1 image
+
+   * Image\-to\-video (first and last frames): 2 images
+
+* Seedance 2.0 & Seedance 2.0 Fast multimodal\-reference\-to\-video: 1–9 images
+
+   * Seedance 1.0 Lite reference\-image\-to\-video: 1–4 images
+
+
+**Video requirements**
+
+
+* Input methods: Video URL or asset ID.
+
+* Video formats: .mp4, .mov. See the table below for supported encoding formats.
+
+* Resolution: 480p, 720p, 1080p, 4k
+
+* Duration: Single video duration [2, 15] seconds, maximum 3 reference videos can be uploaded, total duration of all videos shall not exceed 15 seconds.
+
+* Single video dimensions:
+
+   * Aspect ratio (width/height): [0.4, 2.5]
+
+   * Width and height (px): [300, 6000]
+
+   * Total pixel count: [640×640=409600, 3326×2494=8295044], that is, the product of width and height must fall within the range [409600, 8295044].
+
+* Size: The video shall not exceed 200 MB.
+
+* Frame rate (FPS): [24, 60]
+
+
+
+|**Container format** |**Common file extensions** |**MIME** |**Supported encoding** |
+|---|---|---|---|
+|MP4 |.mp4 |video/mp4 |video: H.264/AVC, H.265/HEVC<br><br>audio: AAC, MP3 |
+|QuickTime |.mov |video/quicktime |video: H.264/AVC, H.265/HEVC<br><br>audio: AAC, MP3 |
+
+
+**Audio requirements**
+
+
+* Input methods: Audio URL, Base64 string of audio, or asset ID.
+
+* Audio formats: .wav, .mp3.
+
+* Duration: Single audio duration [2, 15] seconds, maximum 3 reference audio clips can be uploaded, total duration of all audios shall not exceed 15 seconds.
+
+* Size: Each audio shall not exceed 15 MB, and the request body size shall not exceed 64 MB. Do not use Base64 encoding for large files.
+
+
 <span id="2760a484"></span>
 ## Retention period
-Task data (such as task status, video URL, and so on) is retained for only 24 hours and will be automatically cleared after the timeout. Be sure to save the generated videos in a timely manner.
+
+Task data (such as task status, video URL, etc.) is only retained for 24 hours, after which it will be automatically cleared. Be sure to save the generated video in time.
+
 <span id="b25b1821"></span>
-## Rate limits description
-<span id="946ba4cf"></span>
-### Model rate limits
-**default (online inference)**
+## Rate limits
 
-* **RPM Rate Limit:** For the same model (distinguished by model version) under an account, this is the maximum number of tasks allowed to be created per minute. If this limit is exceeded, an error is returned when creating a video generation task.
-* **Concurrency Limit:** For the same model (distinguished by model version) under an account, this is the maximum number of tasks being processed at the same time. Tasks that exceed this limit will be queued for being processed.
-* The limit values vary for different models. See [Video Generation](/docs/ModelArk/1330310#1dae4d0e) for details.
+<span id="516ef631"></span>
+### **Model rate limits**
 
-**flex (offline inference)**
+**default (online inference)** 
 
-* **TPD rate limit:** The maximum total number of tokens that can be called for the same model (distinguished by model version) under the same account in one day. Call requests exceeding this limit will be rejected. The TPD rate limit values differ for different models; see [Video generation](/docs/ModelArk/1330310#2705b333) for details.
+
+* RPM rate limit: The maximum number of tasks allowed to be created per minute for the same model (differentiated by model version) under the account. If this limit is exceeded, an error will be reported when creating a video generation task.
+
+* Concurrency limit: The maximum number of tasks being processed at the same time for the same model (differentiated by model version) under the account. Tasks exceeding this limit will enter the queue to wait for processing.
+
+* Limits vary with models, see [Video generation](https://docs.byteplus.com/en/docs/ModelArk/1330310#2705b333) for details.
+
+
+**flex (offline inference)** 
+
+
+* TPD rate limit: The upper limit of total tokens for the same model (differentiated by model version) by the account within one day. Call requests exceeding this limit will be rejected. TPD rate limits vary with models. See [Video generation](https://docs.byteplus.com/en/docs/ModelArk/1330310#2705b333) for details.
 
 
 <span id="f76aafc8"></span>
-## Image cropping logic
-The image-to-video feature allows you to set the aspect ratio for the generated video. If the selected video aspect ratio differs from that of your uploaded image, ModelArk will automatically crop your image using a center-based cropping method. 
-The detailed rules are as follows:
-:::tip
-For better results, it is recommended that the specified video aspect ratio closely matches the original aspect ratio of your uploaded image.
-:::
+## Image cropping rules
 
-1. **Input parameters:**
-   * Original image width: `W` (in pixels)
-   * Original image height: `H` (in pixels)
-   * Target aspect ratio: `A:B` (e.g., 21:9), i.e., the cropped image's width-to-height ratio should be `A/B` (e.g., 21/9 ≈ 2.333).
-2. **Cropping logic:**
+**For image\-to\-video tasks using Seedance series models, you can set the aspect ratio of the generated video.**  When the selected video aspect ratio is inconsistent with the aspect ratio of your uploaded image, ModelArk will crop your image, and the cropping will be centered. The detailed rules are as follows:
 
-The system compares the aspect ratios to decide the cropping dimension:
-
-   * Calculate the original image's aspect ratio: `Ratio_original = W / H`.
-   * Calculate the target aspect ratio value: `Ratio_target = A / B`.
-   * Compare the ratios to determine the cropping base:
-      * If `Ratio_original < Ratio_target` (i.e., the original image is "too tall" or "portrait-oriented"), the cropping will be width-based.
-      * If `Ratio_original > Ratio_target` (i.e., the original image is "too wide" or "landscape-oriented"), the cropping will be height-based.
-      * If the ratios are equal, no cropping is needed, and the full image is used.
-3. **Cropping dimension calculations:**
-* **Width-based cropping** (applies to "tall" images):
-   * Cropped Width, `Crop_W = W` (the full original width is used).
-   * Cropped Height, `Crop_H = W * (B / A)` (the height is calculated proportionally based on the target ratio).
-   * Starting coordinates of the crop area (centered):
-      * X-coordinate (horizontal): 0 (aligned to the left edge, as the full width is used).
-      * Y-coordinate (vertical): `(H - Crop_H) / 2` (calculated to center the crop area vertically).
-* **Height-based cropping** (applies to "wide" images):
-   * Cropped Height, `Crop_H = H` (the full original height is used).
-   * Cropped Width, `Crop_W = H * (A/B)` (the width is calculated proportionally based on the target ratio).
-   * Starting coordinates of the crop area (centered):
-      * X-coordinate (horizontal): `(W - Crop_W) / 2` (calculated to center the crop area horizontally).
-      * Y-coordinate (vertical): 0 (aligned to the top edge, as the full height is used).
-4. **Result:**
-* The final cropped image has dimensions of `Crop_W × Crop_H`, strictly conforming to the `A:B` aspect ratio. The cropped area is entirely within the original image, ensuring no black bars are introduced. 
-* The content is always centered relative to the original image.
-5. **Cropping example:**
-
-> The following examles demonstrate the cropping logic using the Seedance 1.0 Pro first-frame image-to-video feature.
+<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
 
 
-| | | | \
-|Input first-frame image |Specified aspect ratio |Generated video result |
-|---|---|---|
-| | | | \
-|16:9 |\
-| |\
-|![Image](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/c66d7faff6104320a981b36149dc713f~tplv-goo7wpa0wc-image.image =1920x) |\
-| |21:9 |\
-| | |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/6e8590c07be9406d805209355b799a37~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/6e8590c07be9406d805209355b799a37~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | | |
-|^^| | | \
-| |16:9 |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e0bef5f3806f439da5f0c9f5acc44c9b~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/e0bef5f3806f439da5f0c9f5acc44c9b~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | | |
-|^^| | | \
-| |4:3 |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/a8e3202b77744bec83e0c7baa247b84c~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/a8e3202b77744bec83e0c7baa247b84c~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | | |
-|^^| | | \
-| |1:1 |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/436df8f6dae74d6c86d08bf1e18bc9d0~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/436df8f6dae74d6c86d08bf1e18bc9d0~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | | |
-|^^| | | \
-| |3:4 |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/a3a94a577d754501889535a651d03a55~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/a3a94a577d754501889535a651d03a55~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | | |
-|^^| | | \
-| |9:16 |<BytedReactXgplayer config={{ url: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/1423ee0fc9cf451398788dc57e9f55c4~tplv-goo7wpa0wc-image.image', poster: 'https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/1423ee0fc9cf451398788dc57e9f55c4~tplv-goo7wpa0wc-video-poster.jpeg' }} ></BytedReactXgplayer> |\
-| | | |
+<div data-tips="true" data-tips-type="tip">For better video quality, it is recommended that the specified video aspect ratio (ratio) is as close as possible to the aspect ratio of the actual uploaded image.</div>
 
 
-<style>
-/* Override width and height of inline styles */
-.editor-video-box.xgplayer.xgplayer-pc.xgplayer-skin-default
-  .xgplayer-volume-large.xgplayer-pause.xgplayer-is-replay.xgplayer-ended,
-.editor-video-box.xgplayer.xgplayer-pc.xgplayer-nostart.xgplayer-skin-default.xgplayer-inactive,
-.editor-video-box.xgplayer.xgplayer-pc.xgplayer-nostart.xgplayer-skin-default,
-.editor-video-box.xgplayer.xgplayer-pc.xgplayer-skin-default.xgplayer-volume-large.xgplayer-playing.xgplayer-pause,
-.editor-video-box.xgplayer.xgplayer-pc.xgplayer-skin-default.xgplayer-volume-large.xgplayer-playing.xgplayer-inactive,
-.volc-md-viewer .editor-video-box.xgplayer.xgplayer-pc.xgplayer-skin-default.xgplayer-volume-large.xgplayer-playing,
-.editor-video-box.xgplayer.xgplayer-pc.xgplayer-skin-default.xgplayer-is-enter,
-.editor-video-box.xgplayer.xgplayer-pc.xgplayer-skin-default.xgplayer-is-enter.xgplayer-inactive,
-.editor-video-box.xgplayer.xgplayer-pc.xgplayer-skin-default.xgplayer-playing,
-.editor-video-box.xgplayer.xgplayer-pc.xgplayer-skin-default.xgplayer-volume-large.xgplayer-isloading.xgplayer-playing {
-    width: 360px !important;
-    height: 180px !important;
-}   
-/* 单元格：垂直顶格，内边距优化，宽度按内容/比例分配 */
-td {
-     vertical-align: top; 
-     padding: 8px;
-    }
-</style>
+
+1. Input parameters:
+
+   * The width of the original image is recorded as `W` (unit: pixels), and the height is recorded as `H` (unit: pixels).
+
+   * The target ratio is recorded as `A:B` (for example, 21:9), which means the ratio of the width to height after cropping should be `A/B` (e.g. 21/9 ≈ 2.333).
+
+2. Compare aspect ratios:
+
+   * Calculate the aspect ratio of the original image `Ratio_original = W/H`.
+
+   * Calculate the target ratio value `Ratio_target = A/B` (for example, the Ratio_target for 21:9 is 21/9 ≈ 2.333).
+
+   * Determine the cropping benchmark based on the comparison result:
+
+      * If `Ratio_original < Ratio_target` (that is, the original image is "too tall" or portrait\-oriented), crop based on the width.
+
+      * If `Ratio_original > Ratio_target` (that is, the original image is "too wide" or landscape\-oriented), crop based on the height.
+
+      * If they are equal, no cropping is required, and the full image is used directly.
+
+3. Cropping size calculation (quantitative formula):
+
+   * Based on width (applicable to portrait images):
+
+      * Cropped width `Crop_W = W` (uses the entire original width).
+
+      * Cropped height `Crop_H = (B/A) × W` (calculate the height proportionally according to the target ratio).
+
+      * Starting coordinates of the cropping area (centered positioning):
+
+         * X coordinate (horizontal): always 0 (since the full width is used, starting from the left edge).
+
+         * Y coordinate (vertical): `(H - Crop_H)/2` (ensures vertical centering, starting from the top edge).
+
+   * Based on height (applicable to landscape images):
+
+      * Cropped height `Crop_H = H` (uses the entire original height).
+
+      * Cropped width `Crop_W = (A/B) × H` (calculate the width proportionally according to the target ratio).
+
+      * Starting coordinates of the cropping area (centered positioning):
+
+         * X coordinate (horizontal): `(W − Crop_W)/2` (ensures horizontal centering, starting from the left edge).
+
+         * Y coordinate (vertical): always 0 (since the full height is used, starting from the top edge).
+
+4. Cropping result:
+
+   * The final cropped image size is `Crop_W × Crop_H`, with a strict aspect ratio of `A:B`, and it is completely inside the original image with no black borders.
+
+   * The cropping area is always based on the center of the original image, so the content is centered.
+
+
+
+

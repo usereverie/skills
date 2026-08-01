@@ -1,244 +1,295 @@
-<span id="prompt-engineering-简介"></span>
-## Prompt engineering
-In natural language processing (NLP) and conversational systems, a prompt is usually text or a question entered by a user. With careful prompt crafting, models can generate output more suitable to user needs.
-Prompt engineering refers to the process of designing and optimizing prompts so that AI-based models can better understand the user intent and requirements to generate more accurate and useful responses. Prompt engineering aims to:
+Prompt engineering involves writing efficient and stable instructions for models to continuously generate expected content. This article explains how to optimize and manage prompts for large language models, ensuring efficiency, stability, structure, and evaluability.
 
-* Learn how to format and design prompts to make models work best.
-* Explore the impact of different prompts on model output.
-* Create prompts that optimize model output.
 
-In general, the whole process is divided into prompt design, prompt optimization, and prompt evaluation.
-<span id="prompt-设计"></span>
-## Prompt design
-**Goal**: Select the appropriate prompt format and language to clearly and unambiguously communicate the user intent.
-**Process:** Clarify the purpose, that is, what you want the model to do. Then, create prompts while keeping the following points in mind:
-<span id="提供更多-query-相关的细节，可以获得更准确的答案"></span>
-### Provide more query-related details to obtain more accurate answers.
+* Choose an interface: Compatible with the OpenAI API protocol ([Compatible with OpenAI API](https://docs.byteplus.com/en/docs/ModelArk/1330626)), supports [Responses API](https://docs.byteplus.com/en/docs/ModelArk/Create_model_request) (recommended) and [Chat API](https://docs.byteplus.com/en/docs/ModelArk/1494384). For more information, see [Migrate to Responses API](https://docs.byteplus.com/en/docs/ModelArk/1585128).
 
-| | | \
-|**Original** |**Optimized** |
-|---|---|
-| | | \
-|Write an article on space exploration. |Write an article on the history of space exploration for a group of kids who are 10-15 years old. |
-| | | \
-|Please write an article about environmental protection in 500 words. |Write a 500-word article discussing the impact of urban greening on air quality improvement. The article should include the following content: the definition of urban greening, such as more trees and parks, how they can reduce air pollutants, and the feasibility of promoting urban greening in urban planning. Please provide relevant data and case studies to support your argument. |
+* Evaluation first: It is recommended to establish evaluation and regression mechanisms to ensure the controllability of prompt iterations.
 
-<span id="使用分隔符去更清晰地区分输入的不同部分"></span>
-### Use separators to distinguish different parts of the input.
-```bash
-Please summarize the three texts enclosed in quotation marks into one sentence
-'''Text content 1'''
-'''Text content 2'''
+* Permission configuration: For first\-time access, see [Quick start](https://docs.byteplus.com/en/docs/ModelArk/1399008) to obtain the API Key and configure the environment.
+
+
+<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+
+
+<div data-tips="true" data-tips-type="tip">Prompt guidelines for other models:</div>
+
+
+
+* <div data-tips="true" data-tips-type="tip">Image generation: <a href="https://docs.byteplus.com/en/docs/ModelArk/1829186">Seedream 4.0\-4.5 prompt guide</a>, <a href="https://docs.byteplus.com/en/docs/ModelArk/1795150">Seedream 3.0 prompt guide</a></div>
+
+
+* <div data-tips="true" data-tips-type="tip">Video generation: <a href="https://docs.byteplus.com/en/docs/ModelArk/1587797">Seedance\-1.0\-pro&pro\-fast prompt guide</a>, <a href="https://docs.byteplus.com/en/docs/ModelArk/1587797">Seedance\-1.0\-lite prompt guide</a></div>
+
+
+
+<span id="14d9972e"></span>
+## Choose model and prompt strategy
+
+
+|**Models** |**Tasks and scenarios** |**Prompt style** |
+|---|---|---|
+|Text generation model with deep thinking |Complex tasks and multistep planning. Scenarios requiring analysis, decomposition, and decision\-making |Provide goals and constraints only, and let the model formulate its own plan and verify |
+|Text generation model without deep thinking or with it disabled |Suitable for highly templated scenarios. Clear instructions and structured output |More explicit instructions, providing precise steps, formats, and examples |
+
+
+<span id="214b48a1"></span>
+## Recommended procedure
+
+First, build evaluation standards and datasets to help measure the effect of changes such as prompt optimization.
+
+
+* Iteration process: Update → Test → Debug → Evaluate; Manage changes and differences with versions.
+
+* Data size recommendation: It is recommended to use hundreds to thousands of samples to ensure diversity and representativeness, covering positive/negative examples, boundary conditions, and multiple corpora. Large models can be used to expand the evaluation set.
+
+
+<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+
+
+<div data-tips="true" data-tips-type="tip"><strong>Prompt engineering tool: Prompt Pilot</strong></div>
+
+
+<div data-tips="true" data-tips-type="tip"><a href="https://console.byteplus.com/ark/region:ark+ap-southeast-1/autope">Prompt Pilot</a> from ModelArk can help you build an end\-to\-end prompt optimization process. Simply provide the initial prompt to intelligently complete the full prompt engineering process:</div>
+
+
+
+* <div data-tips="true" data-tips-type="tip">Automatically generate evaluation datasets from the initial prompt.</div>
+
+
+* <div data-tips="true" data-tips-type="tip">Generate model responses and automatically score them.</div>
+
+
+* <div data-tips="true" data-tips-type="tip">Intelligently optimize the prompt and generate an intelligent optimization report.</div>
+
+
+
+<span id="5efc1d4d"></span>
+## Understand roles and instruction compliance
+
+
+* `system`: High\-priority rules and business logic, used to set identity, tone, boundaries, and tool usage specifications.
+
+* `user`: User input, expressing needs and specific questions.
+
+* `assistant`: Model output.
+
+* `tool`: Messages for function/plugin calls in tool invocation scenarios.
+
+
+<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
+
+
+<div data-tips="true" data-tips-type="tip">Recommendation: Place stably reused information in <code>system</code> or <code>instructions</code> and pass it early in each call to improve consistency and maintainability.</div>
+
+
+<span id="29385080"></span>
+## **Structured content: Markdown and XML**
+
+Use structured content to let the model clearly know "where the rules are, where the examples are, and where the reference materials are".
+
+
+* Markdown: Use partitions (titles, lists) to express hierarchy and specifications, such as Identity, Instructions, Examples, and Context.
+
+* Use lightweight XML tags to explicitly create boundaries for context and example blocks, and write metadata through attributes.
+
+
+Example:
+
+```Plaintext
+# Identity
+You are a corporate document assistant, responsible for outputting clear and fact-checkable content.
+
+# Instructions
+* Use concise language when answering, prioritizing lists and subheadings.
+* Wrap external links, interfaces, paths, and variable names with backticks (`...`).
+* When examples are needed, provide short, directly runnable code.
+* If uncertain, clearly list assumptions and items to be confirmed.
+
+# Examples
+<user_query id="q1">Please generate a weekly report summary template.</user_query>
+<assistant_response id="q1">
+## Weekly progress
+- Core outputs:
+- Quantitative metrics:
+
+## Next week's plan
+- Key tasks:
+- Risks and dependencies:
+</assistant_response>
+
+# Context
+<repo_docs source="ark-internal">Allowed to reference internal corporate wikis and API documents.</repo_docs>
 ```
 
-<span id="引导结构和组织要求"></span>
-### **Guide the structural and organizational requirements** In this process, clarify the structural and organizational requirements for your task. Specify the content to be contained in different parts of the task, which helps the model organize thinking and materials.
-```plain
-Please write a 500-word article discussing the impact of urban greening on improving air quality. The article should include the following aspects:
-    1. Introduction: Introduce urban greening and its importance.
-    2. Mechanisms of affecting air quality: Explain how trees and parks reduce pollutants in the air.
-    3. Feasibility measures: Discuss the methods and challenges of promoting urban greening in urban planning.
-    4. Data and case studies: Provide relevant data and at least two successful cases of urban greening to support your argument.
-    5. Conclusion: Summarize the positive impact of urban greening on air quality
+
+<span id="1dd0890a"></span>
+## **Few\-shot learning**
+
+Guide the model to generalize without fine\-tuning by providing a few examples.
+
+Example (sentiment classification):
+
+```Plaintext
+# Identity
+You are a sentiment classifier that only outputs words (Positive / Negative / Neutral).
+
+# Instructions
+* Output only one word, no extra punctuation or explanations.
+* Responses are only allowed to be: Positive / Negative / Neutral.
+
+# Examples
+<review id="e1">This headphone has great sound quality!</review>
+<assistant_response id="e1">Positive</assistant_response>
+
+<review id="e2">Battery life is average, and the build quality is just so-so.</review>
+<assistant_response id="e2">Neutral</assistant_response>
+
+<review id="e3">The customer service experience is terrible; I won't buy again.</review>
+<assistant_response id="e3">Negative</assistant_response>
 ```
 
-<span id="限制模型输出格式"></span>
-### Output format
-Restricting the output format of the model can improve readability of the result and facilitate subsequent processing with a higher stability.
-Below is a sample demonstrating how to extract symptoms. The required output format is JSON.
-```sql
-Please extract all the symptoms in the reference materials and return them in json format.
-The answer meets the following format requirements:
-1. Return the answer in json format. json only includes one key, key="disease", and the corresponding value is a list, which stores the symptoms in the reference materials.
-Reference materials:
-"""
-Insomnia is called "eyes cannot close", "cannot sleep", and "cannot lie down" in the "Inner Canon of Medicine". There are two main reasons: one is the influence of other symptoms, such as coughing, vomiting, abdominal distension, etc., which make people unable to sleep; the other is the disharmony of qi, blood, yin and yang, which makes people unable to fall asleep. Traditional Chinese medicine often uses the method of nourishing the heart and calming the mind to treat insomnia, which can not only treat the symptoms but also the root cause, and can also avoid the drawbacks of easy addiction to Western medicine sleeping pills. Traditional Chinese medicine believes that insomnia is mostly caused by the imbalance of yin and yang in the internal organs and the disharmony of qi and blood. As recorded in "Lingshu Dahuo Lun": "Wei Qi cannot enter the yin, and often stays in the yang. Staying in the yang makes the qi full; Yang Qi is full, Yang is strong, and it cannot enter the yin, so the yin Qi is weak, so the eyes cannot close. "In clinical practice, the treatment of insomnia should focus on regulating the internal organs and qi, blood, yin and yang, so as to "replenish the deficiency, drain the excess, and adjust the deficiency and excess". The treatment methods can be adopted to nourish the heart and spleen, nourish yin and reduce fire, connect the heart and kidney, soothe the liver and nourish blood, replenish qi and calm the nerves, and activate blood circulation and dredge the collaterals, so as to make the qi and blood smooth, balance yin and yang, and restore the normal function of the internal organs.
-"""
+
+<span id="68d8de3a"></span>
+## Chain of thought (CoT): thinking time and step guidance
+
+
+* Zero\-shot: Add "Let's analyze and think step by step" in appropriate scenarios to improve the stability of complex reasoning.
+
+* Few\-shot: Provide examples of decomposition processes to demonstrate correct intermediate inferences and final answers.
+
+* Specify steps: Provide execution steps and completion standards for the task to ensure output order and completeness.
+
+
+Example (specified steps):
+
+```Plaintext
+> Please complete the task by taking the following steps:
+> 1. Clarify goals and constraints
+> 2. List required inputs and available tools
+> 3. Execute and record key intermediate results
+> 4. Provide the final structured output (parameters: result, evidence, next_step)
 ```
 
-<span id="prompt-优化"></span>
-## Prompt optimization
-<span id="让模型扮演一个角色"></span>
-### Roleplay
-You can let the model play a specific role, so that it can output more understandable and consistent results. For example, in a Q&A system, the model can be asked to act as a subject matter expert. In this case, it can offer answers in line with the knowledge and language habits of the field, thus improving the consistency of the answers.
-In the following sample, the model is asked to generate an article themed How Do Black Holes Form as a scientist and a fantasy author. As a scientist, the model explains what a black hole is and how it forms. As a fantasy author, the model is no longer based on scientific facts and gives a fictional and mysterious answer, arousing the reader's interest.
-![Image](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_ccf3befc961a6a09afd34885084c602e.png =767x)
-![Image](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_6e6499dc7ecdd9e4afb30cf38f15092d.png =769x)
-<span id="提供样例"></span>
-### Samples
-In general, you can add instructions to optimize prompts. If instructions are unclear, provide samples. You can use the model as a binary text classifier to classify user reviews as positive or negative.
-![Image](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_6585b8526d804eb34fb9a4b4cb0b5293.png =763x)
-![Image](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_a9e1aecc488bc83b209f8f71dbccff2e.png =768x)Under normal circumstances, the model classifies reviews as negative only if they are completely negative. But the goal is to have **the model classify reviews as positive only if they are absolutely positive**. In the case of "I recently ate at this restaurant and thought it was okay but not amazing", the model should classify it as negative. At this point, some samples can be provided for the model to learn from.
-```plain
-Please help me distinguish whether the user input text is a positive review or a negative review according to the following classification method. Please directly output: positive review/negative review.
-Please refer to the following examples:
-Example 1:
-User input: I went to this restaurant last night and their food and service were amazing. I will definitely patronize again.
-Output: positive review
-Example 2:
-User input: I have read this book. Some plots are okay, but the overall plot is dragging and average.
-Output: negative review
-Example 3:
-User input: I watched this movie yesterday. I think it’s okay, but some parts are a bit boring.
-Output: negative review
-Example 4:
-User input: I watched this movie last week. It was a waste of time. The plot was boring and the actors’ performances were not satisfactory. I really regret watching it.
-Output: negative review
-Please answer the following questions:
-User input: I recently dined at this restaurant. It was okay, but not particularly amazing.
-Output:
-```
-In some difficult cases where labels are not enough, you can offer reasons to help the model understand the intent.
-```bash
-Please help me distinguish whether the user input text is a positive review or a negative review according to the following classification method. Please output: positive review/negative review and give reasons.
-Please refer to the following examples:
-Example 1:
-User input: I went to this restaurant last night and their food and service were amazing. I will definitely visit again.
-Output: Positive review, reason: Food and service are amazing, and customers will visit again
-Example 2:
-User input: I have read this book, some plots are okay, but the overall plot is dragged and is relatively average.
-Output: Negative review, reason: The overall plot is dragged
-Example 3:
-User input: I watched this movie yesterday, I think it's okay, but some parts are a bit boring.
-Output: Negative review, reason: Some parts of this movie are also a bit boring
-Example 4:
-User input: I watched this movie last week and it was a waste of time. The plot is boring and the performance of the actors is also unsatisfactory. I really regret watching it.
-Output: Negative review, reason: The plot was boring, the actors' performances were not satisfactory, and the user regretted watching it.
-Please answer the following questions:
-User input: I recently dined at this restaurant, it was okay, but not particularly amazing.
-Output:
-```
 
-<span id="指定完成任务需要的步骤"></span>
-### Task steps
-In a specific task, specifying required steps can help the model arrange execution and generate better output.
-```bash
-Please follow these steps to write a story:
-1 Set up the story background and characters.
-2 Describe the characters' goals and difficulties.
-3 Tell how the characters overcome difficulties and finally achieve their goals.
-4 End the story with an interesting ending.
-```
-In this sample, the storytelling steps are explicitly specified, and the model can conceive and organize the story structure more methodically, thus improving the quality and coherence of the story.
-<span id="提供参考内容"></span>
-### Reference content
-For a domain-specific problem, providing reference content can help the model better understand the background and context of the question, thus reducing hallucinations.
-```bash
-Please refer to the following document to answer user questions:
-###Document name: Document content
-###Question: [Problem description]
+<span id="f7d5576c"></span>
+## Input necessary knowledge
+
+
+* When to add knowledge: When you need to reference proprietary data, technical documents, policy clauses, or restrict the scope of answers.
+
+* Common methods:
+
+   * Insert retrieval results (vector database / keywords) into `system`/`user` messages or `instructions`.
+
+   * Use built\-in tools in ModelArk: knowledge base, file retrieval, web parsing plugins, web search, etc.
+
+* Context window:
+
+   * Pay attention to cropping and simplification (summarization) because the context window sizes vary with models.
+
+   * Place stable agreements/rules at the beginning and task\-specific context at the end.
+
+
+<span id="7629415f"></span>
+## Common scenarios
+
+<span id="bd407f2b"></span>
+### General tasks
+
+
+* Specify core role and background: Clearly specify the role identity for performing the task (namely {role}) to define the identity boundaries and capability scope for subsequent task execution, and ensure that the prompt can guide the model to work from the professional perspective and behavioral logic of the corresponding role.
+
+* Provide clear context: Provide clear {context}, which is a key basis for the model to understand the task background, relevant conditions, and constraints. This enables the model to respond while accurately grasping the task's context and avoids deviations in task execution caused by missing information.
+
+* Define specific tasks: Precisely describe the {task} to clarify the core goals and work content that the model needs to complete, so that the model clearly knows the objective and ensures that subsequent actions focus on the core of the task without deviating from the task's main purpose.
+
+* Formulate execution rules: List specific execution rules (for example, Rule 1, Rule 2) to standardize the model's behavior and decision\-making criteria during task completion, ensuring that the model's task execution process meets expected requirements and improves the consistency and accuracy of task execution.
+
+* Guide with examples: Provide at least two examples (Example 1, Example 2) containing "Question: {question}" and "Output: {response}" to show the expected input and output forms, helping the model better understand the task requirements and achieve more accurate task responses.
+
+* Clarify output requirements:
+
+   * **Specify output format** : Clearly specify the format that the model's final output should follow, such as lists, tables, paragraphs, etc., to ensure the output structure is easy to read, understand, and use.
+
+   * **Provide detailed specification** : Clarify the detailed requirements that need to be met in the output format, such as content completeness, language styles, data accuracy standards, etc., to further constrain output quality and make the model output more in line with actual application needs.
+
+
+Templates:
+
+```Plaintext
+> Suppose you are a {role}, and you will solve {task} based on {context}. Execute according to the following rules:
+> 1. Rule 1
+> 2. Rule 2
+> 
+> Example 1:
+> Question: {question}
+> Output: {response}
+> 
+> Example 2:
+> Question: {question}
+> Output: {response}
+> 
+> Please answer:
+> Question: {question}
+> Output:
+> 
+> Requirements:
+> 1. Specify output format
+> 2. Provide detailed specifications to be met in the format
 ```
 
-<span id="给模型-“思考”时间"></span>
-### Giving the model time to think
-Chain of Thought (CoT) helps the model think more deeply and come to more complex and comprehensive conclusions by gradually extending and expanding an idea. In some scenarios such as logical inference and mathematical operations, CoT can be used for decomposition to increase the probability of the model outputting correct results with some inference processes.
-<span id="zero-shot"></span>
-#### Zero-shot
-Add `Let's think step by step` to the prompt``.
-<span id="few-shots"></span>
-#### Few-shot
-Below is a sample of performing addition, subtraction, multiplication, and division operations on the numbers entered by a user.
-```sql
-You are a calculator. Please add 2, subtract 3, multiply by 3, and divide by 2 to the number input by the user, and then directly output the calculation result, using ',' as the separator.
-The example is as follows:
-"""
-Input: 1, 2, 3, 4, 5
-Answer: 0, 1.5, 3, 4.5, 6
-"""
-Input: 2, 4, 6, 8, 10
-```
-It can be found that the model failed to provide the correct answer. In this case, you can follow these steps: provide samples > decompose the question > provide explanations.
-Below is a sample of CoT prompting, with step-specific explanations.
-```sql
-You are a calculator. Please add 2, subtract 3, multiply by 3, and divide by 2 to the number input by the user, and then directly output the calculation result, and return it with ',' as the separator.
-You can refer to the following calculation process to help solve it.
-"""
-For input: 1, 2, 3, 4, 5
-The calculation process is as follows.
-First, add 2 to the input 1, 2, 3, 4, 5, and get: 3, 4, 5, 6, 7
-Then subtract 3 from 3, 4, 5, 6, 7, and get: 0, 1, 2, 3, 4
-Then multiply 0, 1, 2, 3, 4 by 3, and get: 0, 3, 6, 9, 12
-Finally, divide 0, 3, 6, 9, 12 by 2, and get: 0, 1.5, 3, 4.5, 6
-The answer is: 0, 1.5, 3, 4.5, 6
-"""
-Input: 2, 4, 6, 8, 10
+
+<span id="768a70ef"></span>
+### **Programming**
+
+
+* Specify roles and workflow: Specify "when to call tools and when to avoid interactive execution" in `system`/`instructions`.
+
+* Test and verify: Require unit testing or command\-level verification for patches/changes; remember to check whether changes take effect in IDE or proxy tools.
+
+* Provide tool invocation examples: Provide specific format examples of function/command calls to improve compliance.
+
+* Define Markdown output standards: Wrap paths, commands, and identifiers in backticks; use lists and tables to keep the text clear.
+
+
+<span id="b16c4231"></span>
+### **Role\-playing**
+
+For more information, see [Skylark Role Creation Guide](https://docs.byteplus.com/en/docs/ModelArk/1256348).
+
+```Plaintext
+> You are a {role}, known as {xxx}, born in {background and context}.
+> 
+> Personality traits:
+> Language style:
+> Interpersonal relationships:
+> Past experiences:
+> Classic lines or catchphrases:
+> 
+> {Line 1 (you can describe actions, emotions, and background in parentheses to enrich the context)}
+> {Line 2}
 ```
 
-<span id="prompt-评测"></span>
-## Prompt evaluation
-<span id="系统地测试变更"></span>
-### Systematical test on changes
-After prompt design and optimization are completed, you can test whether your prompts have improved the system. You can check a few samples but cannot tell if the results are real improvement or luck due to the small number of samples. Therefore, it's necessary to design an evaluation set and iterate it several times before system evaluation.
-A good evaluation set typically has the following characteristics:
 
-* Diversity: The evaluation set includes sufficient diversity to cover different fields, topics, and contexts.
-* High quality: The data in the evaluation set is of high quality and accurately reflects the business situation.
-* Moderate size: The evaluation set is large enough to adequately evaluate the performance of prompts but not so large to overconsume computing resources. It's reasonable to include hundreds and thousands of samples.
+<span id="b3181503"></span>
+### **Agent scenarios (long\-term tasks / multi\-tool collaboration)** 
 
-<span id="重复和迭代"></span>
-### Repetition and iteration
-The process of prompt generation is highly experimental, where different methods need to be tried and adjusted to find the best prompt. In a typical iteration path, you should design prompts, obtain the experimental results based on the designed prompts, analyze bad cases, solve bad cases, and optimize the prompts. The whole process may be repeated several times before the optimal effect is obtained.
-The prompt engineering iteration process is as follows:
-![Image](https://portal.volccdn.com/obj/volcfe/cloud-universal-doc/upload_ad43efa221ab096b5ec4cb045b90e632.png =966x)Note that the best output depends on not only good prompts but also feedback and corrections from the user. After prompt optimization is completed, the model understands and meets user requirements through continuous feedback and corrections online.
-<span id="附录"></span>
-## Appendix
-<span id="参数设置"></span>
-### Parameter settings
-<span id="关键参数"></span>
-#### Key parameters
-When using prompts, you interact with large language models through the experience center or APIs. Different parameters contribute to different prompts.
 
-* temperature: It controls the randomness of the output. The higher the value, the greater the randomness. The lower the value, the smaller the randomness. In a classification task, set `temperature` to a lower value to get a more realistic and concise answer from the model. For poetry generation or other creative tasks, increase the value of `temperature` for greater diversity and creativity.
-* top_p: It controls the degree of certainty of the model in generating responses, thus affecting the diversity and creativity of the generated results. When the prompt is long and clear enough to trigger an output of a high quality and confidence level, Top_p can be set to a higher value. However, if the prompt is short and vague, a higher Top_p value may lead to an unstable output.
-* repeat_penalty: It controls the repetition of the output. Value range: 1.1–1.3.
+* Planning and persistence: Require complete resolution of user requests, splitting into subtasks and tracking completion status.
 
-<span id="参考配置"></span>
-#### Reference configuration
-Default: temperature = 0.7, top_p = 0.9
-Classification or tasks requiring a stable output: temperature = 0.01, top_p = 0.7
-Tasks that require diversity and creativity: temperature = 0.7
-The actual business situation prevails.
-<span id="关键概念"></span>
-### Key concepts
-**Token:** A Chinese word, an English word, a number, or a symbol is counted as a token. Due to the different tokenizers used in different models, the same piece of text may correspond to different numbers of tokens.
-<span id="参考模版"></span>
-### Reference templates
-<span id="任务型模版"></span>
-#### Task-based templates
-```bash
-If you are {a certain role}, you will solve {a specific task} based on {context information}. Follow the following rules step by step:
-1. Rule 1
-2. Rule 2
-Reference example:
-Example 1:
-Question: {specific question}
-Output: {result of the question}
-Example 2:
-Question: {specific question}
-Output: {result of the question}
-Please answer the question:
-Question: {specific question}
-Output:
-Requirements:
-1 Specify the output format
-2 Detailed specifications that need to be met in the format
-```
+* Transparency: Briefly explain the reason for calling the tool before key steps (for example, switching retrieval sources, enabling web plugins, etc.).
 
-<span id="角色型模版（生成system-prompt）"></span>
-#### Role-based templates (system prompts)
-A system prompt provides information and instructions to the model. Write a system prompt in the second person****.
-```bash
-You are {a specific person}, called {xxx}, born in {explain background information and context}.
-Personality traits:
-Language style:
-Interpersonal relationships:
-Past experiences:
-Classic lines or catchphrases:
-{Lines 1 (Supplementary information: You can put actions, expressions, tone, psychological activities, and story background in () to provide supplementary information for the dialogue.)}
-{Lines 2}
-```
+* Progress management: Maintain structured progress with TODO or Rubric; in the ModelArk ecosystem, it can be combined with the Starter apps and MCP plugin system.
 
-<span id="参考代码（python3）"></span>
-### 
+
+<span id="b04c5422"></span>
+## Context management and cost optimization
+
+
+* Use [Responses API](https://docs.byteplus.com/en/docs/ModelArk/Create_model_request) to simplify context management. In multi\-turn conversations, historical information can be passed through `previous_response_id` without manual management. For details, see [Context management](https://docs.byteplus.com/en/docs/ModelArk/2123288).
+
+* Use context caching to reduce costs: For fixed system information and multi\-turn conversations, reduce request costs by using low\-cost cached inputs. For details, see [Context caching overview](https://docs.byteplus.com/en/docs/ModelArk/1398933).
+
+
 
 

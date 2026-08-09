@@ -426,24 +426,6 @@ Generate text using Seed LLM models.
 
 ---
 
-## Image Understanding (`understand_image`)
-
-Analyze images with a vision-capable LLM.
-
-### Parameters
-
-| Parameter | Type | Default | Options | Required |
-|-----------|------|---------|---------|----------|
-| `prompt` | string | — | Question about the image | Yes |
-| `image_url` | string | — | Image URL (account-hosted preferred; third-party URLs are auto-cloned into account storage) | Yes |
-| `model` | string | `"2.0 Pro LLM"` | `"2.0 Pro LLM"`, `"2.0 Lite"`, `"2.0 Mini"`, `"1.8"`, `"1.6"`, `"1.6-flash"` | No |
-
-> These are Seed **LLM** models (same set as `generate_text`) — `2.0 Lite` / `2.0 Mini` here are text models, distinct from the Seedance **video** models of the same names.
-
-> **Visualfeed thumbs:** never rely on a hotlinked third-party CDN URL remaining displayable. Prefer `import_image_url` first, or pass the URL and let MCP/API auto-clone it.
-
----
-
 ## Safety gating & blocking errors
 
 ### Content-policy rejections are cumulative — stop the batch
@@ -496,9 +478,9 @@ ProjectReverie Visualfeed can only proxy known storage hosts. **Do not hotlink**
 |--------|------|
 | Local file on the agent machine | `create_media_upload(content_type, size_bytes, filename?)` → PUT bytes to `upload_url` → `finalize_media_upload(upload_id)` → use returned `asset_url` |
 | Web / product-page image URL | `import_image_url(url)` → use returned `url` (account-hosted clone) |
-| Already account-hosted / `asset://…` | Pass through to `generate_*` / `understand_image` / `edit_image` |
+| Already account-hosted / `asset://…` | Pass through to `generate_*` / `edit_image` |
 
-MCP tools that accept image URLs (`understand_image`, `edit_image`, `generate_image` refs, `generate_video` frames/refs) **auto-clone** third-party `http(s)` URLs via the same path before calling the API — but prefer calling `import_image_url` explicitly when the user pastes a web image.
+MCP tools that accept image URLs (`edit_image`, `generate_image` refs, `generate_video` frames/refs) **auto-clone** third-party `http(s)` URLs via the same path before calling the API — but prefer calling `import_image_url` explicitly when the user pastes a web image.
 
 ### `import_image_url(url)`
 
@@ -602,9 +584,8 @@ list_visuals(type="video", limit=10)
 3. Poll `check_generation_status(generation_id)` until complete. The model takes inspiration from the references but doesn't insert them as literal frames.
 
 ### Animate an image with spoken line ("make it say …")
-1. `understand_image(image_url="{asset_url}", prompt="Describe the subject, framing, and what would be natural on-screen text/speech.")` (optional — helps ground the video prompt)
-2. `generate_video(prompt='the subject says: "Assalamualaikum, hari ini Re:source Friday saya ke 10", natural lip-sync, keep framing consistent with the reference image', first_frame_url="{asset_url}", model="1.5 Pro", audio_sync=true)`
-3. Poll `check_generation_status(generation_id)` until complete — the returned video will include the spoken audio.
+1. `generate_video(prompt='the subject says: "Assalamualaikum, hari ini Re:source Friday saya ke 10", natural lip-sync, keep framing consistent with the reference image', first_frame_url="{asset_url}", model="1.5 Pro", audio_sync=true)`
+2. Poll `check_generation_status(generation_id)` until complete — the returned video will include the spoken audio.
 
 ### Iterate on a visual (regenerate with a different prompt)
 1. `generate_image(prompt="cyberpunk cityscape", aesthetic_mode="cinematic")` → returns visual `v_abc`
@@ -624,10 +605,6 @@ Use this only when the user explicitly wants multiple visuals to compare in para
 1. `generate_image(prompt="cyberpunk cityscape", aesthetic_mode="cinematic")`
 2. `generate_image(prompt="cyberpunk cityscape", aesthetic_mode="photorealism")`
 3. `generate_image(prompt="cyberpunk cityscape", aesthetic_mode="high_aesthetic")`
-
-### Analyze then recreate
-1. `understand_image(prompt="Describe this image in detail", image_url="...")`
-2. Use the description to `generate_image(prompt="{description with modifications}")`
 
 ---
 

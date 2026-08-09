@@ -24,7 +24,6 @@ For concrete generation requests, read `mcp-reference.md` first (parameter table
 - `generate_image` / `edit_image` / `create_variant`
 - `generate_video`
 - `generate_text`
-- `understand_image`
 - Media: `import_image_url` (web images) or `create_media_upload` / `finalize_media_upload` (local files)
 - project helpers such as `create_project` / `list_projects` when needed
 

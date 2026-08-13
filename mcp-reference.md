@@ -620,4 +620,6 @@ Use this only when the user explicitly wants multiple visuals to compare in para
 
 ---
 
-> Synced against backend 12f352d / flow-mcp cf82821 on 2026-07-18.
+> Synced against backend 6819202 on 2026-08-13. (The flow tool surface was first
+> synced from the standalone `nodeflow-mcp` repo at cf82821 on 2026-07-18 — that
+> was the repo's name then; it is Flows now, but the provenance stands.)

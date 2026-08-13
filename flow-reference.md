@@ -17,14 +17,19 @@ Build left → right by stage: **sources → processors → generators → sinks
 3. `flow_create_workspace` (or pick one from `flow_list_workspaces`).
 4. Build the **whole graph in one `flow_apply_batch`** (add + connect ops
    together — fewer round-trips than `flow_add_node` / `flow_connect`
-   one at a time). Fix mistakes with `flow_update_node`,
-   `flow_disconnect`, `flow_delete_node`.
-5. `flow_run_and_wait(workspace_id, timeout_s=300)` — use 600+ for video.
+   one at a time), **omitting positions**. Fix mistakes with
+   `flow_update_node`, `flow_disconnect`, `flow_delete_node`.
+5. `flow_auto_layout(workspace_id)` — tidy the canvas after building or
+   editing, before you run.
+6. `flow_run_and_wait(workspace_id, timeout_s=300)` — use 600+ for video.
    Or `flow_run` + poll `flow_run_status`; fetch assets with
    `flow_get_results`.
-6. Report result URLs. **Iterate, never rebuild:** `flow_update_node`, then
-   re-run only the changed branch with `from_node_id`. Before every re-run,
-   `flow_get_graph` to pick up the user's manual canvas edits.
+7. Report result URLs. **Iterate, never rebuild:** `flow_update_node`, then
+   re-run with `from_node_id` — which runs **that node only, never its
+   downstream**, so re-run each downstream generator individually, in order.
+   A plain run re-runs and **re-bills every generator in the workspace**,
+   finished ones included. Before every re-run, `flow_get_graph` to pick up
+   the user's manual canvas edits.
 
 ## `apply_batch` payload shapes
 
@@ -54,15 +59,13 @@ Worked example — one shot row (prompt + first frame → video generator → pr
 ```json
 {"ops": [
   {"kind": "add_node", "id": "t1", "nodeType": "textNode",
-   "position": {"x": 0, "y": 0}, "params": {"text": "she types, then pauses"}},
+   "params": {"text": "she types, then pauses"}},
   {"kind": "add_node", "id": "i1", "nodeType": "imageNode",
-   "position": {"x": 0, "y": 110}, "params": {"imageUrl": "https://…"}},
+   "params": {"imageUrl": "https://…"}},
   {"kind": "add_node", "id": "g1", "nodeType": "generatorNode",
-   "position": {"x": 760, "y": 0},
    "params": {"type": "video", "modelId": "2.0 Pro-Fast", "ratio": "9:16",
               "resolution": "720p", "duration": 4, "generateAudio": false}},
-  {"kind": "add_node", "id": "p1", "nodeType": "previewNode",
-   "position": {"x": 1520, "y": 0}, "params": {}},
+  {"kind": "add_node", "id": "p1", "nodeType": "previewNode", "params": {}},
 
   {"kind": "connect", "source": "t1", "target": "g1"},
   {"kind": "connect", "source": "i1", "target": "g1", "targetHandle": "first_frame"},
@@ -125,22 +128,21 @@ convenience map, not the source of truth):
   (all except `1.0 Pro-Fast`, which cannot emit a last frame).
 
 ## Layout
-Grid, one branch per row, so the canvas looks hand-arranged:
-- `x = 0` — sources (`textNode`, `imageNode`)
-- `x = 380` — processors (`seedNode`, `promptGeneratorNode`, `anyLlmNode`, `visualAnalysisNode`)
-- `x = 760` — generators (`generatorNode`)
-- `x ≈ 1000` — `lastFrameNode` (continuity extractor, just right of its source generator)
-- `x ≈ 1200` — `stitchNode` (assembles the shot generators)
-- `x ≈ 1520` — sinks (`previewNode`, `exportNode`) — right of the `stitchNode` they show
-- `y += 220` per row; a branch's source / processor / generator / preview share one `y`.
+**Omit positions.** The server auto-places every node in its category column, so
+add ops need no `x` / `y` at all. After building or editing a graph, call
+`flow_auto_layout(workspace_id)` once to tidy the whole canvas into a clean
+left-to-right layout.
 
-In a chained sequence the `lastFrameNode → next generator's first_frame` edge often
-runs leftward — that's fine; grid positions are cosmetic, not enforced.
+`flow://guide/layout` is the source of truth for the column grid and row
+spacing — read it there rather than here; this file covers call mechanics.
 
-Pass an explicit position on every add op — never stack at `(0,0)`. Note the two
-shapes: inside a `flow_apply_batch` add op use nested `position: {x, y}`; the
-standalone `flow_add_node` tool takes top-level `x` / `y`. Keep it to
-**8–12 nodes**; beyond that, use a second workspace.
+If you do place a node by hand (only when the user asks for a specific
+arrangement), note the two shapes: inside a `flow_apply_batch` add op use nested
+`position: {x, y}`; the standalone `flow_add_node` tool takes top-level `x` / `y`.
+In a chained sequence the `lastFrameNode → next generator's first_frame` edge
+often runs leftward — that's fine; positions are cosmetic, not enforced.
+
+Keep a graph to **8–12 nodes**; beyond that, use a second workspace.
 
 ## Graph shapes
 Distilled canonical shapes (all left → right):
@@ -213,8 +215,10 @@ that escalates per attempt, one call can spend several rungs of the ladder befor
 see the first error.
 
 For any run whose inputs could be filter-sensitive — **human faces above all** — build
-the full graph, then run **one row first** with `from_node_id`, confirm it succeeds, and
-only then run the rest. The extra round-trip costs seconds; discovering the problem
+the full graph, then run **the one generator first** with `from_node_id` (it runs that
+single node, nothing downstream), confirm it succeeds, and only then run the rest. The extra round-trip costs seconds; discovering the problem
 three nodes deep can cost the account.
 
-> Synced against backend 12f352d / flow-mcp cf82821 on 2026-07-18.
+> Synced against backend 6819202 on 2026-08-13. (The flow tool surface was first
+> synced from the standalone `nodeflow-mcp` repo at cf82821 on 2026-07-18 — that
+> was the repo's name then; it is Flows now, but the provenance stands.)

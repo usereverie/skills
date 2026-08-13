@@ -31,6 +31,8 @@ For concrete generation requests, read `mcp-reference.md` first (parameter table
 
 **Iteration on an existing image visual** (e.g. *"try the same shot at sunset"*, *"regenerate, more dramatic"*) → prefer **`create_variant`**, not a fresh `generate_image`. See the `create_variant` section in `mcp-reference.md`.
 
+**Structured work** (chains, model/prompt comparisons, multi-clip video, a reusable pipeline) → read *Flows — when to use the canvas* below **before** reaching for a direct tool.
+
 Do not invent multi-stage pipeline sub-skills. Stay on MCP + prompts.
 
 ---

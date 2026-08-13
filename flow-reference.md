@@ -1,40 +1,41 @@
-# NodeFlow Reference (aggregate MCP)
+# Flows Reference (merged MCP connection)
 
-The `nodeflow_*` tools operate the user's NodeFlow canvas through the same MCP
+The `flow_*` tools operate the user's Flows canvas through the same MCP
 connection as the reverie tools. The graph you build is **visible and editable**
-in the NodeFlow UI — the user can tweak any node by hand, so always re-read the
-graph (`nodeflow_get_graph`) before you re-run, or you will clobber their manual
-edits. `nodeflow://guide/*` resources are **NOT available** on this connection —
-this file replaces them.
+in the Flows UI inside ProjectReverie — the user can tweak any node by hand, so
+always re-read the graph (`flow_get_graph`) before you re-run, or you will
+clobber their manual edits. `flow://guide/*` resources ARE available on this
+connection — read `flow://guide/patterns` for canonical graph shapes and the
+multi-clip storyboard workflow (pattern 7); this file covers call mechanics.
 
 Build left → right by stage: **sources → processors → generators → sinks**.
 
 ## The loop
-1. `nodeflow_describe_nodes` — node types, valid params, connection guidance.
-2. `nodeflow_list_models(kind=image|video|text)` — valid `modelId` aliases with
+1. `flow_describe_nodes` — node types, valid params, connection guidance.
+2. `flow_list_models(kind=image|video|text)` — valid `modelId` aliases with
    their sizes / ratios / resolutions / durations. Never invent an id.
-3. `nodeflow_create_workspace` (or pick one from `nodeflow_list_workspaces`).
-4. Build the **whole graph in one `nodeflow_apply_batch`** (add + connect ops
-   together — fewer round-trips than `nodeflow_add_node` / `nodeflow_connect`
-   one at a time). Fix mistakes with `nodeflow_update_node`,
-   `nodeflow_disconnect`, `nodeflow_delete_node`.
-5. `nodeflow_run_and_wait(workspace_id, timeout_s=300)` — use 600+ for video.
-   Or `nodeflow_run` + poll `nodeflow_run_status`; fetch assets with
-   `nodeflow_get_results`.
-6. Report result URLs. **Iterate, never rebuild:** `nodeflow_update_node`, then
+3. `flow_create_workspace` (or pick one from `flow_list_workspaces`).
+4. Build the **whole graph in one `flow_apply_batch`** (add + connect ops
+   together — fewer round-trips than `flow_add_node` / `flow_connect`
+   one at a time). Fix mistakes with `flow_update_node`,
+   `flow_disconnect`, `flow_delete_node`.
+5. `flow_run_and_wait(workspace_id, timeout_s=300)` — use 600+ for video.
+   Or `flow_run` + poll `flow_run_status`; fetch assets with
+   `flow_get_results`.
+6. Report result URLs. **Iterate, never rebuild:** `flow_update_node`, then
    re-run only the changed branch with `from_node_id`. Before every re-run,
-   `nodeflow_get_graph` to pick up the user's manual canvas edits.
+   `flow_get_graph` to pick up the user's manual canvas edits.
 
 ## `apply_batch` payload shapes
 
-`nodeflow_apply_batch` ops take **camelCase** keys; the standalone tools take
+`flow_apply_batch` ops take **camelCase** keys; the standalone tools take
 **snake_case** for the same concepts. Mixing them is the most common failed call.
 
 | Concept | Standalone tool | `apply_batch` op |
 |---|---|---|
-| Node type | `nodeflow_add_node(node_type=…)` | `"nodeType": …` |
+| Node type | `flow_add_node(node_type=…)` | `"nodeType": …` |
 | Position | top-level `x` / `y` | nested `"position": {"x": …, "y": …}` |
-| Target handle | `nodeflow_connect(target_handle=…)` | `"targetHandle": …` |
+| Target handle | `flow_connect(target_handle=…)` | `"targetHandle": …` |
 
 **The error for this mistake points at the wrong thing.** Passing `node_type` inside a
 batch op does not report a missing field — it reports:
@@ -73,7 +74,7 @@ The `id` on an add op is a **batch-local alias** — connect ops in the same bat
 to it directly, so you never need a round-trip to learn real node ids.
 
 ## Node types
-11 types (from `nodeflow_describe_nodes`). Flow: `— → asset` reads left-to-right.
+11 types (from `flow_describe_nodes`). Flow: `— → asset` reads left-to-right.
 
 | type | role | key params | in → out |
 |---|---|---|---|
@@ -92,7 +93,7 @@ to it directly, so you never need a round-trip to learn real node ids.
 **`generatorNode` params** (image and video sets are mutually exclusive — set
 the ones matching `type`):
 - `type` — `image` \| `video` \| `edit`
-- `modelId` — short alias from `nodeflow_list_models` (e.g. `4.5`, `2.0 Pro`)
+- `modelId` — short alias from `flow_list_models` (e.g. `4.5`, `2.0 Pro`)
 - **image:** `size` (e.g. `2048x2048`), `aestheticMode`
   (`balanced` \| `high_aesthetic` \| `photorealism` \| `cinematic`),
   `guidanceScale` (supported models only), `outputFormat` (`jpeg` \| `png`),
@@ -108,7 +109,7 @@ gated server-side at connect time. A `lastFrameNode` takes exactly one incoming
 edge; each of a `stitchNode`'s `in-0..in-7` handles must be free and every input
 must match the others' ratio + resolution.
 
-**Model quick-reference** (always confirm with `nodeflow_list_models` — this is a
+**Model quick-reference** (always confirm with `flow_list_models` — this is a
 convenience map, not the source of truth):
 - Image `modelId`: `5.0-Pro` (max 1 sequential image), `5.0` / `4.5` / `4.0`
   (up to 10 sequential images), `5.0-Lite` (supports `guidanceScale`,
@@ -137,8 +138,8 @@ In a chained sequence the `lastFrameNode → next generator's first_frame` edge 
 runs leftward — that's fine; grid positions are cosmetic, not enforced.
 
 Pass an explicit position on every add op — never stack at `(0,0)`. Note the two
-shapes: inside a `nodeflow_apply_batch` add op use nested `position: {x, y}`; the
-standalone `nodeflow_add_node` tool takes top-level `x` / `y`. Keep it to
+shapes: inside a `flow_apply_batch` add op use nested `position: {x, y}`; the
+standalone `flow_add_node` tool takes top-level `x` / `y`. Keep it to
 **8–12 nodes**; beyond that, use a second workspace.
 
 ## Graph shapes
@@ -181,13 +182,12 @@ non-video into `lastFrameNode`, an occupied `in-N`, mismatched dimensions) is
 rejected with `invalid_params` naming the field — fix and retry, don't re-guess.
 
 ## Media inputs
-- **Local file** → `nodeflow_upload_image` (base64, ≤10 MB).
-- **User's past generations** → `nodeflow_search_gallery(query=...)`.
-- **Web image** → `nodeflow_import_image_url` (cloned to the user's account).
+- **Local file** → `create_media_upload` + `finalize_media_upload` (reverie tools); pass the returned URL as an `imageNode` `imageUrl` or generator reference.
+- **Web image** → `import_image_url` (reverie tool; clones to the user's account).
   Never wire a raw external URL into an `imageNode` — its `imageUrl` must be
   account-hosted.
 - **Canvas drops** by the user are already account-hosted — read them from
-  `nodeflow_get_graph`.
+  `flow_get_graph`.
 
 ## Errors
 - **`invalid_params`** — the response names the field, the bad value, and
@@ -195,8 +195,8 @@ rejected with `invalid_params` naming the field — fix and retry, don't re-gues
   If it names a field you believe you set and reports `given: ""`, check the key's
   casing — see `apply_batch` payload shapes above.
 - **`insufficient_credits`** — stop and tell the user; do not retry.
-- **`partial`** from `nodeflow_run_and_wait` — some tasks are still running.
-  Keep polling `nodeflow_run_status` with the returned `task_ids`.
+- **`partial`** from `flow_run_and_wait` — some tasks are still running.
+  Keep polling `flow_run_status` with the returned `task_ids`.
 - **`InputImageSensitiveContentDetected.PrivacyInformation`** on a node — a human
   likeness was rejected on video input. **Stop the whole run, don't retry the node.**
   Content-policy rejections escalate against the account; see *Safety gating &
@@ -207,7 +207,7 @@ rejected with `invalid_params` naming the field — fix and retry, don't re-gues
 
 ### Probe one node before running a batch
 
-`nodeflow_run_and_wait` runs every node in the workspace — so when a run trips a gate
+`flow_run_and_wait` runs every node in the workspace — so when a run trips a gate
 that escalates per attempt, one call can spend several rungs of the ladder before you
 see the first error.
 
@@ -216,4 +216,4 @@ the full graph, then run **one row first** with `from_node_id`, confirm it succe
 only then run the rest. The extra round-trip costs seconds; discovering the problem
 three nodes deep can cost the account.
 
-> Synced against backend 12f352d / nodeflow-mcp cf82821 on 2026-07-18.
+> Synced against backend 12f352d / flow-mcp cf82821 on 2026-07-18.

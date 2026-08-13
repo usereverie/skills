@@ -186,6 +186,7 @@ rejected with `invalid_params` naming the field — fix and retry, don't re-gues
 - **Web image** → `import_image_url` (reverie tool; clones to the user's account).
   Never wire a raw external URL into an `imageNode` — its `imageUrl` must be
   account-hosted.
+- **Past generations** → `flow_search_gallery(query=...)` (reverie tool; returns account-hosted URLs safe for `imageNode` or generator reference).
 - **Canvas drops** by the user are already account-hosted — read them from
   `flow_get_graph`.
 

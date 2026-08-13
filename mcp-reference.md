@@ -38,14 +38,14 @@ Generate images from text prompts using Seedream models.
 | **4.0** | Legacy, widest resolution range | 1K, 2K, 3K, 4K | 10 | No | default |
 | **5.0-Lite** | Fast; tunable via canvas (guidance + format) | 2K, 3K, 4K | 10 | Yes (1–10) | jpeg, png |
 
-> "Max sequential (batch) images" is the `batch_size` cap (output count per call). "Guidance Scale" / "Output Format" are `5.0-Lite` **model capabilities reachable only via the NodeFlow canvas `generatorNode`** (`guidanceScale` / `outputFormat` params) — they are **not** parameters of the `generate_image` MCP tool, and no other model supports them at all. Reference-image (`reference_image_urls`) support is a separate axis from batch size — see Constraints below.
+> "Max sequential (batch) images" is the `batch_size` cap (output count per call). "Guidance Scale" / "Output Format" are `5.0-Lite` **model capabilities reachable only via the Flows canvas `generatorNode`** (`guidanceScale` / `outputFormat` params) — they are **not** parameters of the `generate_image` MCP tool, and no other model supports them at all. Reference-image (`reference_image_urls`) support is a separate axis from batch size — see Constraints below.
 
 ### Constraints
 - Resolution is per-model: `5.0-Pro` = 1K/2K; `5.0` / `4.5` / `5.0-Lite` = 2K/3K/4K; `4.0` = 1K/2K/3K/4K.
 - `batch_size` > 1 is disabled at `1K` resolution.
 - `batch_size` (sequential output images per call) max: **1 for `5.0-Pro`, up to 10 for `5.0` / `4.5` / `4.0` / `5.0-Lite`** — see Model Capabilities above.
 - `reference_image_urls` (input references) count limits are model-specific and not captured in this static table — check `list_models` for each model's reference-image support before relying on a specific cap.
-- `guidance_scale` (1–10) and `output_format` (`jpeg` / `png`) are `5.0-Lite` capabilities reachable **only via the NodeFlow canvas `generatorNode`** (`guidanceScale` / `outputFormat`) — they are not `generate_image` parameters, and the other models don't support them at all.
+- `guidance_scale` (1–10) and `output_format` (`jpeg` / `png`) are `5.0-Lite` capabilities reachable **only via the Flows canvas `generatorNode`** (`guidanceScale` / `outputFormat`) — they are not `generate_image` parameters, and the other models don't support them at all.
 - `adaptive` aspect ratio fits the input reference image dimensions.
 
 ### Resolution Pixel Mapping (pixel-resolution image models)
@@ -450,7 +450,7 @@ decide. Retrying a filter-tripping input is the single fastest way to escalate a
 recoverable warning into a locked account, and a batch is the worst place to find out.
 
 This is why human-subject video wants a **one-clip probe before the batch** — see
-*Human subjects in video* above, and the canvas note in `nodeflow-reference.md`.
+*Human subjects in video* above, and the canvas note in `flow-reference.md`.
 
 ### `Account is suspended. Generation is not permitted.` (403)
 
@@ -612,7 +612,7 @@ Use this only when the user explicitly wants multiple visuals to compare in para
 
 - **Prompt quality matters.** Be specific about composition, lighting, style, and subject. The `optimize_prompt` setting can help improve vague prompts.
 - **Check your balance** with `get_credit_balance` before batch operations.
-- **Use 4.5 or 5.0 for images** (up to 4K, up to 10 sequential images); reach for `5.0-Pro` for a single highest-fidelity hero shot (1K/2K only, `batch_size` fixed at 1), or `5.0-Lite` for faster generation or canvas-only `guidanceScale` / `jpeg`–`png` output tuning via the NodeFlow `generatorNode` (not `generate_image` parameters).
+- **Use 4.5 or 5.0 for images** (up to 4K, up to 10 sequential images); reach for `5.0-Pro` for a single highest-fidelity hero shot (1K/2K only, `batch_size` fixed at 1), or `5.0-Lite` for faster generation or canvas-only `guidanceScale` / `jpeg`–`png` output tuning via the Flows `generatorNode` (not `generate_image` parameters).
 - **Picking a video model**: default to `1.5 Pro` for audio + frame work; reach for `2.0 Pro` (or the cheaper `2.0 Pro-Fast`) when the user wants premium quality, 4K (2.0 Pro only), OR multiple style/character reference images (up to 9). Use `2.0 Mini` (up to 9 image refs, no audio) when cost matters more than premium quality. Default `audio_sync=true` unless the user asks for a silent clip — "make it say", "sings", and similar prompts imply audio is required.
 - **Frame vs reference**: if the user wants the video to literally start (or end) on a specific image, use `first_frame_url` / `last_frame_url`. If they want the model to take stylistic/character cues from images without locking them as frames, use `reference_image_urls` (2.0 Pro, 2.0 Pro-Fast, 2.0 Mini only). Never combine both in the same call.
 - **Video is async.** Always poll `check_generation_status` — do not assume instant results.
@@ -620,4 +620,4 @@ Use this only when the user explicitly wants multiple visuals to compare in para
 
 ---
 
-> Synced against backend 12f352d / nodeflow-mcp cf82821 on 2026-07-18.
+> Synced against backend 12f352d / flow-mcp cf82821 on 2026-07-18.

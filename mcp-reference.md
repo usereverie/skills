@@ -24,28 +24,34 @@ Generate images from text prompts using Seedream models.
 | `watermark` | bool | `false` | — | No |
 | `optimize_prompt` | string | `"auto"` | `"auto"`, `"fast"`, `"off"` | No |
 | `aesthetic_mode` | string | `"balanced"` | `"balanced"`, `"high_aesthetic"`, `"photorealism"`, `"cinematic"` | No |
-| `reference_image_urls` | list[str] | `null` | Image URLs (third-party auto-cloned into account storage) | No |
+| `reference_image_urls` | list[str] | `null` | Image URLs (third-party auto-cloned into account storage), up to 9 | No |
+| `project_name` | string | `null` | Case-insensitive Studio project name (defaults to "General") | No |
+| `name` | string | `null` | Friendly name for the output visual | No |
+| `seed` | int | `null` | `-1` to `2147483647` for reproducibility | No |
+| `output_format` | string | `null` | `"jpeg"`, `"png"` — models with `supports_output_format` only (`5.0-Lite`) | No |
+| `guidance_scale` | float | `null` | 1–10 — models with `supports_guidance_scale` only (`5.0-Lite`) | No |
 
-> **Defaults are cost-optimised** (`4.0` @ `1K`, single image) — always pass `model` and `resolution` explicitly rather than relying on the default when the user wants higher quality. `guidance_scale` and `output_format` are **not** `generate_image` parameters — see Model Capabilities below.
+> **Defaults are cost-optimised** (`4.0` @ `1K`, single image) — always pass `model` and `resolution` explicitly rather than relying on the default when the user wants higher quality. Optional parameters left `null` are not sent; passing `output_format` or `guidance_scale` to a model that doesn't support it returns an error.
 
 ### Model Capabilities
 
-| Model | Best For | Resolution | Max sequential (batch) images | Guidance Scale (canvas only) | Output Format (canvas only) |
-|-------|----------|-----------|--------------------------------|-------------------------------|-------------------------------|
+| Model | Best For | Resolution | Max sequential (batch) images | `guidance_scale` | `output_format` |
+|-------|----------|-----------|--------------------------------|------------------|-----------------|
 | **5.0-Pro** | Single highest-fidelity hero shot | 1K, 2K | 1 — don't pass batch params | No | default |
 | **5.0** | Top quality, up to 10 sequential | 2K, 3K, 4K | 10 | No | default |
 | **4.5** (recommended) | High quality, up to 10 sequential | 2K, 3K, 4K | 10 | No | default |
 | **4.0** | Legacy, widest resolution range | 1K, 2K, 3K, 4K | 10 | No | default |
-| **5.0-Lite** | Fast; tunable via canvas (guidance + format) | 2K, 3K, 4K | 10 | Yes (1–10) | jpeg, png |
+| **5.0-Lite** | Fast; tunable guidance + format | 2K, 3K, 4K | 10 | Yes (1–10) | `"jpeg"`, `"png"` |
 
-> "Max sequential (batch) images" is the `batch_size` cap (output count per call). "Guidance Scale" / "Output Format" are `5.0-Lite` **model capabilities reachable only via the Flows canvas `generatorNode`** (`guidanceScale` / `outputFormat` params) — they are **not** parameters of the `generate_image` MCP tool, and no other model supports them at all. Reference-image (`reference_image_urls`) support is a separate axis from batch size — see Constraints below.
+> "Max sequential (batch) images" is the `batch_size` cap (output count per call). The same knobs exist on the Flows canvas `generatorNode` as `guidanceScale` / `outputFormat`. Reference-image (`reference_image_urls`) support is a separate axis from batch size — see Constraints below. `list_models` is the live source for every flag in this table.
 
 ### Constraints
 - Resolution is per-model: `5.0-Pro` = 1K/2K; `5.0` / `4.5` / `5.0-Lite` = 2K/3K/4K; `4.0` = 1K/2K/3K/4K.
 - `batch_size` > 1 is disabled at `1K` resolution.
 - `batch_size` (sequential output images per call) max: **1 for `5.0-Pro`, up to 10 for `5.0` / `4.5` / `4.0` / `5.0-Lite`** — see Model Capabilities above.
-- `reference_image_urls` (input references) count limits are model-specific and not captured in this static table — check `list_models` for each model's reference-image support before relying on a specific cap.
-- `guidance_scale` (1–10) and `output_format` (`jpeg` / `png`) are `5.0-Lite` capabilities reachable **only via the Flows canvas `generatorNode`** (`guidanceScale` / `outputFormat`) — they are not `generate_image` parameters, and the other models don't support them at all.
+- `reference_image_urls`: up to **9** per call on every image model (a platform cap below ModelArk's own limits).
+- `guidance_scale` (1–10) and `output_format` (`jpeg` / `png`) are `5.0-Lite` only; other models reject them.
+- `optimize_prompt="fast"` is honoured only where the model supports fast mode (today `4.0`); the other models quietly run it as standard — no error.
 - `adaptive` aspect ratio fits the input reference image dimensions.
 
 ### Resolution Pixel Mapping (pixel-resolution image models)
@@ -154,11 +160,14 @@ Apply a targeted, instruction-based edit to an existing image (Seedream i2i mode
 |-----------|------|---------|---------|----------|
 | `prompt` | string | — | Description of the edit to apply | Yes |
 | `image_url` | string | — | Public URL of the image to edit | Yes |
-| `model` | string | `"4.5"` | `"4.5"`, `"5.0"`, `"5.0-Lite"`, `"4.0"` (no `5.0-Pro` — not supported for i2i edits) | No |
+| `model` | string | `"4.5"` | `"4.5"`, `"5.0-Pro"`, `"5.0"`, `"5.0-Lite"`, `"4.0"` | No |
 | `seed` | int | `null` | `-1` to `2147483647` for reproducibility | No |
 | `watermark` | bool | `false` | — | No |
 | `project_name` | string | `null` | Case-insensitive Studio project name (defaults to "General") | No |
 | `name` | string | `null` | Friendly name for the output visual | No |
+| `guidance_scale` | float | `null` (server default 5.5) | 1–10 — applied only by `5.0-Lite`; other models ignore it | No |
+
+> `edit_image` has no `output_format` parameter — the edit endpoint does not take one.
 
 ### Constraints
 - Input image must be JPEG or PNG, ≤ 10 MB, aspect ratio between 1:3 and 3:1, and ≤ 36,000,000 total pixels.
@@ -170,40 +179,66 @@ Apply a targeted, instruction-based edit to an existing image (Seedream i2i mode
 
 Generate videos from text prompts using Seedance models. Video generation is **async** — you get a `task_id` back and must poll `check_generation_status` (the unified status tool — works for video task IDs and image visual IDs). Note the parameter name: `check_generation_status` takes `generation_id`, not `task_id` — pass the `task_id` value there.
 
-> **Audio default:** Videos should be generated **with audio** by default. Pass `audio_sync=true` and use an audio-capable model (`1.5 Pro`, `2.0 Pro`, `2.0 Pro-Fast`) unless the user explicitly asks for a silent / no-audio video. This is especially important when the prompt contains speech cues like "make it say", "says", "speaks", "narrates", "sings", "voiceover", or references music, dialogue, or sound effects. Audio doubles generation cost (2x) — mention this once when the user's prompt is expensive or ambiguous, but don't ask permission for every clip.
+> **Audio default:** Videos should be generated **with audio** by default. Pass `generate_audio=true` and use an audio-capable model (`"2.5"`, `"2.0 Pro"`, `"2.0 Pro-Fast"`) unless the user explicitly asks for a silent / no-audio video. This is especially important when the prompt contains speech cues like "make it say", "says", "speaks", "narrates", "sings", "voiceover", or references music, dialogue, or sound effects. Audio doubles generation cost (2x) — mention this once when the user's prompt is expensive or ambiguous, but don't ask permission for every clip.
 
 ### Parameters
 
 | Parameter | Type | Default | Options | Required |
 |-----------|------|---------|---------|----------|
 | `prompt` | string | — | Free text | Yes |
-| `model` | string | `"1.5 Pro"` | `"1.5 Pro"`, `"1.0 Pro"`, `"1.0 Pro-Fast"`, `"2.0 Pro"`, `"2.0 Pro-Fast"`, `"2.0 Mini"` | No |
-| `duration` | int | `5` | Seconds — 1.0 family: 1–12; `1.5 Pro`: 4–12; 2.0 family: 4–15 | No |
-| `aspect_ratio` | string | `"16:9"` | `"16:9"`, `"4:3"`, `"1:1"`, `"3:4"`, `"9:16"`, `"21:9"`, `"adaptive"` (Smart ratio — `1.5 Pro` + 2.0 family only) | No |
-| `resolution` | string | `"480p"` | `"480p"`, `"720p"`, `"1080p"`, `"4K"` — `4K` is `2.0 Pro` only; `2.0 Pro-Fast` / `2.0 Mini` cap at `720p` | No |
+| `model` | string | `"2.0 Mini"` | `"2.0 Mini"`, `"2.0 Pro"`, `"2.0 Pro-Fast"`, `"2.5"`, `"1.0 Pro"`, `"1.0 Pro-Fast"` | No |
+| `duration` | int | `5` | Seconds — 1.0 family: 1–12; 2.0 family: 4–15; `"2.5"`: 4–30. `-1` = Smart duration (`"2.0 Pro"`, `"2.0 Pro-Fast"`, `"2.5"`) | No |
+| `aspect_ratio` | string | `"16:9"` | `"16:9"`, `"4:3"`, `"1:1"`, `"3:4"`, `"9:16"`, `"21:9"`, `"adaptive"` (Smart ratio — 2.0 family + `"2.5"`) | No |
+| `resolution` | string | `"480p"` | `"480p"`, `"720p"`, `"1080p"`, `"4K"` — `4K` is `"2.0 Pro"` only; `"2.0 Pro-Fast"` / `"2.0 Mini"` cap at `720p` | No |
 | `first_frame_url` | string | `null` | Public image URL — literal opening frame | No |
 | `last_frame_url` | string | `null` | Public image URL — literal closing frame | No |
 | `reference_image_urls` | list[str] | `null` | Public image URLs — style/character refs (NOT literal frames) | No |
-| `audio_sync` | bool | `false` (MCP) / **pass `true` by default** (skill) | — | No |
+| `reference_video_urls` | list[str] | `null` | Reference videos — `"2.0 Pro"` / `"2.0 Pro-Fast"` up to 3, `"2.5"` up to 10. **Must be account-hosted** (`create_media_upload`) or `asset://` — not auto-cloned | No |
+| `reference_audio_urls` | list[str] | `null` | Reference audio — same models, caps and hosting rule as `reference_video_urls` | No |
+| `generate_audio` | bool | `null` → **pass `true` by default** (skill) | Audio-capable models only | No |
+| `audio_sync` | bool | `false` | **Deprecated alias** of `generate_audio` — ignored when `generate_audio` is set | No |
+| `camera_fixed` | bool | `null` | Lock the camera — 1.0 family only | No |
+| `service_tier` | string | `null` | `"default"`, `"flex"` (half price, slower) — models with `supports_flex_tier` only (none today) | No |
+| `seed` | int | `null` | `-1` to `4294967295` | No |
+| `frames` | int | `null` | `25 + 4n` in `[29, 289]`, overrides `duration` — 1.0 family only | No |
+| `watermark` | bool | `null` | Watermark the output | No |
+| `return_last_frame` | bool | `null` (server default on) | Also return the watermark-free last frame, for chaining clips | No |
+| `draft` | bool | `null` | Cheap 480p preview — models with `supports_draft` only | No |
+| `task_type` | string | `null` | `"2.5"` only — `"text_to_video"`, `"reference_to_video"`, `"edit"`, `"extend"`, `"first_last_frame"` (see below) | No |
+| `input_mode` | string | `null` | `"frames"` or `"references"` — records the input mode; inferred when omitted | No |
 | `project_name` | string | `null` | Case-insensitive Studio project name (defaults to "General") | No |
 | `name` | string | `null` | Friendly name for the output visual | No |
 
-> The MCP `generate_video` schema is **free-form** (parameters are accepted as plain strings/ints without a hard per-model enum). The authoritative per-model constraints — valid resolutions, duration range, `adaptive` ratio, audio support, and reference-image limits — come from `list_models`. Validate model-specific choices against it before generating.
+> Optional parameters left `null` are not sent, so server defaults apply. The authoritative per-model constraints — valid resolutions, duration range, `adaptive` ratio, audio support, reference limits, and every `supports_*` flag — come from `list_models`. Validate model-specific choices against it before generating; unsupported combinations come back as an error.
+
+### `task_type` (Seedance `"2.5"` only)
+
+`"2.5"` reads its references as one of several intents. Say which with `task_type`; when you don't, it is inferred from the inputs and the prompt.
+
+| `task_type` | Use when | Required inputs / locks |
+|-------------|----------|-------------------------|
+| `"text_to_video"` | No references | — |
+| `"reference_to_video"` | New clip guided by reference images / videos / audio | — |
+| `"edit"` | Change the visuals or audio of an existing video | ≥1 reference video (4–30 s); `aspect_ratio="adaptive"`; `duration=-1` |
+| `"extend"` | Continue an existing video forward or backward | ≥1 reference video; `aspect_ratio="adaptive"` |
+| `"first_last_frame"` | Clip between a given first and last frame | `aspect_ratio="adaptive"` |
+
+Omit `aspect_ratio` / `duration` for a locked intent and they are filled in for you; sending a conflicting value is an error.
 
 ### Frame mode vs Reference mode
 
 Two mutually-exclusive ways to give the model an image:
 
 - **Frame mode** (`first_frame_url` / `last_frame_url`): the image becomes the literal first/last frame of the video. Use when the user wants the generated clip to start/end on an exact picture they provided.
-- **Reference mode** (`reference_image_urls`): the image is treated as a style/character reference. The model is guided by it but the image is *not* inserted as a frame. Use when the user says "use this as a character reference", "in the style of", "match this look", etc.
+- **Reference mode** (`reference_image_urls`, plus `reference_video_urls` / `reference_audio_urls` on models that take them): the image is treated as a style/character reference. The model is guided by it but the image is *not* inserted as a frame. Use when the user says "use this as a character reference", "in the style of", "match this look", etc.
 
 **Per request, never combine the two** — the backend rejects mixed payloads. Pick one mode based on the user's intent.
 
 | Mode | Models that support it | Max images |
 |------|------------------------|-----------|
 | Frame (first only) | All Seedance models | 1 |
-| Frame (first + last) | 1.5 Pro, 1.0 Pro, 2.0 Pro, 2.0 Pro-Fast, 2.0 Mini (NOT 1.0 Pro-Fast) | 2 |
-| Reference | 2.0 Pro, 2.0 Pro-Fast, 2.0 Mini | 9 images (2.0 Pro / 2.0 Pro-Fast also accept +3 videos +3 audio — canvas `generatorNode` only, `generate_video` does not expose video/audio reference params; 2.0 Mini is images-only) |
+| Frame (first + last) | 1.0 Pro, 2.0 Pro, 2.0 Pro-Fast, 2.0 Mini, 2.5 (NOT 1.0 Pro-Fast) | 2 |
+| Reference | 2.0 Pro, 2.0 Pro-Fast, 2.0 Mini, 2.5 | 2.0 Pro / 2.0 Pro-Fast: 9 images + 3 videos + 3 audio; 2.0 Mini: 9 images only; 2.5: 30 images + 10 videos + 10 audio (audio-only allowed) |
 
 ### Human subjects in video — ModelArk digital-asset gating
 
@@ -294,16 +329,16 @@ or all person slots are used.
 
 ### Audio / speech behaviour
 
-- **Default to `audio_sync=true`** for every video request, unless the user says "no audio", "silent", "mute", "no sound", or similar. Use any audio-capable model: `1.5 Pro` (cheaper), `2.0 Pro`, or `2.0 Pro-Fast`.
+- **Default to `generate_audio=true`** for every video request, unless the user says "no audio", "silent", "mute", "no sound", or similar. Use any audio-capable model: `2.5`, `2.0 Pro`, or `2.0 Pro-Fast`.
 - If the user's prompt asks the subject to say, sing, narrate, or speak specific words, **include the exact target line inside the `prompt`** (e.g. `...the presenter says: "Assalamualaikum, hari ini Re:source Friday saya ke 10"`). Keep the quoted line verbatim — do not translate or paraphrase.
-- If the user picks (or you must pick) a model that does **not** support audio (`1.0 Pro`, `1.0 Pro-Fast`, `2.0 Mini`), warn them that the resulting video will be silent and offer `1.5 Pro`, `2.0 Pro`, or `2.0 Pro-Fast` as the audio-capable alternative before generating.
+- If the user picks (or you must pick) a model that does **not** support audio (`1.0 Pro`, `1.0 Pro-Fast`, `2.0 Mini`), warn them that the resulting video will be silent and offer `2.5`, `2.0 Pro`, or `2.0 Pro-Fast` as the audio-capable alternative before generating.
 - Never silently drop the audio parameter. If you override the default (e.g. to save cost), say so in your response.
 
 ### Model Capabilities
 
 | Model | Quality | Resolution | First / Last Frame | Reference Images | Audio Sync | Smart Ratio | Duration | Notes |
 |-------|---------|-----------|--------------------|------------------|------------|-------------|----------|-------|
-| **1.5 Pro** | Best (1.x) | 480p / 720p / 1080p | Yes / Yes | No | Yes (2x cost) | Yes | 4–12s | Recommended for audio + frame mode; Smart duration |
+| **2.5** | Newest | 480p / 720p / 1080p | Yes / Yes | **Yes (30 img + 10 vid + 10 aud)** | Yes (2x cost) | Yes | 4–30s | Longest clips; video edit / extend via `task_type`; audio-only refs; Smart duration |
 | **1.0 Pro** | High | 480p / 720p / 1080p | Yes / Yes | No | No | No | 1–12s | Frame-only |
 | **1.0 Pro-Fast** | Good | 480p / 720p / 1080p | Yes / **No** | No | No | No | 1–12s | Fastest, first-frame only |
 | **2.0 Pro** | Premium | 480p / 720p / 1080p / **4K** | Yes / Yes | **Yes (9 img + 3 vid + 3 aud)** | Yes (2x cost) | Yes | 4–15s | Only model with **4K**; multimodal refs; Smart duration |
@@ -311,14 +346,15 @@ or all person slots are used.
 | **2.0 Mini** | Premium-lite | 480p / 720p | Yes / Yes | **Yes (9 images only)** | **No** | Yes | 4–15s | Cheapest 2.0; **no audio**; **no Smart duration** (explicit `duration` required); caps at 720p |
 
 ### Constraints
-- `4K` resolution is available on **`2.0 Pro` only**. `2.0 Pro-Fast` and `2.0 Mini` cap at `720p`; the 1.0 family and `1.5 Pro` top out at `1080p`.
+- `4K` resolution is available on **`2.0 Pro` only**. `2.0 Pro-Fast` and `2.0 Mini` cap at `720p`; the 1.0 family and `2.5` top out at `1080p`.
 - Image inputs (frame OR reference) do **not** restrict resolution — valid resolutions are per-model only. Check `list_models` before picking a combination.
 - `last_frame_url` is NOT supported by `1.0 Pro-Fast` (first-frame only).
-- `audio_sync` is supported by `1.5 Pro`, `2.0 Pro`, and `2.0 Pro-Fast` only; doubles the generation cost. `1.0 Pro`, `1.0 Pro-Fast`, and `2.0 Mini` are silent.
-- **Duration:** 1.0 family (`1.0 Pro` / `1.0 Pro-Fast`) = 1–12s; `1.5 Pro` = 4–12s; 2.0 family (`2.0 Pro` / `2.0 Pro-Fast` / `2.0 Mini`) = 4–15s.
-- **Smart ratio** (`adaptive` aspect ratio) is available on `1.5 Pro` and the whole 2.0 family; the 1.0 family is fixed-ratio only.
-- **Smart duration** (automatic duration) is available on `1.5 Pro`, `2.0 Pro`, and `2.0 Pro-Fast`; `2.0 Mini` and the 1.0 family require an explicit `duration`.
-- **Reference images:** `2.0 Pro` / `2.0 Pro-Fast` accept up to **9 images + 3 videos + 3 audio** (video/audio refs are canvas `generatorNode` only — `generate_video` does not expose video/audio reference params); `2.0 Mini` accepts up to **9 images only** (no video/audio refs).
+- `generate_audio` is supported by `2.5`, `2.0 Pro`, and `2.0 Pro-Fast` only; doubles the generation cost. `1.0 Pro`, `1.0 Pro-Fast`, and `2.0 Mini` are silent.
+- **Duration:** 1.0 family (`1.0 Pro` / `1.0 Pro-Fast`) = 1–12s; 2.0 family (`2.0 Pro` / `2.0 Pro-Fast` / `2.0 Mini`) = 4–15s; `2.5` = 4–30s.
+- **Smart ratio** (`adaptive` aspect ratio) is available on the whole 2.0 family and `2.5`; the 1.0 family is fixed-ratio only.
+- **Smart duration** (`duration=-1`) is available on `2.0 Pro`, `2.0 Pro-Fast`, and `2.5`; `2.0 Mini` and the 1.0 family require an explicit `duration`.
+- **References:** `2.0 Pro` / `2.0 Pro-Fast` accept up to **9 images + 3 videos + 3 audio**; `2.0 Mini` up to **9 images only**; `2.5` up to **30 images + 10 videos + 10 audio**, and audio may be the only reference. The 2.0 family needs an image or video alongside any audio. Video/audio reference URLs must be account-hosted (`create_media_upload` → `finalize_media_upload`) or `asset://`.
+- `frames` and `camera_fixed` are 1.0-family only; the 2.0 family and `2.5` reject them.
 
 ### Workflow Pattern
 
@@ -575,16 +611,16 @@ list_visuals(type="video", limit=10)
 ### Generate an image, then animate it as video
 1. `generate_image(prompt="a serene mountain lake at sunset", model="4.5", aspect_ratio="16:9")`
 2. Get the `asset_url` from the result
-3. `generate_video(prompt="gentle water ripples and clouds drifting", first_frame_url="{asset_url}", model="1.5 Pro", audio_sync=true)`
+3. `generate_video(prompt="gentle water ripples and clouds drifting", first_frame_url="{asset_url}", model="2.5", generate_audio=true)`
 4. Poll `check_generation_status(generation_id)` until complete
 
 ### Generate a video using a character/style reference (not a literal first frame)
 1. Have one or more reference images (e.g. character sheets, mood boards) as public URLs.
-2. `generate_video(prompt="the character walks through a neon-lit alley, cinematic", reference_image_urls=["{url1}", "{url2}"], model="2.0 Pro", audio_sync=true)` — use `2.0 Pro` (or `2.0 Pro-Fast`) for premium quality (up to 9 image refs), or `2.0 Mini` for cheaper runs (up to 9 image refs, but no audio).
+2. `generate_video(prompt="the character walks through a neon-lit alley, cinematic", reference_image_urls=["{url1}", "{url2}"], model="2.0 Pro", generate_audio=true)` — use `2.0 Pro` (or `2.0 Pro-Fast`) for premium quality (up to 9 image refs), `2.5` for longer clips or more references (up to 30 image refs), or `2.0 Mini` for cheaper runs (up to 9 image refs, but no audio).
 3. Poll `check_generation_status(generation_id)` until complete. The model takes inspiration from the references but doesn't insert them as literal frames.
 
 ### Animate an image with spoken line ("make it say …")
-1. `generate_video(prompt='the subject says: "Assalamualaikum, hari ini Re:source Friday saya ke 10", natural lip-sync, keep framing consistent with the reference image', first_frame_url="{asset_url}", model="1.5 Pro", audio_sync=true)`
+1. `generate_video(prompt='the subject says: "Assalamualaikum, hari ini Re:source Friday saya ke 10", natural lip-sync, keep framing consistent with the reference image', first_frame_url="{asset_url}", model="2.5", generate_audio=true)`
 2. Poll `check_generation_status(generation_id)` until complete — the returned video will include the spoken audio.
 
 ### Iterate on a visual (regenerate with a different prompt)
@@ -612,14 +648,16 @@ Use this only when the user explicitly wants multiple visuals to compare in para
 
 - **Prompt quality matters.** Be specific about composition, lighting, style, and subject. The `optimize_prompt` setting can help improve vague prompts.
 - **Check your balance** with `get_credit_balance` before batch operations.
-- **Use 4.5 or 5.0 for images** (up to 4K, up to 10 sequential images); reach for `5.0-Pro` for a single highest-fidelity hero shot (1K/2K only, `batch_size` fixed at 1), or `5.0-Lite` for faster generation or canvas-only `guidanceScale` / `jpeg`–`png` output tuning via the Flows `generatorNode` (not `generate_image` parameters).
-- **Picking a video model**: default to `1.5 Pro` for audio + frame work; reach for `2.0 Pro` (or the cheaper `2.0 Pro-Fast`) when the user wants premium quality, 4K (2.0 Pro only), OR multiple style/character reference images (up to 9). Use `2.0 Mini` (up to 9 image refs, no audio) when cost matters more than premium quality. Default `audio_sync=true` unless the user asks for a silent clip — "make it say", "sings", and similar prompts imply audio is required.
-- **Frame vs reference**: if the user wants the video to literally start (or end) on a specific image, use `first_frame_url` / `last_frame_url`. If they want the model to take stylistic/character cues from images without locking them as frames, use `reference_image_urls` (2.0 Pro, 2.0 Pro-Fast, 2.0 Mini only). Never combine both in the same call.
+- **Use 4.5 or 5.0 for images** (up to 4K, up to 10 sequential images); reach for `5.0-Pro` for a single highest-fidelity hero shot (1K/2K only, `batch_size` fixed at 1), or `5.0-Lite` for faster generation or `guidance_scale` / `output_format` (`jpeg`–`png`) tuning.
+- **Picking a video model**: reach for `2.5` for audio + frame work, clips longer than 15 s, or editing / extending an existing video (`task_type`); `2.0 Pro` (or the cheaper `2.0 Pro-Fast`) when the user wants premium quality or 4K (2.0 Pro only). Use `2.0 Mini` (the tool default; up to 9 image refs, no audio) when cost matters more than premium quality. Default `generate_audio=true` unless the user asks for a silent clip — "make it say", "sings", and similar prompts imply audio is required.
+- **Frame vs reference**: if the user wants the video to literally start (or end) on a specific image, use `first_frame_url` / `last_frame_url`. If they want the model to take stylistic/character cues from images without locking them as frames, use `reference_image_urls` (2.0 Pro, 2.0 Pro-Fast, 2.0 Mini, 2.5 only). Never combine both in the same call.
 - **Video is async.** Always poll `check_generation_status` — do not assume instant results.
 - **Media inputs:** local file → `create_media_upload` / `finalize_media_upload`; web image → `import_image_url` (or rely on auto-clone). Never depend on hotlinked third-party CDNs for Visualfeed display.
 
 ---
 
+> Direct tools (`generate_image` / `edit_image` / `generate_video`) synced against backend
+> `feat/mcp-parity-backfill` on 2026-10-01 and kept in step by `tests/test_mcp_parity.py`.
 > Synced against backend 6819202 on 2026-08-13. (The flow tool surface was first
 > synced from the standalone `nodeflow-mcp` repo at cf82821 on 2026-07-18 — that
 > was the repo's name then; it is Flows now, but the provenance stands.)

@@ -1,28 +1,28 @@
-Dola Seedream 5.0 pro (hereinafter referred to as seedream\-5\-0\-pro) provides interactive editing capabilities and supports precise image editing by specifying position coordinates in the prompt. You can mark positions on a reference image by using coordinate points or annotations to establish positional relationships. The model then performs edits based on the marked positions, enabling fine\-grained operations such as object replacement, element positioning, and partial repainting.
+Dola Seedream 5.0 pro (hereinafter referred to as Seedream 5.0 pro) and Dola Seedream 5.0 flash (hereinafter referred to as Seedream 5.0 flash) both provide interactive editing capabilities and support precise image editing by specifying position coordinates in the prompt. You can mark positions on a reference image by using coordinate points or annotations to establish positional relationships. The models then perform edits based on the marked positions, enabling fine\-grained operations such as object replacement, element positioning, and partial repainting.
 
-This document describes how to implement point\-based and bounding\-box\-based interactive editing with Seedream 5.0 pro. After a user uploads a reference image and specifies an edit position by selecting a point or drawing a bounding box, the frontend converts the selected position into **normalized coordinates** . The coordinate range is **0 to 999** , where the top\-left corner is 0,0 and the bottom\-right corner is 999,999. The frontend then marks the coordinates by using `<point>` or `<bbox>` and submits them together with the natural\-language prompt to the model. Seedream 5.0 pro generates the edited image based on the reference image, coordinate positions, and text instructions.
+This document describes how to implement point\-based and bounding\-box\-based interactive editing with Seedream 5.0 pro and Seedream 5.0 flash. After a user uploads a reference image and specifies an edit position by selecting a point or drawing a bounding box, the frontend converts the selected position into **normalized coordinates**. The coordinate range is **0 to 999**, where the top\-left corner is 0,0 and the bottom\-right corner is 999,999. The frontend then marks the coordinates by using `<point>` or `<bbox>` and submits them together with the natural\-language prompt to the model. The model generates the edited image based on the reference image, coordinate positions, and text instructions.
 
 
-<span aceTableMode="list" aceTableWidth="2,1"></span>
+<span aceTableMode="list" aceTableWidth="2.5,1"></span>
 |Input image and bounding\-box selection |Preview |
 |---|---|
-|<video src="https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream_5.0_editing_demo.mp4" controls></video><br><br><br>&nbsp;<br><br>Convert the target area selected by the user into spatial coordinates, and assemble them into a prompt that the model can understand.<br><br>> Prompt: `Use the subject in Image 2 <bbox>118 331 933 871</bbox> to replace the subject in Image 1 <bbox>179 283 796 986</bbox>.` |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_5.0_output.jpeg) </span><br><br>Generate the edited image based on the assembled prompt and the reference image. |
+|<video src="https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/Seedream_5.0_editing_demo.mp4" controls></video><br><br><br>&nbsp;<br><br>> Convert the target area selected by the user into spatial coordinates, and assemble them into a prompt that the model can understand.<br><br>> <br><br>> Prompt: `Use the subject in Image 2 <bbox>118 331 933 871</bbox> to replace the subject in Image 1 <bbox>179 283 796 986</bbox>.` |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_5.0_output.jpeg) </span><br><br>&nbsp;<br><br>> Generate the edited image based on the assembled prompt and the reference image. |
 
 
 <span id="key-steps"></span>
 # Key step: Convert the target area into normalized coordinates
 
-The model requires two key inputs: **the image to edit** and a **prompt** that contains normalized coordinates and editing instructions. Normalized coordinates map the point or bounding box selected on the image to a **1000 \* 1000 proportional coordinate system with values in the range [0,999]**  . After the image width and height are divided into 1000 units, the top\-left corner of the image is `0,0`, and the bottom\-right corner is `999,999`.
+The model requires two key inputs: **the image to edit** and a **prompt** that contains normalized coordinates and editing instructions. Normalized coordinates map the point or bounding box selected on the image to a **1000 \* 1000 proportional coordinate system with values in the range [0,999]** . After the image width and height are divided into 1000 units, the top\-left corner of the image is `0,0`, and the bottom\-right corner is `999,999`.
 
-**Coordinate formats supported in prompts** :
-
-
-* **Point coordinates** : `<point>x y</point>`. This specifies a point, and the model determines the affected area.
-
-* **Bounding\-box coordinates** : `<bbox>x1 y1 x2 y2</bbox>`. This specifies the top\-left and bottom\-right coordinates to precisely control the size of the edit area.
+**Coordinate formats supported in prompts**:
 
 
-**How to process normalized coordinates** :
+* **Point coordinates**: `<point>x y</point>`. This specifies a point, and the model determines the affected area.
+
+* **Bounding\-box coordinates**: `<bbox>x1 y1 x2 y2</bbox>`. This specifies the top\-left and bottom\-right coordinates to precisely control the size of the edit area.
+
+
+**How to process normalized coordinates**:
 
 
 1. Obtain the location information: After the user selects a point or draws a bounding box, first obtain the relative coordinates of the point or box within the displayed image area. The coordinates are relative to the top\-left corner of the image.
@@ -62,7 +62,7 @@ The model requires two key inputs: **the image to edit** and a **prompt** that c
 <div data-tips="true" data-tips-type="tip" data-tips-is-title="true">tip</div>
 
 
-<div data-tips="true" data-tips-type="tip">For information about how to explicitly specify the target object in multi\-subject scenarios, see <a href="https://docs.byteplus.com/en/docs/ModelArk/2582775#usage">Usage instructions</a>.</div>
+<div data-tips="true" data-tips-type="tip">For information about how to explicitly specify the target object in multi\-subject scenarios, see <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2582775#usage">Usage instructions</a>.</div>
 
 
 
@@ -80,10 +80,9 @@ The model requires two key inputs: **the image to edit** and a **prompt** that c
 <span id="demo-project"></span>
 ## Demo project
 
-You can download the code example to try interactive editing.
+You can download the [TouchEdit demo](https://arkdocs-en.tos-ap-southeast-1.volces.com/files/image-generation/touch_edit_demo_arkruntime-20260909.zip) to try interactive editing.
 
-<Attachment link="https://arkdocs-en.tos-ap-southeast-1.volces.com/files/image-generation/touch_edit_demo.zip" name="touch_edit_demo.zip">touch_edit_demo.zip</Attachment>
-
+After extracting the package, install its dependencies with `python3 -m pip install -r requirements.txt`, set `ARK_API_KEY`, and run `bash run.sh`.
 
 <span id="flow"></span>
 ## Flow overview
@@ -98,7 +97,7 @@ The following flowchart shows the complete process for implementing interactive 
 <div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
 
 
-<div data-tips="true" data-tips-type="warning">This document provides code snippets that demonstrate the key logic. The following snippets alone are not sufficient to implement the complete workflow. For the complete implementation, see <a href="https://docs.byteplus.com/en/docs/ModelArk/2582775#demo-project">Demo project</a>.</div>
+<div data-tips="true" data-tips-type="warning">This document provides code snippets that demonstrate the key logic. The following snippets alone are not sufficient to implement the complete workflow. For the complete implementation, see <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2582775#demo-project">Demo project</a>.</div>
 
 
 <span id="upload-image-to-canvas"></span>
@@ -179,7 +178,7 @@ Replace the area <bbox>120 180 640 760</bbox> in Image 1 with a garden.
 
 1. Convert the mouse client coordinates into world coordinates to eliminate the impact caused by canvas position, panning, and zooming.
 
-2. Convert the world coordinates into normalized coordinates in the range 0 to 999 within the image. For more information, see [Key operation: Convert the target area into normalized coordinates](https://docs.byteplus.com/en/docs/ModelArk/2582775#key-steps).
+2. Convert the world coordinates into normalized coordinates in the range 0 to 999 within the image. For more information, see [Key operation: Convert the target area into normalized coordinates](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2582775#key-steps).
 
    * Point selection mode: Generate `<point> x y</point>`.
 
@@ -203,7 +202,7 @@ function clientToWorld(clientX, clientY) {
 }
 
 function clamp1000(value) {
-  return Math.max(0, Math.min(1000, Math.round(value)));
+  return Math.max(0, Math.min(999, Math.round(value)));
 }
 
 function normalizedPoint(worldPoint, image) {
@@ -416,7 +415,7 @@ generateBtn.addEventListener("click", async () => {
 import os
 from typing import Any
 
-from byteplussdkarkruntime import Ark
+from arkruntime import Ark
 
 
 DEFAULT_ARK_BASE_URL = "https://ark.ap-southeast.bytepluses.com/api/v3"
@@ -441,50 +440,51 @@ def _generate_image(client: Ark, request: dict[str, Any]) -> Any:
         return client.images.generate(**fallback_request)
 
 
-prompt = (payload.get("prompt") or "").strip()
-images = payload.get("images") or []
-if not prompt:
-    return self._send_json(400, {"error": "prompt is required"})
-if not images:
-    return self._send_json(400, {"error": "at least one image is required"})
+def handle_generate(self, payload: dict[str, Any]):
+    prompt = (payload.get("prompt") or "").strip()
+    images = payload.get("images") or []
+    if not prompt:
+        return self._send_json(400, {"error": "prompt is required"})
+    if not images:
+        return self._send_json(400, {"error": "at least one image is required"})
 
-image_urls = [img.get("dataUrl") for img in images if img.get("dataUrl")]
-if not image_urls:
-    return self._send_json(400, {"error": "no image dataUrl found"})
-image_arg = image_urls[0] if len(image_urls) == 1 else image_urls
-model = os.getenv("ARK_MODEL", DEFAULT_ARK_MODEL)
+    image_urls = [img.get("dataUrl") for img in images if img.get("dataUrl")]
+    if not image_urls:
+        return self._send_json(400, {"error": "no image dataUrl found"})
+    image_arg = image_urls[0] if len(image_urls) == 1 else image_urls
+    model = os.getenv("ARK_MODEL", DEFAULT_ARK_MODEL)
 
-try:
-    client = _get_ark_client()
-    resp = _generate_image(
-        client,
+    try:
+        client = _get_ark_client()
+        resp = _generate_image(
+            client,
+            {
+                "model": model,
+                "prompt": prompt,
+                "image": image_arg,
+                "size": "2K",
+                "output_format": "png",
+                "response_format": "url",
+                "watermark": False,
+            },
+        )
+    except Exception as exc:
+        print(f"[generate] error: {exc!r}")
+        return self._send_json(500, {"error": str(exc)})
+
+    try:
+        url = resp.data[0].url
+    except (AttributeError, IndexError) as exc:
+        return self._send_json(502, {"error": f"unexpected ark response: {exc}"})
+
+    return self._send_json(
+        200,
         {
             "model": model,
             "prompt": prompt,
-            "image": image_arg,
-            "size": "2K",
-            "output_format": "png",
-            "response_format": "url",
-            "watermark": False,
+            "url": url,
         },
     )
-except Exception as exc:
-    print(f"[generate] error: {exc!r}")
-    return self._send_json(500, {"error": str(exc)})
-
-try:
-    url = resp.data[0].url
-except (AttributeError, IndexError) as exc:
-    return self._send_json(502, {"error": f"unexpected ark response: {exc}"})
-
-return self._send_json(
-    200,
-    {
-        "model": model,
-        "prompt": prompt,
-        "url": url,
-    },
-)
 ```
 
 
@@ -521,9 +521,9 @@ In multi\-subject scenarios, you can use the following approaches to specify the
 # Related documents
 
 
-* [Seedream 5.0 pro tutorial](https://docs.byteplus.com/en/docs/ModelArk/2582774)
+* [Seedream 5.0 pro / flash tutorial](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2582774)
 
-* [Image generation API](https://docs.byteplus.com/en/docs/ModelArk/1541523)
+* [Image generation API](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1541523)
 
 
 

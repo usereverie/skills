@@ -223,6 +223,8 @@ Generate videos from text prompts using Seedance models. Video generation is **a
 | `"extend"` | Continue an existing video forward or backward | ≥1 reference video; `aspect_ratio="adaptive"` |
 | `"first_last_frame"` | Clip between a given first and last frame | `aspect_ratio="adaptive"` |
 
+`"edit"` and `"extend"` are also passed to ModelArk as a task-type hint, so their requirements (e.g. an edit with no reference video, or a reference video outside 4–30 s) are rejected **immediately** with `InvalidParameter.TaskTypeConstraint` instead of failing minutes later. The other intents send no hint — the model classifies from the inputs and prompt. The model still re-reads the prompt at run time: an `"edit"` whose prompt asks for a brand-new scene can still fail later with `InvalidParameter.TaskTypeMismatch`, so make the prompt match the intent ("Edit the video: …", "Extend the video: …").
+
 For a locked intent, leave `aspect_ratio` / `duration` at their defaults (don't pass them) and the locked values are filled in for you; explicitly passing a conflicting value (e.g. `aspect_ratio="16:9"` with `task_type="edit"`) is an error.
 
 ### Frame mode vs Reference mode

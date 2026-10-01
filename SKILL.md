@@ -24,7 +24,7 @@ For concrete generation requests, read `mcp-reference.md` first (parameter table
 - `generate_image` / `edit_image` / `create_variant`
 - `generate_video`
 - `generate_text`
-- Media: `import_image_url` (web images) or `create_media_upload` / `finalize_media_upload` (local files)
+- Media: `import_image_url` (web images) or `create_media_upload` / `finalize_media_upload` (local files). If `create_media_upload` returns `storage_unavailable`, don't retry — serve the local image at a temporary public https URL and call `import_image_url` instead (images only; see `mcp-reference.md`)
 - project helpers such as `create_project` / `list_projects` when needed
 
 **Web / product-page images:** call `import_image_url` (or pass the URL and let MCP auto-clone) — do not expect Visualfeed to display a hotlinked third-party CDN URL.

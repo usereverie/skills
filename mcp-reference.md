@@ -223,7 +223,7 @@ Generate videos from text prompts using Seedance models. Video generation is **a
 | `"extend"` | Continue an existing video forward or backward | ≥1 reference video; `aspect_ratio="adaptive"` |
 | `"first_last_frame"` | Clip between a given first and last frame | `aspect_ratio="adaptive"` |
 
-Omit `aspect_ratio` / `duration` for a locked intent and they are filled in for you; sending a conflicting value is an error.
+For a locked intent, leave `aspect_ratio` / `duration` at their defaults (don't pass them) and the locked values are filled in for you; explicitly passing a conflicting value (e.g. `aspect_ratio="16:9"` with `task_type="edit"`) is an error.
 
 ### Frame mode vs Reference mode
 

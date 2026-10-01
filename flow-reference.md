@@ -185,6 +185,9 @@ rejected with `invalid_params` naming the field — fix and retry, don't re-gues
 
 ## Media inputs
 - **Local file** → `create_media_upload` + `finalize_media_upload` (reverie tools); pass the returned URL as an `imageNode` `imageUrl` or generator reference.
+  If `create_media_upload` returns `storage_unavailable`, don't retry — serve the
+  image at a temporary public https URL and use `import_image_url` instead (images
+  only; see the `create_media_upload` fallback in `mcp-reference.md`).
 - **Web image** → `import_image_url` (reverie tool; clones to the user's account).
   Never wire a raw external URL into an `imageNode` — its `imageUrl` must be
   account-hosted.

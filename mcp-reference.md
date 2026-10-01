@@ -477,6 +477,7 @@ ProjectReverie Visualfeed can only proxy known storage hosts. **Do not hotlink**
 | Source | Tool |
 |--------|------|
 | Local file on the agent machine | `create_media_upload(content_type, size_bytes, filename?)` → PUT bytes to `upload_url` → `finalize_media_upload(upload_id)` → use returned `asset_url` |
+| Local image, direct upload disabled (503 `storage_unavailable`) | Serve the file at a temporary public https URL → `import_image_url(url)` → use returned `url`. See *Fallback* below. |
 | Web / product-page image URL | `import_image_url(url)` → use returned `url` (account-hosted clone) |
 | Already account-hosted / `asset://…` | Pass through to `generate_*` / `edit_image` |
 
@@ -489,6 +490,8 @@ Clone a public web image into the user's account storage (≤10 MB; PNG/JPEG/Web
 ### `create_media_upload` / `finalize_media_upload`
 
 Direct upload of a local file (image ≤10 MB; video ≤50 MB; audio ≤15 MB). See tool descriptions for the 3-step flow. `finalize_media_upload` is the only source of the validated `asset_url`.
+
+**Fallback when direct uploads are disabled.** If `create_media_upload` returns `{"error": "storage_unavailable", ...}` (HTTP 503), the server cannot sign uploads right now — **do not retry**. If the response carries a `fallback` field, follow it. Otherwise serve the local file at a temporary public https URL (e.g. a quick tunnel via `cloudflared tunnel --url http://localhost:<port>` in front of a local static server, or any static host), call `import_image_url(url)`, and use the returned account-hosted `url` as the generation reference or `imageNode` `imageUrl`. Shut the temporary server down afterwards. This only works for images (PNG/JPEG/WebP/GIF, ≤10 MB); there is **no fallback for local video or audio** while direct uploads are disabled — tell the user.
 
 ### `list_models`
 Returns all available models with their IDs, display names, and pricing. Call this first to see what's available.
@@ -616,7 +619,7 @@ Use this only when the user explicitly wants multiple visuals to compare in para
 - **Picking a video model**: default to `1.5 Pro` for audio + frame work; reach for `2.0 Pro` (or the cheaper `2.0 Pro-Fast`) when the user wants premium quality, 4K (2.0 Pro only), OR multiple style/character reference images (up to 9). Use `2.0 Mini` (up to 9 image refs, no audio) when cost matters more than premium quality. Default `audio_sync=true` unless the user asks for a silent clip — "make it say", "sings", and similar prompts imply audio is required.
 - **Frame vs reference**: if the user wants the video to literally start (or end) on a specific image, use `first_frame_url` / `last_frame_url`. If they want the model to take stylistic/character cues from images without locking them as frames, use `reference_image_urls` (2.0 Pro, 2.0 Pro-Fast, 2.0 Mini only). Never combine both in the same call.
 - **Video is async.** Always poll `check_generation_status` — do not assume instant results.
-- **Media inputs:** local file → `create_media_upload` / `finalize_media_upload`; web image → `import_image_url` (or rely on auto-clone). Never depend on hotlinked third-party CDNs for Visualfeed display.
+- **Media inputs:** local file → `create_media_upload` / `finalize_media_upload` (on `storage_unavailable`, don't retry — use the image-only `import_image_url` fallback above); web image → `import_image_url` (or rely on auto-clone). Never depend on hotlinked third-party CDNs for Visualfeed display.
 
 ---
 

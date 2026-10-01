@@ -1,7 +1,7 @@
 Prompt engineering involves writing efficient and stable instructions for models to continuously generate expected content. This article explains how to optimize and manage prompts for large language models, ensuring efficiency, stability, structure, and evaluability.
 
 
-* Choose an interface: Compatible with the OpenAI API protocol ([Compatible with OpenAI API](https://docs.byteplus.com/en/docs/ModelArk/1330626)), supports [Responses API](https://docs.byteplus.com/en/docs/ModelArk/Create_model_request) (recommended) and [Chat API](https://docs.byteplus.com/en/docs/ModelArk/1494384). For more information, see [Migrate to Responses API](https://docs.byteplus.com/en/docs/ModelArk/1585128).
+* Choose an interface: Compatible with the OpenAI API protocol ([Compatible with OpenAI API](https://docs.byteplus.com/en/docs/ModelArk/1330626)), supports [Responses API](https://docs.byteplus.com/en/docs/ModelArk/1569618) (recommended) and [Chat API](https://docs.byteplus.com/en/docs/ModelArk/1494384). For more information, see [Migrate to Responses API](https://docs.byteplus.com/en/docs/ModelArk/1585128).
 
 * Evaluation first: It is recommended to establish evaluation and regression mechanisms to ensure the controllability of prompt iterations.
 
@@ -26,6 +26,7 @@ Prompt engineering involves writing efficient and stable instructions for models
 ## Choose model and prompt strategy
 
 
+<span aceTableMode="list" aceTableWidth="1,1,1"></span>
 |**Models** |**Tasks and scenarios** |**Prompt style** |
 |---|---|---|
 |Text generation model with deep thinking |Complex tasks and multistep planning. Scenarios requiring analysis, decomposition, and decision\-making |Provide goals and constraints only, and let the model formulate its own plan and verify |
@@ -49,7 +50,7 @@ First, build evaluation standards and datasets to help measure the effect of cha
 <div data-tips="true" data-tips-type="tip"><strong>Prompt engineering tool: Prompt Pilot</strong></div>
 
 
-<div data-tips="true" data-tips-type="tip"><a href="https://console.byteplus.com/ark/region:ark+ap-southeast-1/autope">Prompt Pilot</a> from ModelArk can help you build an end\-to\-end prompt optimization process. Simply provide the initial prompt to intelligently complete the full prompt engineering process:</div>
+<div data-tips="true" data-tips-type="tip"><a href="https://ai.byteplus.com/ark/region:ap-southeast-1/autope">Prompt Pilot</a> from ModelArk can help you build an end\-to\-end prompt optimization process. Simply provide the initial prompt to intelligently complete the full prompt engineering process:</div>
 
 
 
@@ -209,9 +210,9 @@ Example (specified steps):
 
 * Clarify output requirements:
 
-   * **Specify output format** : Clearly specify the format that the model's final output should follow, such as lists, tables, paragraphs, etc., to ensure the output structure is easy to read, understand, and use.
+   * **Specify output format**: Clearly specify the format that the model's final output should follow, such as lists, tables, paragraphs, etc., to ensure the output structure is easy to read, understand, and use.
 
-   * **Provide detailed specification** : Clarify the detailed requirements that need to be met in the output format, such as content completeness, language styles, data accuracy standards, etc., to further constrain output quality and make the model output more in line with actual application needs.
+   * **Provide detailed specification**: Clarify the detailed requirements that need to be met in the output format, such as content completeness, language styles, data accuracy standards, etc., to further constrain output quality and make the model output more in line with actual application needs.
 
 
 Templates:
@@ -220,19 +221,19 @@ Templates:
 > Suppose you are a {role}, and you will solve {task} based on {context}. Execute according to the following rules:
 > 1. Rule 1
 > 2. Rule 2
-> 
+>
 > Example 1:
 > Question: {question}
 > Output: {response}
-> 
+>
 > Example 2:
 > Question: {question}
 > Output: {response}
-> 
+>
 > Please answer:
 > Question: {question}
 > Output:
-> 
+>
 > Requirements:
 > 1. Specify output format
 > 2. Provide detailed specifications to be met in the format
@@ -259,20 +260,20 @@ For more information, see [Skylark Role Creation Guide](https://docs.byteplus.co
 
 ```Plaintext
 > You are a {role}, known as {xxx}, born in {background and context}.
-> 
+>
 > Personality traits:
 > Language style:
 > Interpersonal relationships:
 > Past experiences:
 > Classic lines or catchphrases:
-> 
+>
 > {Line 1 (you can describe actions, emotions, and background in parentheses to enrich the context)}
 > {Line 2}
 ```
 
 
 <span id="b3181503"></span>
-### **Agent scenarios (long\-term tasks / multi\-tool collaboration)** 
+### **Agent scenarios (long\-term tasks / multi\-tool collaboration)**
 
 
 * Planning and persistence: Require complete resolution of user requests, splitting into subtasks and tracking completion status.
@@ -286,10 +287,6 @@ For more information, see [Skylark Role Creation Guide](https://docs.byteplus.co
 ## Context management and cost optimization
 
 
-* Use [Responses API](https://docs.byteplus.com/en/docs/ModelArk/Create_model_request) to simplify context management. In multi\-turn conversations, historical information can be passed through `previous_response_id` without manual management. For details, see [Context management](https://docs.byteplus.com/en/docs/ModelArk/2123288).
+* Use [Responses API](https://docs.byteplus.com/en/docs/ModelArk/1569618) to simplify context management. In multi\-turn conversations, historical information can be passed through `previous_response_id` without manual management. For details, see [Context management](https://docs.byteplus.com/en/docs/ModelArk/2123288).
 
-* Use context caching to reduce costs: For fixed system information and multi\-turn conversations, reduce request costs by using low\-cost cached inputs. For details, see [Context caching overview](https://docs.byteplus.com/en/docs/ModelArk/1398933).
-
-
-
-
+* Use context caching to reduce costs: For fixed system information and multi\-turn conversations, reduce request costs by using low\-cost cached inputs. For details, see [Context cache](https://docs.byteplus.com/en/docs/ModelArk/1398933).

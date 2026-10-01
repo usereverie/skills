@@ -6,7 +6,7 @@ This article introduces prompt tips for text\-to\-video and image\-to\-video fun
 **Seedance 1.0** is a series of basic video generation models newly launched by the ByteDance Doubao Large Model Team.
 
 
-* **Seedance 1.0 Pro** , as the large\-parameter version of this model series, has unique multi\-shot narrative capability and performs excellently in all dimensions. It has made breakthroughs in semantic understanding and instruction following capabilities, capable of generating 1080P high\-definition videos with smooth movement, rich details, diverse styles, and cinematic aesthetics.
+* **Seedance 1.0 Pro**, as the large\-parameter version of this model series, has unique multi\-shot narrative capability and performs excellently in all dimensions. It has made breakthroughs in semantic understanding and instruction following capabilities, capable of generating 1080P high\-definition videos with smooth movement, rich details, diverse styles, and cinematic aesthetics.
 
 * **Seedance 1.0 Pro Fast** is a full\-scale model that delivers top performance at a low cost, achieving an excellent balance between video production quality, speed, and cost. Based on the core advantages of the Seedance 1.0 Pro model, the generation speed is up to 3 times faster than that of Seedance 1.0 Pro, and the price is highly competitive, bringing creators an experience optimized for efficiency and cost.
 
@@ -14,14 +14,14 @@ This article introduces prompt tips for text\-to\-video and image\-to\-video fun
 <span id="7fda8bcc"></span>
 ## Prompt parameters
 
-In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/1520757#bb804461), the parameters related to the prompt are as follows:
+In [Create video generation task API](https://docs.byteplus.com/en/docs/ModelArk/1520757), the parameters related to the prompt are as follows:
 
-**Content.text** : Text input to the model that describes the expected generated video, including:
+**Content.text**: Text input to the model that describes the expected generated video, including:
 
 
-* **Prompts (required)**  : Support Chinese and English.
+* **Prompts (required)** : Support Chinese and English.
 
-* **Model text command (optional)**  : Append \-\- [parameters] after the text prompt to control the specifications of the video output. This article mainly uses:
+* **Model text command (optional)** : Append \-\- [parameters] after the text prompt to control the specifications of the video output. This article mainly uses:
 
    * Resolution `abbreviated as rs`: Resolution
 
@@ -85,7 +85,7 @@ In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/15
 <span id="a6a1df1c"></span>
 ### Basic camera movements
 
-> The Seedance 1.0 Pro version can accurately respond to camera movement prompt, such as **Tracking Shot, Pan Left/Right, Truck Left/Right.** 
+> The Seedance 1.0 Pro version can accurately respond to camera movement prompt, such as **Tracking Shot, Pan Left/Right, Truck Left/Right.**
 
 
 
@@ -113,21 +113,21 @@ In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/15
 <span id="4c5d7afd"></span>
 ### Control of Shot Sizes and Perspectives
 
-> Professional shot sizes such as **long shot** , **full shot** , **medium shot** , **close\-up** , can be controlled by professional description. Specific viewing angles can also be chosen: **underwater shots** , **aerial shots** , **high\-angle** , **low\-angle** , **macro photography** , **shots with xx as the foreground** , etc.
+> Professional shot sizes such as **long shot**, **full shot**, **medium shot**, **close\-up**, can be controlled by professional description. Specific viewing angles can also be chosen: **underwater shots**, **aerial shots**, **high\-angle**, **low\-angle**, **macro photography**, **shots with xx as the foreground**, etc.
 
 
 
 <span aceTableMode="list" aceTableWidth="1,1"></span>
 |Video Generation Example ||
 |---|---|
-|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/c3b3365e29034ed796a1f9f5d8a21089" controls></video><br><br><br>t2v: **Macro photograph** y: A caterpillar crawls on a petal, and the hairs on its body can be clearly seen. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/407213a0068342e9a0b26c55258d7a0c" controls></video><br><br><br>t2v: In the vast desert, a caravan of camels moves slowly. Aerial **shots from high** above capture the contrast between the immense expanse of the desert and the tiny caravan, highlighting the hardship of the journey. |
+|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/c3b3365e29034ed796a1f9f5d8a21089" controls></video><br><br><br>t2v:**Macro photograph**y: A caterpillar crawls on a petal, and the hairs on its body can be clearly seen. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/407213a0068342e9a0b26c55258d7a0c" controls></video><br><br><br>t2v: In the vast desert, a caravan of camels moves slowly. Aerial **shots from high** above capture the contrast between the immense expanse of the desert and the tiny caravan, highlighting the hardship of the journey. |
 |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/f8eb811c165241908f09805e0a76d876" controls></video><br><br><br>t2v: In the living room, a father is teaching his son to play chess. **Over\-the\-shoulder shots** over the father's shoulder capture the son's thoughtful expression and the chessboard layout, conveying the warm companionship between parent and child. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/d998f8cd740c441387b141d973f0cd3a" controls></video><br><br><br>t2v: Shooting through a box, there are two people looking inside the box. One of them reaches into the box and takes out a small kitten. |
 
 
 <span id="2f21e646"></span>
 ## Multi\-stylized videos
 
-> Seedance 1.0 pro\-t2v has the capability to directly output various styles, including 2D/3D, as well as more subdivided types such as **voxel** , **pixel, felt** , **clay** , **illustration,**  etc.
+> Seedance 1.0 pro\-t2v has the capability to directly output various styles, including 2D/3D, as well as more subdivided types such as **voxel**, **pixel, felt**, **clay**, **illustration,**  etc.
 
 
 
@@ -161,7 +161,7 @@ In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/15
 > Describe the view in a refined way, use natural language to write out the atmospheric characteristics of the view, and control the overall aesthetic feeling of the view.
 
 
-1. **Write the video type to control the frame characteristics.** 
+1. **Write the video type to control the frame characteristics.**
 
 
 
@@ -173,7 +173,7 @@ In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/15
 
 
 
-2. **Describe the desired atmosphere in natural language, which can be either positive or negative, so as to achieve the effect of controlling the aesthetic feeling of the view.** 
+2. **Describe the desired atmosphere in natural language, which can be either positive or negative, so as to achieve the effect of controlling the aesthetic feeling of the view.**
 
 
 
@@ -181,20 +181,20 @@ In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/15
 |Video generation example ||
 |---|---|
 |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/a43cc5bf62c94c2a9cf106bc8c8e0ee2" controls></video><br><br><br>t2v: Oil painting film style scene: in the English countryside, a blonde woman in a knitted sweater and a handsome man share a soulful gaze. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/14961c4d7d2d461bba4baa4e8814e6b4" controls></video><br><br><br>t2v: A textured old movie with a retro atmosphere: a street musician plays the violin intoxicatedly under the neon lights of a night\-time bar. |
-|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/d025598ae4344529ac62ae8a45391ddb" controls></video><br><br><br>t2v: A 1980s TV drama with an old\-fashioned and cheap makeup and costume style: a man is writing under a table lamp. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/81470a27f6d246f79311601a8c18bee5" controls></video><br><br><br>t2v: On the leaves of the garden, a group of pixies reside. As the **camera pans right** , the protagonist steps out from home, clad in a petal cloak and holding a grass\-leaf wand. At the tip of the wand is an embedded glowing yellow gem, styled in a microcosmic world. |
+|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/d025598ae4344529ac62ae8a45391ddb" controls></video><br><br><br>t2v: A 1980s TV drama with an old\-fashioned and cheap makeup and costume style: a man is writing under a table lamp. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/81470a27f6d246f79311601a8c18bee5" controls></video><br><br><br>t2v: On the leaves of the garden, a group of pixies reside. As the **camera pans right**, the protagonist steps out from home, clad in a petal cloak and holding a grass\-leaf wand. At the tip of the wand is an embedded glowing yellow gem, styled in a microcosmic world. |
 
 
 <span id="d3705525"></span>
 ## Multi\-lens capability
 
-> Seedance 1.0 pro supports including multiple scene switches in the same prompt. These scene switches will maintain the continuity of the **subject/style/scene** according to the content of the prompt. Lens changes are connected by " **camera/scene switch** ". After each scene is switched, if the scene and characters change, the prompt can be used to depict the characteristics of the newly appeared characters/scenes.
+> Seedance 1.0 pro supports including multiple scene switches in the same prompt. These scene switches will maintain the continuity of the **subject/style/scene** according to the content of the prompt. Lens changes are connected by "**camera/scene switch**". After each scene is switched, if the scene and characters change, the prompt can be used to depict the characteristics of the newly appeared characters/scenes.
 
 
 
 <span aceTableMode="list" aceTableWidth="1,1,1"></span>
 |Video generation example || |
 |---|---|---|
-|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/9cb3e6212be24e87a7fbe55ac98ea858" controls></video><br><br><br>t2v:<br><br>2D animation in American comic style, medium close\-up shot of a young and handsome white man who releases his hands, stretches and yawns.<br><br>**Camera switch.**  A woman is holding a camera, filming the white man, who crosses his hands and props his arms on his knees.<br><br>**Camera switch.**  A top\-down shot of a magazine on the table. A hand appears in the lower left corner of the frame, holding a cup of coffee and placing it on the magazine. The coffee is steaming.<br><br>Prompt source: Artificial Analysis |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/1926cc14b14f4e52b4225792001a8ebf" controls></video><br><br><br>i2v: The ship cuts through the storm as lightning repeatedly splits the night sky. **Switch to a medium shot** : a captain stands on the deck, holding a vintage telescope and gazing into the distance. The **camera slowly pushes forward** as he stows the telescope, his expression resolute as he looks ahead. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/45a632c1822341eb94585bc85f930648" controls></video><br><br><br>t2v: Push in for a close\-up of the red\-haired girl's astonished expression. The camera switches to a flowerpot on a windowsill in the ruins, containing a blue succulent plant. The camera switches to an overhead shot as the girl walks toward the succulent. The camera switches to a close\-up of the girl's eyes with the succulent in the foreground, then pan to her mouth as she whispers the plant's name. |
+|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/9cb3e6212be24e87a7fbe55ac98ea858" controls></video><br><br><br>t2v:<br><br>2D animation in American comic style, medium close\-up shot of a young and handsome white man who releases his hands, stretches and yawns.<br><br>**Camera switch.**  A woman is holding a camera, filming the white man, who crosses his hands and props his arms on his knees.<br><br>**Camera switch.**  A top\-down shot of a magazine on the table. A hand appears in the lower left corner of the frame, holding a cup of coffee and placing it on the magazine. The coffee is steaming.<br><br>Prompt source: Artificial Analysis |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/1926cc14b14f4e52b4225792001a8ebf" controls></video><br><br><br>i2v: The ship cuts through the storm as lightning repeatedly splits the night sky. **Switch to a medium shot**: a captain stands on the deck, holding a vintage telescope and gazing into the distance. The **camera slowly pushes forward** as he stows the telescope, his expression resolute as he looks ahead. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/45a632c1822341eb94585bc85f930648" controls></video><br><br><br>t2v: Push in for a close\-up of the red\-haired girl's astonished expression. The camera switches to a flowerpot on a windowsill in the ruins, containing a blue succulent plant. The camera switches to an overhead shot as the girl walks toward the succulent. The camera switches to a close\-up of the girl's eyes with the succulent in the foreground, then pan to her mouth as she whispers the plant's name. |
 |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/ed6c7b47dcb7451e9840291ffb62faca" controls></video><br><br><br>t2v: In a dilapidated factory, a detective is investigating a bizarre case. The scene begins with a low\-angle upward shot to highlight the detective's tall and resolute figure as he slowly walks deep into the factory. Then the **camera pans to follow** him, switching to a level shot to reveal the surrounding cluttered machines and scattered parts. Subsequently, the camera zooms in and shifts to a slightly level shot, focusing on a bloody footprint on the ground to create a tense and suspenseful atmosphere. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/16e8eae2ac6342889ae2f7e537c76a70" controls></video><br><br><br>t2v: A bizarre scene from a sci\-fi movie, in a panoramic shot: inside a future laboratory, the core of the image features a quantum computer, with a scientist beside it continuously operating on a holographic projection screen. The camera switches to a close\-up of the quantum computer, which suddenly bursts into red light. Then the camera switches again to the scientist's face, in a close\-up low\-angle shot, as the red glow shines on his face and his expression starts to turn flustered. | |
 
 
@@ -219,6 +219,3 @@ In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/15
 Seedance 1.0 pro aspect ratios supported by the model include: 1:1, 3:4, 4:3, 16:9, 9:16, 21:9.
 
 i2v recommends using images with these aspect ratios as the first/last frame. If the images do not conform to these aspect ratios, the automatic matching will adapt them by cropping to the closest applicable ratio.
-
-
-

@@ -11,23 +11,23 @@ The Dreamina Seedance 2.0 series (Seedance 2.0 series) model natively supports j
 
 The Seedance 2.0 series model supports referencing multimodal assets such as videos, images, and audio at the same time. It can accurately lock in characteristics such as character appearance, action effects, visual style, and voice\-over timbre, greatly lowering the threshold for writing prompts. Based on this advantage, we can guide the model with a simple basic formula, using the features of multimodal assets to quickly generate videos that meet specific requirements.
 
-Reference\-based video generation can be subdivided into three types of tasks: multimodal reference, editing videos, and extending videos. You can choose the basic prompt formula according to the task type.
+Reference\-based video generation can be subdivided into three types of tasks: omni reference, editing videos, and extending videos. You can choose the basic prompt formula according to the task type.
 
 <span id="886df673"></span>
-## Multimodal reference
+## Omni reference
 
 Extract some elements from the asset (such as subject, style, scene, and sound effects) to generate a brand\-new video.
 
 
-* **Applicable scenarios** : Action transfer, subject reuse, atmosphere reference, etc.
+* **Applicable scenarios**: Action transfer, subject reuse, atmosphere reference, etc.
 
-* **Recommended patterns** :
+* **Recommended patterns**:
 
-   * **Image reference** : Reference `<Subject_N>` in `<Image_N>` to generate...
+   * **Image reference**: Reference `<Subject_N>` in `<Image_N>` to generate...
 
-   * **Video reference** : Reference `<Action/Camera_movement/Style/Sound_effect>` in `<Video_N>` to generate...
+   * **Video reference**: Reference `<Action/Camera_movement/Style/Sound_effect>` in `<Video_N>` to generate...
 
-   * **Audio reference** : Reference the timbre in `<Audio_N>` to generate...
+   * **Audio reference**: Reference the timbre in `<Audio_N>` to generate...
 
 
 <span id="d65deb31"></span>
@@ -36,15 +36,15 @@ Extract some elements from the asset (such as subject, style, scene, and sound e
 Make partial or global modifications based on the original video. Parts not mentioned remain unchanged by default.
 
 
-* **Applicable scenarios** : local replacement, subject removal, attribute modification, etc.
+* **Applicable scenarios**: local replacement, subject removal, attribute modification, etc.
 
-* **Recommended patterns** :
+* **Recommended patterns**:
 
-   * **Add elements** : Clearly describe `<Element_Features>` + `<Timing>` + `<Location>`
+   * **Add elements**: Clearly describe `<Element_Features>` + `<Timing>` + `<Location>`
 
-   * **Modify elements** : Strictly edit `<Video_N>`, and modify `<Original_Characteristic>` in it to `<New_Characteristic>`
+   * **Modify elements**: Strictly edit `<Video_N>`, and modify `<Original_Characteristic>` in it to `<New_Characteristic>`
 
-   * **Delete elements** : Specify the elements that need to be deleted. For elements that should remain unchanged, emphasize them in the prompt for better performance.
+   * **Delete elements**: Specify the elements that need to be deleted. For elements that should remain unchanged, emphasize them in the prompt for better performance.
 
 
 <span id="6d3a7e55"></span>
@@ -53,13 +53,13 @@ Make partial or global modifications based on the original video. Parts not ment
 Continue the original video along the time dimension, requiring the audio\-video style, subject, and narrative to remain consistent.
 
 
-* **Applicable scenarios** : continuing the plot, extending actions, completing clips, etc.
+* **Applicable scenarios**: continuing the plot, extending actions, completing clips, etc.
 
-* **Recommended patterns** :
+* **Recommended patterns**:
 
-   * **Extend video** : Extend `<Video_N>` forward/backward to generate...
+   * **Extend video**: Extend `<Video_N>` forward/backward to generate...
 
-   * **Track completion** : `<Video_1>` + `<Transition_Description>` + followed by `<Video_2>` + `<Transition_Description>` + followed by `<Video_3>`
+   * **Track completion**: `<Video_1>` + `<Transition_Description>` + followed by `<Video_2>` + `<Transition_Description>` + followed by `<Video_3>`
 
 
 <div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
@@ -74,9 +74,9 @@ Continue the original video along the time dimension, requiring the audio\-video
 The above three types of tasks can also be used in combination.
 
 
-* **Applicable scenarios** : reference one asset and edit another asset.
+* **Applicable scenarios**: reference one asset and edit another asset.
 
-* **Recommended sentence patterns** :
+* **Recommended sentence patterns**:
 
    * Reference `[Reference_Dimension]` of `<Image/Video_N>`, strictly edit `<Video_X>`, `[Specific_Edits]`
 
@@ -95,22 +95,22 @@ Advanced prompt formula: precise subject + action details + scene/environment + 
 
 
 <columns>
-<columnsItem zoneid="gEd30HEz1g">
+<columnsItem zoneid="VfiVZHONF9">
 
 <span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/video-generation/doubao-seedance-2-0-prompt-guide-01.svg) </span>
 
 </columnsItem>
-<columnsItem zoneid="sIGhXdwXZW">
+<columnsItem zoneid="sFVEzQPe91">
 
 <span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/video-generation/doubao-seedance-2-0-prompt-guide-02.svg) </span>
 
 </columnsItem>
-<columnsItem zoneid="KbF92aAv1D">
+<columnsItem zoneid="gUW0BBN8HF">
 
 <span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/video-generation/doubao-seedance-2-0-prompt-guide-03.svg) </span>
 
 </columnsItem>
-<columnsItem zoneid="iqxc9RoQTI">
+<columnsItem zoneid="RvK8Q7Fp2r">
 
 <span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/flowcharts/video-generation/doubao-seedance-2-0-prompt-guide-04.svg) </span>
 
@@ -127,7 +127,7 @@ In the actual referenced asset, one image often contains multiple subjects. To p
 
 
 <Tabs>
-<Tab zoneid="tcp9CIOhEj" title="Basic Definition">
+<Tab zoneid="ibsDNVUVE5" title="Basic Definition">
 <TabTitle>Basic Definition</TabTitle>
 
 * **Recommended pattern**: Define `[Core_Subject_Features]` in `<Image/Video_N>` as `<Subject_N>`
@@ -142,23 +142,23 @@ In the actual referenced asset, one image often contains multiple subjects. To p
 
 
 </Tab>
-<Tab zoneid="vJaZF0Qslo" title="Single Subject Across Multiple Materials">
+<Tab zoneid="U7t2SnZOJn" title="Single Subject Across Multiple Materials">
 <TabTitle>Single Subject Across Multiple Materials</TabTitle>
 
 When objects in multiple assets refer to the same subject, bind them consistently:
 
 
-* **Recommended pattern**: Define `[...]` in **Image 1** and `[...]` in **Image 2** as  **`<Subject N>`** 
+* **Recommended pattern**: Define `[...]` in **Image 1** and `[...]` in **Image 2** as  **`<Subject_N>`** 
 
 
 </Tab>
-<Tab zoneid="jYgBR1DGpF" title="Multi-subject Scenario">
+<Tab zoneid="mP1q66G4pv" title="Multi-subject Scenario">
 <TabTitle>Multi-subject Scenario</TabTitle>
 
 When multiple subjects appear in a video, define them separately and distinguish them with labels. Labels must be unique and stable, and the corresponding labels must be used consistently in subsequent descriptions to avoid reference ambiguity.
 
 
-* **Recommended pattern**: Define `[Core_Features_Of_Subject_1]` in `<Image/Video_N>` as `<Subject_1>`, and define `[Core_Features_Of_Subject_2]` in `<Image/Video_N>` as `<Subject 2>`...
+* **Recommended pattern**: Define `[Core_Features_Of_Subject_1]` in `<Image/Video_N>` as `<Subject_1>`, and define `[Core_Features_Of_Subject_2]` in `<Image/Video_N>` as `<Subject_2>`...
 
 * **Example**: Define the tall man in **Video 1** as **police officer**, and define the other short man as **thief**. The scene is set in a crowded daytime market, with bright sunlight, many fruit stalls, and dense pedestrian traffic, creating a lively street\-market atmosphere. **Thief** runs forward in panic through the crowded market, while **police officer** follows closely behind at full speed. The two quickly weave through the stalls. A handheld camera rapidly tracks forward, with slight realistic camera shake, creating a tense chase atmosphere.
 
@@ -177,7 +177,7 @@ When multiple subjects appear in a video, define them separately and distinguish
    * <div data-tips="true" data-tips-type="warning">For simple scenarios with undefined subjects, each time the subject is mentioned, use <code><Subject_N>@<Image_N></code> to emphasize the binding relationship between the subject and the asset. For example: Zhang San@Image 1.</div>
 
 
-* <div data-tips="true" data-tips-type="warning">For scenarios where subjects have been defined in advance, each time the subject is mentioned, the same label should be used. For example: define the tall man in <strong>Video 1</strong> as <strong>police officer</strong> , and define the other short man as <strong>thief</strong> . In subsequent descriptions, when referring to the tall man, consistently use " <strong>police officer</strong> "; when referring to the short man, consistently use " <strong>thief</strong> ".</div>
+* <div data-tips="true" data-tips-type="warning">For scenarios where subjects have been defined in advance, each time the subject is mentioned, the same label should be used. For example: define the tall man in <strong>Video 1</strong> as <strong>police officer</strong>, and define the other short man as <strong>thief</strong>. In subsequent descriptions, when referring to the tall man, consistently use "<strong>police officer</strong>"; when referring to the short man, consistently use "<strong>thief</strong>".</div>
 
 
 * <div data-tips="true" data-tips-type="warning">When using the asset library (Asset ID), you still need to use <code><Image/Video_N></code> to refer to the subject. Because the model cannot directly associate the Asset ID with the reference content, you must not directly use the Asset ID instead of <code><Image/Video_N></code>.</div>
@@ -200,9 +200,9 @@ The model's internal modeling decouples space and time. Therefore, the ideal pro
 Use shot order, write a simple "Shot 1 / Shot 2 / Shot 3" storyboard for each segment of the video, and then merge them into a complete prompt.
 
 
-* **Negative example** : "A man runs nervously down the street, and the scene feels very cinematic."
+* **Negative example**: "A man runs nervously down the street, and the scene feels very cinematic."
 
-* **Positive example** :
+* **Positive example**:
 
    * Shot 1: Side shot of a street alley; the man slowly starts running, with a sense of rapid breathing.
 
@@ -226,13 +226,13 @@ Use shot order, write a simple "Shot 1 / Shot 2 / Shot 3" storyboard for each se
 
 * It is recommended to organize each shot according to the following logic:
 
-1. **Camera movement or shot transition method** : such as "slowly push in from a wide shot," "fixed camera position," "cut to..." and so on.
+1. **Camera movement or shot transition method**: such as "slowly push in from a wide shot," "fixed camera position," "cut to..." and so on.
 
-   2. **Subject actions and expressions** : describe the key actions and changes in expression of the core character / object.
+   2. **Subject actions and expressions**: describe the key actions and changes in expression of the core character / object.
 
-   3. **Position or spatial changes** : explain the scene, position, or spatial relationship where the subject is located.
+   3. **Position or spatial changes**: explain the scene, position, or spatial relationship where the subject is located.
 
-   4. **Audio information** : describe the sound effects, voices, background music, etc. corresponding to the shot.
+   4. **Audio information**: describe the sound effects, voices, background music, etc. corresponding to the shot.
 
 
 <span id="043084dd"></span>
@@ -241,29 +241,29 @@ Use shot order, write a simple "Shot 1 / Shot 2 / Shot 3" storyboard for each se
 
 * **Body\-movement refinement + degree quantification**
 
-   Actions should be specific to body parts such as hands, legs, head, shoulders, and back, while also supplementing descriptions of **range, speed, and force** ;
+   Actions should be specific to body parts such as hands, legs, head, shoulders, and back, while also supplementing descriptions of **range, speed, and force**;
 
-   **Examples** : slowly raise a hand, quickly turn the head, push hard off the ground, slightly lower the head.
+   **Examples**: slowly raise a hand, quickly turn the head, push hard off the ground, slightly lower the head.
 
 * **Prioritize slow, gentle, continuous small movements**
 
    Prioritize slow, gentle, coherent subtle movements, and try to avoid high\-burst, large\-dynamic actions such as sprinting, big jumps, and violent rolls.
 
-   **Examples** : walk slowly, gently raise a hand, slightly lower the head, sit down naturally with the motion
+   **Examples**: walk slowly, gently raise a hand, slightly lower the head, sit down naturally with the motion
 
 * **Supplement transitions between actions**
 
    Specify the inertia and continuity between preceding and following actions to ensure the on\-screen movement is coherent and natural.
 
-   **Examples** : use the inertia of turning around to naturally raise a hand, naturally transition from a pause into raising a hand.
+   **Examples**: use the inertia of turning around to naturally raise a hand, naturally transition from a pause into raising a hand.
 
 * **Concrete external expression of emotions**
 
 
 Use specific physical details to express emotions, replacing abstract words such as "very sad" and "extremely angry."
 
-```Plain Text
 See the table below for specific examples:
+
 
 |Abstract emotion |Externalized as actions and details |
 |---|---|
@@ -271,14 +271,13 @@ See the table below for specific examples:
 |Joy |the corners of the mouth rising uncontrollably, brows and eyes relaxing, steps becoming light, unconsciously humming a tune, unable to resist spinning in place |
 |Nervousness / anxiety |frequently checking the watch, fingers constantly tapping the tabletop, rapid breathing, eyes darting away, unconsciously biting fingernails |
 |Anger |both fists clenched, jawline tense, chest heaving violently, eyes as sharp as knives, squeezing words out through gritted teeth |
-|Relief |letting out a long breath, tense shoulders completely relaxing, a long-lost faint smile appearing on the face, looking up toward the distance |
-```
+|Relief |letting out a long breath, tense shoulders completely relaxing, a long\-lost faint smile appearing on the face, looking up toward the distance |
 
 
 <span id="96bb2087"></span>
 ## 4. Camera movement prompts
 
-The model has a strong understanding of camera movement terms, so you can directly use standard camera movement terminology, such as "medium shot, close\-up, wide shot, slow push\-in, smooth lateral tracking, fixed shot." For more, see [Lens language](https://docs.byteplus.com/en/docs/ModelArk/1631633#a395fd3b).
+The model has a strong understanding of camera movement terms, so you can directly use standard camera movement terminology, such as "medium shot, close\-up, wide shot, slow push\-in, smooth lateral tracking, fixed shot." For more, see [Lens language](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/1631633#a395fd3b).
 
 <div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
 
@@ -295,26 +294,26 @@ Image quality, style, and constraint words are key to controlling video generati
 
 Define image clarity, detailed textures, and lighting quality to improve the basic image quality of the final video.
 
-**Examples** : HD, rich details, cinematic texture, natural colors, soft lighting
+**Examples**: HD, rich details, cinematic texture, natural colors, soft lighting
 
 **2 Style**
 
 Set the overall art style and visual tone to unify the artistic atmosphere of the image.
 
-**Examples** : cyberpunk cool blue\-purple tone, retro film, fresh Japanese style
+**Examples**: cyberpunk cool blue\-purple tone, retro film, fresh Japanese style
 
 **3 Constraint words**
 
 Constraint words are very important. They can effectively avoid visual flaws, deformities, breakdowns, and unreasonable elements, and constrain the generation boundaries and stability.
 
-**Common constraint word templates** :
+**Common constraint word templates**:
 
 
-* **Avoid generating subtitles** : "keep it subtitle\-free," "avoid generating any text or subtitles"
+* **Avoid generating subtitles**: "keep it subtitle\-free," "avoid generating any text or subtitles"
 
-* **Avoid generating a Logo** : "do not generate a logo"
+* **Avoid generating a Logo**: "do not generate a logo"
 
-* **Avoid generating a watermark** : "do not generate a watermark"
+* **Avoid generating a watermark**: "do not generate a watermark"
 
 
 <span id="9d2f5bc4"></span>
@@ -324,7 +323,7 @@ Demonstrate how to use the advanced formulas and elements introduced above to wr
 
 
 <Tabs>
-<Tab zoneid="XQLic5vkFR" title="Example 1: Dormitory emotional short drama (dialogue-focused)">
+<Tab zoneid="AQSLtbOHdi" title="Example 1: Dormitory emotional short drama (dialogue-focused)">
 <TabTitle>Example 1: Dormitory emotional short drama (dialogue-focused)</TabTitle>
 
 **Asset preparation**:
@@ -353,7 +352,7 @@ The entire video should have a high\-definition cinematic documentary style, wit
 
 
 </Tab>
-<Tab zoneid="VQA4FDkblu" title="Example 2: Ancient-style cliff confrontation (action/atmosphere-focused)">
+<Tab zoneid="GqxjCiIHVP" title="Example 2: Ancient-style cliff confrontation (action/atmosphere-focused)">
 <TabTitle>Example 2: Ancient-style cliff confrontation (action/atmosphere-focused)</TabTitle>
 
 **Asset preparation**:
@@ -393,15 +392,15 @@ The overall visual style should feel like a cinematic wuxia world in misty rain,
 <span id="d375396d"></span>
 ## Text generation
 
-Seedance 2.0 series models support generating common text. The model can **automatically match** an appropriate style and color based on the context, and also supports **specifying** the color, style, appearance method, appearance timing, and appearance position of text in the prompt. When writing, please prioritize **common characters** and avoid **rare characters** and **special symbols** to ensure the best presentation. Currently, scenarios such as ad slogans, subtitles, and speech bubbles are supported. For specific writing methods and cases, see [Text generation](https://docs.byteplus.com/en/docs/ModelArk/2222480#081b2c64).
+Seedance 2.0 series models support generating common text. The model can **automatically match** an appropriate style and color based on the context, and also supports **specifying** the color, style, appearance method, appearance timing, and appearance position of text in the prompt. When writing, please prioritize **common characters** and avoid **rare characters** and **special symbols** to ensure the best presentation. Currently, scenarios such as ad slogans, subtitles, and speech bubbles are supported. For specific writing methods and cases, see [Text generation](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2222480#081b2c64).
 
 <span id="9e36856d"></span>
 ## Video extension vs segmented stitching
 
 
-* **Continuous long take (video extension)**  : suitable for "dialogue scenes" within a single scene, such as long conversations, emotional progression, and movement along a single path, to achieve an immersive and coherent one\-shot effect.
+* **Continuous long take (video extension)** : suitable for "dialogue scenes" within a single scene, such as long conversations, emotional progression, and movement along a single path, to achieve an immersive and coherent one\-shot effect.
 
-* **Scene / action turning points (segmented stitching)**  : suitable for plot turns or complex, fast\-paced "action scenes," such as chases, fights, montages, etc. Independent clips can be generated and then edited together to ensure rhythm and visual impact.
+* **Scene / action turning points (segmented stitching)** : suitable for plot turns or complex, fast\-paced "action scenes," such as chases, fights, montages, etc. Independent clips can be generated and then edited together to ensure rhythm and visual impact.
 
 
 In actual production, the two methods are usually combined. For example, first use extension to generate a coherent conversation, then stitch in empty shots or transition clips, balancing immersion with rhythmic variation.
@@ -455,7 +454,7 @@ Reasonable use of symbols in prompts helps the model accurately understand diffe
 # FAQ
 
 <span id="6e12ccfe"></span>
-## Character ID drifting
+## Inaccurate face reference
 
 **Typical symptoms**
 
@@ -466,9 +465,9 @@ The generated character appearance is inconsistent with the reference image, or 
 The face reference image is insufficiently effective
 
 
-* **Mixed reference images** : Providing the model with a single combined image that includes the face reference, full\-body/half\-body pose reference, outfit reference, detail reference, and other reference elements.
+* **Mixed reference images**: Providing the model with a single combined image that includes the face reference, full\-body/half\-body pose reference, outfit reference, detail reference, and other reference elements.
 
-* **Face ratio is too small** : In mixed reference images, the face area accounts for too small a proportion of the entire image. When extracting facial features, the model assigns insufficient weight to them and is easily disturbed by the background or other elements.
+* **Face ratio is too small**: In mixed reference images, the face area accounts for too small a proportion of the entire image. When extracting facial features, the model assigns insufficient weight to them and is easily disturbed by the background or other elements.
 
 
 **Solution**
@@ -476,17 +475,17 @@ The face reference image is insufficiently effective
 Strengthen the independence and weight of the face reference:
 
 
-1. **Prepare a close\-up face image** : In addition to the original full\-body photo, prepare an extra **close\-up face image containing only the character's head** (headshot, retaining only the face; no expression is best; minimize interfering elements such as shoulders, neck, and background).
+1. **Prepare a close\-up face image**: In addition to the original full\-body photo, prepare an extra **close\-up face image containing only the character's head** (headshot, retaining only the face; no expression is best; minimize interfering elements such as shoulders, neck, and background).
 
-2. **Clearly define the subject in the prompt** : < **Subject 1\> facial features reference image 1 (headshot), makeup and styling reference image 2 (full\-body photo)**  .
+2. **Clearly define the subject in the prompt**: <**Subject 1\> facial features reference image 1 (headshot), makeup and styling reference image 2 (full\-body photo)** .
 
-3. **Place important assets first** : The more an asset requires **precise reference** , the **earlier** it should be placed in the prompt.
+3. **Place important assets first**: The more an asset requires **precise reference**, the **earlier** it should be placed in the prompt.
 
 
 <div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
 
 
-<div data-tips="true" data-tips-type="warning">For character references, using a headshot + full\-body photo is sufficient. <strong>Using multi\-view character images is not recommended</strong> . Multi\-view assets contain different angles of the same character, and the model may easily identify them as multiple different subjects, which instead worsens the ID drift issue.</div>
+<div data-tips="true" data-tips-type="warning">For character references, using a headshot + full\-body photo is sufficient. <strong>Using multi\-view character images is not recommended</strong>. Multi\-view assets contain different angles of the same character, and the model may easily identify them as multiple different subjects, which instead worsens the ID drift issue.</div>
 
 
 
@@ -560,9 +559,9 @@ The current recommendation is to repair this in post\-editing by aligning keyfra
 
 1. Import the videos to be stitched into CapCut or other professional video editing software.
 
-2. At the first join, **trim 6 frames from the end of the previous video segment** .
+2. At the first join, **trim 6 frames from the end of the previous video segment**.
 
-3. At the same time, **trim 1 frame from the beginning of the following video segment** .
+3. At the same time, **trim 1 frame from the beginning of the following video segment**.
 
 4. Repeat the above operations for all stitching points.
 
@@ -617,7 +616,7 @@ Example: Zhang San (corresponding to image 1) throws the green passbook toward L
 2. **Add global constraint instructions**
 
 
-Add a fixed constraint at the end of the prompt: **Throughout the video, characters with completely identical appearance, clothing, and accessories are prohibited. Do not generate duplicate avatars or a twin effect. Keep only a single corresponding character in the same frame, and do not reproduce repeated copies of characters** .
+Add a fixed constraint at the end of the prompt: **Throughout the video, characters with completely identical appearance, clothing, and accessories are prohibited. Do not generate duplicate avatars or a twin effect. Keep only a single corresponding character in the same frame, and do not reproduce repeated copies of characters**.
 
 
 3. **Optimize reference assets**
@@ -694,9 +693,9 @@ When the number of reference people exceeds 4, the stability of the model output
 Currently, this can be mitigated in the following ways. In the future, fundamental optimization will be carried out based on model iterations:
 
 
-1. **Generate images step by step** : Group the people to ensure that the number of people in each generated image does not exceed 4. For example, 6 people can be divided into 2 groups of 3 people each, and images can be generated separately.
+1. **Generate images step by step**: Group the people to ensure that the number of people in each generated image does not exceed 4. For example, 6 people can be divided into 2 groups of 3 people each, and images can be generated separately.
 
-2. **Generate video from images** : Use the multiple grouped images generated in the first step as reference assets, then generate the final video.
+2. **Generate video from images**: Use the multiple grouped images generated in the first step as reference assets, then generate the final video.
 
 
 
@@ -714,7 +713,7 @@ When a video contains narration, abrupt clicking sounds and cut\-off noise are l
 
 **Solution**
 
-Regenerate the video, or use editing tools such as CapCut to apply audio fade\-out processing to the ending audio track through the **volume envelope** , eliminating cut\-off noise.
+Regenerate the video, or use editing tools such as CapCut to apply audio fade\-out processing to the ending audio track through the **volume envelope**, eliminating cut\-off noise.
 
 Specific steps (using CapCut):
 
@@ -771,7 +770,7 @@ When using reference audio to specify a voice, the audio voice in the final gene
 **Solution**
 
 
-1. Add detailed descriptions of voice characteristics in the prompt. You can refer to the [Seedance-1.5-pro Prompt Guide](https://docs.byteplus.com/en/docs/ModelArk/2168087).
+1. Add detailed descriptions of voice characteristics in the prompt. You can refer to the [Seedance-1.5-pro Prompt Guide](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/2168087).
 
 2. Keep the style of the video lines close to the tone and expression style of the reference audio, which helps improve voice restoration and stability.
 
@@ -786,7 +785,7 @@ When using reference audio to specify a voice, the audio voice in the final gene
 <span id="ff5fb3e6"></span>
 # Appendix: Prompt examples
 
-This section shows prompt examples for using Seedance 2.0 series models in different scenarios, helping you more precisely implement functions such as referential control for multimodal references and text generation. For more excellent examples, refer to the [Seedance2.0](https://console.byteplus.com/ark/region:ark+ap-southeast-1/experience/vision?modelId=dreamina-seedance-2-0-260128&tab=GenVideo) template library in the console.
+This section shows prompt examples for using Seedance 2.0 series models in different scenarios, helping you more precisely implement functions such as referential control for omni references and text generation. For more excellent examples, refer to the [Seedance2.0](https://ai.byteplus.com/ark/region:ap-southeast-1/experience/vision?modelId=dreamina-seedance-2-0-260128&tab=GenVideo) template library in the console.
 
 <span id="081b2c64"></span>
 ## Text generation
@@ -811,7 +810,7 @@ Examples:
 
 
 <columns>
-<columnsItem zoneid="pUzh9lfccZ">
+<columnsItem zoneid="BORQIld3PM">
 
  **[Output]** 
 
@@ -820,10 +819,10 @@ Examples:
 
  **[Prompt]** 
 
-Hand\-drawn comic style: Three people are sitting around a table enjoying the fried chicken shown in **Image 1** , with a friendly and joyful atmosphere. The frame then gradually blurs, and the text "Bite", "Laugh", and "Seedance" in order appears in the center of the screen.
+Hand\-drawn comic style: Three people are sitting around a table enjoying the fried chicken shown in **Image 1**, with a friendly and joyful atmosphere. The frame then gradually blurs, and the text "Bite", "Laugh", and "Seedance" in order appears in the center of the screen.
 
 </columnsItem>
-<columnsItem zoneid="B6UFkMHDRq">
+<columnsItem zoneid="FOZKQKLyjy">
 
  **[Reference material]** 
 
@@ -851,7 +850,7 @@ Examples:
 
 
 <columns>
-<columnsItem zoneid="IBNphXRBIc">
+<columnsItem zoneid="vcnGW4q2JB">
 
 **Voiceover**
 
@@ -876,7 +875,7 @@ Examples:
 I2V: A time\-lapse of a mountain landscape transitioning from a vast, starry night to a vibrant dawn. Voiceover: A deep, serene male voice says: 'In the vast silence of the cosmos, our world is but a fleeting moment. Yet, within it, life defiantly thrives.' \> Text Integration: Render the narration as subtitles at the bottom\-center. Subtitles must be perfectly synchronized with audio timing.
 
 </columnsItem>
-<columnsItem zoneid="AzmZHxzQcJ">
+<columnsItem zoneid="B3y0kX5o5C">
 
 **Dubbing**
 
@@ -918,7 +917,7 @@ Examples:
 
 
 <columns>
-<columnsItem zoneid="VQsuxeQULk">
+<columnsItem zoneid="oV4TYWTzSO">
 
  **[Output]** 
 
@@ -933,10 +932,10 @@ Examples:
 
  **[Prompt]** 
 
-The two characters from **Image 1** , both dressed in sportswear, are running on the school playground. The girl looks at the boy, smiling confidently as she says: "We can definitely do it!". Cut to a close\-up of the boy. He hesitates and replies: "Are you sure?". Cut back to a medium close\-up of the girl. She speaks in a light, upbeat tone: "Yes!" Her demeanor is bright and resolute. Speech bubbles containing the corresponding lines appear around the speaking character.
+The two characters from **Image 1**, both dressed in sportswear, are running on the school playground. The girl looks at the boy, smiling confidently as she says: "We can definitely do it!". Cut to a close\-up of the boy. He hesitates and replies: "Are you sure?". Cut back to a medium close\-up of the girl. She speaks in a light, upbeat tone: "Yes!" Her demeanor is bright and resolute. Speech bubbles containing the corresponding lines appear around the speaking character.
 
 </columnsItem>
-<columnsItem zoneid="SUqp0jFJ2T">
+<columnsItem zoneid="hqKT2KXfFY">
 
  **[Output]** 
 
@@ -951,7 +950,7 @@ The two characters from **Image 1** , both dressed in sportswear, are running on
 
  **[Prompt]** 
 
-Refer to the character design of the girl in **Image 1** and **Image 2** . The scene is set in an apple field: the girl picks one apple, takes a bite, smiles and says "This is the real deal!". A speech bubble pops up beside the girl, with this line written inside.
+Refer to the character design of the girl in **Image 1** and **Image 2**. The scene is set in an apple field: the girl picks one apple, takes a bite, smiles and says "This is the real deal!". A speech bubble pops up beside the girl, with this line written inside.
 
 </columnsItem>
 </columns>
@@ -962,7 +961,7 @@ Refer to the character design of the girl in **Image 1** and **Image 2** . The s
 
 Seedance 2.0 series supports **multi\-perspective references** for subjects, as well as **multi\-image referencing** for scene layouts, sequences, and more.
 
-If your creative process requires a specific order (for example for sequential motion), please **upload your images in the desired sequence** . You can then use specific identifiers in your prompt for precise control: Refer to `Image 1`, `Image 2`,...`Image N` to accurately map each reference to your instructions.
+If your creative process requires a specific order (for example for sequential motion), please **upload your images in the desired sequence**. You can then use specific identifiers in your prompt for precise control: Refer to `Image 1`, `Image 2`, ..., `Image N` to accurately map each reference to your instructions.
 
 <span id="3f736dc8"></span>
 ### Multi\-perspective subject reference
@@ -980,7 +979,7 @@ Products:
 
 
 <columns>
-<columnsItem zoneid="e3v2BG9In0">
+<columnsItem zoneid="r7Ancn8eqW">
 
 **Consumer electronics**
 
@@ -1002,10 +1001,10 @@ Products:
 
  **[Prompt]** 
 
-Use the cameras featured in **Image 1** , **Image 2** and **Image 3** . Replace the original background with a white one, and place the cameras on a white table. The camera first focuses on the cameras in close\-up, then slowly rotates 360° with the cameras as the main subject, clearly displaying the front, sides and back of each camera.
+Use the cameras featured in **Image 1**, **Image 2** and **Image 3**. Replace the original background with a white one, and place the cameras on a white table. The camera first focuses on the cameras in close\-up, then slowly rotates 360° with the cameras as the main subject, clearly displaying the front, sides and back of each camera.
 
 </columnsItem>
-<columnsItem zoneid="XNVxHcqvep">
+<columnsItem zoneid="vLg076Knfq">
 
 **Home & lifestyle**
 
@@ -1042,7 +1041,7 @@ Characters:
 
 
 <columns>
-<columnsItem zoneid="RbolGzBH64">
+<columnsItem zoneid="vITCLhWCbJ">
 
  **[Output]** 
 
@@ -1050,7 +1049,7 @@ Characters:
 
 
 </columnsItem>
-<columnsItem zoneid="I9k9fGgkG9">
+<columnsItem zoneid="EwNVaueQW5">
 
  **[Reference material]** 
 
@@ -1058,7 +1057,7 @@ Characters:
 
  **[Prompt]** 
 
-Refer to the image of the woman in **Image 1** , **Image 2** and **Image 3** , and generate a scene of her eating a cake in a coffee shop.
+Refer to the image of the woman in **Image 1**, **Image 2** and **Image 3**, and generate a scene of her eating a cake in a coffee shop.
 
 </columnsItem>
 </columns>
@@ -1078,7 +1077,7 @@ Examples:
 
 
 <columns>
-<columnsItem zoneid="O3cag6K5iw">
+<columnsItem zoneid="HXhVwM0CSO">
 
 **Logo reference**
 
@@ -1100,10 +1099,10 @@ Examples:
 
  **[Prompt]** 
 
-The scene is set on an aerial corridor in a neon\-drenched futuristic metropolis, where flying vehicles and holographic ads intertwine. Featuring the girl from Reference **Image 2** , the sequence opens with a medium shot of her releasing a silver floating lantern embedded with a holographic projection. The camera then pulls back to reveal floating lanterns flooding the sky, which gradually converge at the center of the frame to form the logo from Reference **Image 1** . The entire piece adopts a 3D cyberpunk sci\-fi animation style.
+The scene is set on an aerial corridor in a neon\-drenched futuristic metropolis, where flying vehicles and holographic ads intertwine. Featuring the girl from Reference **Image 2**, the sequence opens with a medium shot of her releasing a silver floating lantern embedded with a holographic projection. The camera then pulls back to reveal floating lanterns flooding the sky, which gradually converge at the center of the frame to form the logo from Reference **Image 1**. The entire piece adopts a 3D cyberpunk sci\-fi animation style.
 
 </columnsItem>
-<columnsItem zoneid="FKdeHs1U4b">
+<columnsItem zoneid="scsk1k5Leg">
 
 **Multi\-subject reference**
 
@@ -1140,7 +1139,7 @@ Using the cat and dog from the reference **Image 1** and **Image 2** as prototyp
 
 
 <columns>
-<columnsItem zoneid="po1AfB4zFK">
+<columnsItem zoneid="yfUUcpFAnF">
 
  **[Output]** 
 
@@ -1148,7 +1147,7 @@ Using the cat and dog from the reference **Image 1** and **Image 2** as prototyp
 
 
 </columnsItem>
-<columnsItem zoneid="YCIyCkROtF">
+<columnsItem zoneid="Sh3MVXRxQB">
 
  **[Reference materials]** 
 
@@ -1156,7 +1155,7 @@ Using the cat and dog from the reference **Image 1** and **Image 2** as prototyp
 
  **[Prompt]** 
 
-The scene is set in the restaurant from **image 4** with people coming and going. The girl from **image 1** , wearing the clothes from **image 2** , is organizing the items on the counter. The boy, a customer, from **image 3** approaches her to ask for her contact information. The logo from **image 5** remains in the bottom right corner throughout.
+The scene is set in the restaurant from **image 4** with people coming and going. The girl from **image 1**, wearing the clothes from **image 2**, is organizing the items on the counter. The boy, a customer, from **image 3** approaches her to ask for her contact information. The logo from **image 5** remains in the bottom right corner throughout.
 
 </columnsItem>
 </columns>
@@ -1164,7 +1163,7 @@ The scene is set in the restaurant from **image 4** with people coming and going
 
 
 <columns>
-<columnsItem zoneid="RIiQlZIiRK">
+<columnsItem zoneid="r6LUNcnjC9">
 
 **Multi\-panel sequence reference**
 
@@ -1191,7 +1190,7 @@ The scene is set in the restaurant from **image 4** with people coming and going
 Refer to the sequence in **Image 1** to create an intense high\-energy fight sequence. All frame compositions from **Image 1** shall be presented in strict predefined order, after which the two characters engage in fierce, fast\-paced combat.
 
 </columnsItem>
-<columnsItem zoneid="hGHXvlGlr3">
+<columnsItem zoneid="ZsrXNZba0w">
 
 **Sequence Reference**
 
@@ -1211,7 +1210,7 @@ Refer to the sequence in **Image 1** to create an intense high\-energy fight seq
 
  **[Prompt]** 
 
-Refer to the composition in **Image 3** . A girl (her character design refers to **Image 1** ) is waiting for her father to finish cooking, and she says: "아빠, 배고파요! 밥 다 됐어요?"Then the camera pans right and cuts to the frame and composition shown in **Image 4.**  The father (his character design refers to **Image 2** ) replies to her: "거의 다 됐어, 조금만 기다려!" Next, the camera cuts back to a close\-up shot of the daughter's slightly disappointed facial expression, and she says: "아직 멀었어요? 맛있는 냄새 나는데..."Then the shot switches to a close\-up of the father's face, and he says: "이제 진짜 금방이야. "빨리빨리" 하지 말고 손부터 씻고 와!"
+Refer to the composition in **Image 3**. A girl (her character design refers to **Image 1**) is waiting for her father to finish cooking, and she says: "아빠, 배고파요! 밥 다 됐어요?" Then the camera pans right and cuts to the frame and composition shown in **Image 4**. The father (his character design refers to **Image 2**) replies to her: "거의 다 됐어, 조금만 기다려!" Next, the camera cuts back to a close\-up shot of the daughter's slightly disappointed facial expression, and she says: "아직 멀었어요? 맛있는 냄새 나는데..." Then the shot switches to a close\-up of the father's face, and he says: "이제 진짜 금방이야. '빨리빨리' 하지 말고 손부터 씻고 와!"
 
 </columnsItem>
 </columns>
@@ -1223,7 +1222,7 @@ Refer to the composition in **Image 3** . A girl (her character design refers to
 Seedance 2.0 series supports video\-based referencing.
 
 
-* If your workflow requires a specific sequence, please upload the files in order. You can use `Video 1`, `Video 2`,... `Video n` in your prompts for precise mapping.
+* If your workflow requires a specific sequence, please upload the files in order. You can use `Video 1`, `Video 2`, ..., `Video N` in your prompts for precise mapping.
 
 * Simply ensure that the relationship between the generated content and the reference source is clearly defined.
 
@@ -1242,7 +1241,7 @@ Examples:
 
 
 <columns>
-<columnsItem zoneid="Rd2yaRM8F2">
+<columnsItem zoneid="G97rq9mBo1">
 
 **Artistic**
 
@@ -1272,7 +1271,7 @@ Examples:
 Refer to the character movements and shot language in **Video 1** to create a fight scene with the character from **Image 2** on the left and the character from **Image 1** on the right. Include intense background music.
 
 </columnsItem>
-<columnsItem zoneid="EzPJz9S1od">
+<columnsItem zoneid="ps6gnraa6c">
 
 **Marketing**
 
@@ -1295,7 +1294,7 @@ Refer to the character movements and shot language in **Video 1** to create a fi
 
  **[Prompt]** 
 
-Referencing the running shape of the horse in the **video** , generate a scene: a golden steed runs on the grassland, then freezes its magnificent running posture and turns into a horse\-shaped gold pendant.
+Referencing the running shape of the horse in the **video**, generate a scene: a golden steed runs on the grassland, then freezes its magnificent running posture and turns into a horse\-shaped gold pendant.
 
 </columnsItem>
 </columns>
@@ -1315,7 +1314,7 @@ Examples:
 
 
 <columns>
-<columnsItem zoneid="zI9qYnQn6d">
+<columnsItem zoneid="rskPT5iU1C">
 
  **[Output]** 
 
@@ -1324,10 +1323,10 @@ Examples:
 
  **[Prompt]** 
 
-Referring to the camera movement in **video 1** , create a concept video for a science and technology park, with the tall building in the image as the visual center, also using a first\-person diving perspective, to reflect the sense of technology in the park from **image 1** .
+Referring to the camera movement in **video 1**, create a concept video for a science and technology park, with the tall building in the image as the visual center, also using a first\-person diving perspective, to reflect the sense of technology in the park from **image 1**.
 
 </columnsItem>
-<columnsItem zoneid="OtPnkLwJs2">
+<columnsItem zoneid="JWvdmUqcBj">
 
  **[Reference material]** 
 
@@ -1360,7 +1359,7 @@ Examples:
 
 
 <columns>
-<columnsItem zoneid="Dy8nmdETyq">
+<columnsItem zoneid="pBaYspht1E">
 
 **Film**
 
@@ -1389,10 +1388,10 @@ Examples:
 
  **[Prompt]** 
 
-Refer to the golden particle effects in **Video 1** , so that when the character in **Image 1** plays the flute, the same particle effects surround their body.
+Refer to the golden particle effects in **Video 1**, so that when the character in **Image 1** plays the flute, the same particle effects surround their body.
 
 </columnsItem>
-<columnsItem zoneid="stbvYbJpTT">
+<columnsItem zoneid="RzuLjKcccv">
 
 **Creative effects**
 
@@ -1421,7 +1420,7 @@ Refer to the golden particle effects in **Video 1** , so that when the character
 
  **[Prompt]** 
 
-Refer to the special effects shown in **Video 1** to generate identical wings for the girl in **Image 1** , ensuring the wing formation trajectory follows the exact same motion path and sequence depicted in the video.
+Refer to the special effects shown in **Video 1** to generate identical wings for the girl in **Image 1**, ensuring the wing formation trajectory follows the exact same motion path and sequence depicted in the video.
 
 </columnsItem>
 </columns>
@@ -1430,9 +1429,9 @@ Refer to the special effects shown in **Video 1** to generate identical wings fo
 <span id="22bcbada"></span>
 ## Video editing
 
-Seedance 2.0 series supports video editing, including adding, removing, or modifying elements, extending the video duration (forward and backward), track alignment.
+Seedance 2.0 series supports video editing, including adding, removing, or modifying elements, extending the video duration (forward and backward), and track alignment.
 
-If your project requires a specific sequence, please **upload the files in order** . You can use "video 1," "video 2,"... "video n" in your prompts for precise mapping.
+If your project requires a specific sequence, please **upload the files in order**. You can use `Video 1`, `Video 2`, ..., `Video N` in your prompts for precise mapping.
 
 <span id="09a4a119"></span>
 ### Adding, removing, or modifying elements
@@ -1450,7 +1449,7 @@ Examples:
 
 
 <columns>
-<columnsItem zoneid="LSnSBZsoLz">
+<columnsItem zoneid="pwBPt5GvG9">
 
 **Add elements**
 
@@ -1476,7 +1475,7 @@ Examples:
 Add snacks such as fried chicken and pizza to the countertop in **Video 1.** 
 
 </columnsItem>
-<columnsItem zoneid="qFTgl22XRf">
+<columnsItem zoneid="OVtZXFye0m">
 
 **Remove elements**
 
@@ -1499,10 +1498,10 @@ Add snacks such as fried chicken and pizza to the countertop in **Video 1.**
 
  **[Prompt]** 
 
-Remove everything that isn't office supplies from the table in **Video 1** , keeping the rest of the video content unchanged.
+Remove everything that isn't office supplies from the table in **Video 1**, keeping the rest of the video content unchanged.
 
 </columnsItem>
-<columnsItem zoneid="IBvBWLM7Vu">
+<columnsItem zoneid="AJAQPcn1LM">
 
 **Modify elements**
 
@@ -1558,7 +1557,7 @@ Examples:
 
 
 <columns>
-<columnsItem zoneid="z9rdcG6jzM">
+<columnsItem zoneid="N0sqNfQjsa">
 
 **Extend forward**
 
@@ -1581,10 +1580,10 @@ Examples:
 
  **[Prompt]** 
 
-Generate the content after **Video 1** : the two men who are late run towards them, the five people finally meet and have a friendly chat.
+Generate the content after **Video 1**: the two men who are late run towards them, the five people finally meet and have a friendly chat.
 
 </columnsItem>
-<columnsItem zoneid="RF07YxEXu9">
+<columnsItem zoneid="Xxsb1QctoM">
 
 **Extend backward**
 
@@ -1607,7 +1606,7 @@ Generate the content after **Video 1** : the two men who are late run towards th
 
  **[Prompt]** 
 
-Extend the opening segment of **Video 1** : Set up an over\-the\-shoulder shot of the man in a hoodie, and the man says: "It's not that bad. You're just stressed. Everyone goes through this, you just need to keep going."
+Extend the opening segment of **Video 1**: Set up an over\-the\-shoulder shot of the man in a hoodie, and the man says: "It's not that bad. You're just stressed. Everyone goes through this, you just need to keep going."
 
 </columnsItem>
 </columns>
@@ -1626,17 +1625,17 @@ Prompt template:
 <div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
 
 
-<div data-tips="true" data-tips-type="tip"><strong>Input Limit</strong> : Seedance 2.0 series supports a maximum of <strong>3 video clips</strong> as input. The total combined duration must not exceed <strong>15 seconds</strong> .</div>
+<div data-tips="true" data-tips-type="tip"><strong>Input Limit</strong>: Seedance 2.0 series supports a maximum of <strong>3 video clips</strong> as input. The total combined duration must not exceed <strong>15 seconds</strong>.</div>
 
 
-<div data-tips="true" data-tips-type="tip"><strong>Smart Trimming</strong> : During generation, the model will automatically <strong>trim the connecting segments</strong> of the start and end clips, retaining only the necessary frames to ensure a seamless and logical synthesis.</div>
+<div data-tips="true" data-tips-type="tip"><strong>Smart Trimming</strong>: During generation, the model will automatically <strong>trim the connecting segments</strong> of the start and end clips, retaining only the necessary frames to ensure a seamless and logical synthesis.</div>
 
 
 Examples:
 
 
 <columns>
-<columnsItem zoneid="z3qlQZbCk7">
+<columnsItem zoneid="wWlI5ndju8">
 
  **[Output]** 
 
@@ -1645,10 +1644,10 @@ Examples:
 
  **[Prompt]** 
 
-**Video 1** . The moment a leaf falls to the ground, it sets off a special effect of golden particles. A gust of wind blows by, leading into **Video 2** .
+**Video 1**. The moment a leaf falls to the ground, it sets off a special effect of golden particles. A gust of wind blows by, leading into **Video 2**.
 
 </columnsItem>
-<columnsItem zoneid="A1sjuC99LW">
+<columnsItem zoneid="m8BjUgKUvp">
 
  **[Reference material]** 
 

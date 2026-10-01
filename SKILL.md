@@ -3,7 +3,7 @@ name: reverie
 description: Generate, edit, and plan images, videos, and text using the Reverie MCP server (Seedream, Seededit, Seedance, Seed LLM). Guides agents to call Reverie MCP tools correctly and to craft prompts from ModelArk best-practice docs bundled under prompts-guide/. Use when the user asks to generate, create, edit, modify, or plan images, videos, or text with Reverie or ProjectReverie. Includes a routing rubric for choosing direct generation vs the Flows canvas (flow_* tools), with call mechanics in flow-reference.md.
 metadata:
   author: project-reverie
-  version: "0.5.0"
+  version: "0.6.0"
 ---
 
 # Reverie — AI Generation Skill
@@ -47,8 +47,10 @@ Deep prompt-crafting guides live under `prompts-guide/`. **Do not load these by 
 | Using Seedream 4.x / 5.x image models | `prompts-guide/seedream-4.0-4.5-prompt-guide.md`, then `prompts-guide/seedream-4.0-5.0-tutorial.md` for worked examples |
 | Using Seedream 5.0 Pro specifically | `prompts-guide/seedream-5.0-pro-tutorial.md`, plus `prompts-guide/seedream-5.0-pro-interactive-editing-guide.md` for coordinate/marker edits |
 | Asking about Seedream 3.0 prompting | `prompts-guide/seedream-3.0-prompt-guide.md` |
+| Generating video with Seedance 2.5 (incl. video edit / extend) | `prompts-guide/seedance-2.5-prompt-guide.md`, plus `prompts-guide/seedance-2.5-tutorial.md` |
 | Generating video with Seedance 2.0 | `prompts-guide/seedance-2.0-prompt-guide.md`, plus `prompts-guide/seedance-2.0-tutorial.md` |
-| Generating video with Seedance 1.5 Pro | `prompts-guide/seedance-1.5-pro.md` |
+| Asking about Seedance 1.5 Pro (not offered by Reverie — reference only) | `prompts-guide/seedance-1.5-pro.md` |
+| Designing an agent that calls ModelArk models | `prompts-guide/best-practices-model-calling-for-agents.md` |
 | Generating video with Seedance 1.0 Pro / Pro-Fast | `prompts-guide/seedance-1.0-pro.md` |
 | Asking "how do I prompt video" in general | `prompts-guide/video-generation-tutorial.md` |
 

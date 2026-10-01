@@ -6,28 +6,28 @@ This article introduces the prompt usage methods and related techniques for Seed
 <span id="7923fd40"></span>
 ## Introduction
 
-Seedance 1.5 Pro is a foundational model purpose\-built for **native, joint audio\-video generation** . It adopts a dual\-branch Diffusion Transformer architecture, combining a cross\-modal fusion module with a specialized multi\-stage data pipeline to deliver exceptional audio\-visual synchronization and high\-quality outputs.
+Seedance 1.5 Pro is a foundational model purpose\-built for **native, joint audio\-video generation**. It adopts a dual\-branch Diffusion Transformer architecture, combining a cross\-modal fusion module with a specialized multi\-stage data pipeline to deliver exceptional audio\-visual synchronization and high\-quality outputs.
 
 <span id="d405d3a0"></span>
 ## Highlights
 
 
-1. **High\-precision audio\-visual synchronization** : Delivers high\-fidelity, fully integrated audio\-visual outputs, supporting a wide range of sound types including environmental sounds, action effects, synthesized audio, musical instruments, background music, and vocals.
+1. **High\-precision audio\-visual synchronization**: Delivers high\-fidelity, fully integrated audio\-visual outputs, supporting a wide range of sound types including environmental sounds, action effects, synthesized audio, musical instruments, background music, and vocals.
 
-2. **Multi\-person and multi\-language dialogue** : Supports both monologues and multi\-speaker conversations with millisecond\-level lip\-sync precision. The model covers Mandarin and major Chinese dialects (including Cantonese, Shaanxi, and Sichuan), as well as English, Japanese, Korean, Spanish, and Indonesian, faithfully capturing the natural rhythm, articulation, and realism of real\-world conversations.
+2. **Multi\-person and multi\-language dialogue**: Supports both monologues and multi\-speaker conversations with millisecond\-level lip\-sync precision. The model covers Mandarin and major Chinese dialects (including Cantonese, Shaanxi, and Sichuan), as well as English, Japanese, Korean, Spanish, and Indonesian, faithfully capturing the natural rhythm, articulation, and realism of real\-world conversations.
 
-3. **Film\- and television\-grade narrative tension** : Delivers natural motion ranges with strong rhythmic flow and precise capture of motion details. The visuals exhibit high perceptual impact, with nuanced rendering of character emotions and expressions, significantly enhancing vividness and achieving a cinematic, film\- and television\-grade creative texture.
+3. **Film\- and television\-grade narrative tension**: Delivers natural motion ranges with strong rhythmic flow and precise capture of motion details. The visuals exhibit high perceptual impact, with nuanced rendering of character emotions and expressions, significantly enhancing vividness and achieving a cinematic, film\- and television\-grade creative texture.
 
 
 <span id="92cc038a"></span>
 ## Prompt parameters
 
-In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/1520757#bb804461), the parameters related to the prompt are as follows:
+In [Create video generation task API](https://docs.byteplus.com/en/docs/ModelArk/1520757), the parameters related to the prompt are as follows:
 
 
-* **Prompts (required)**  : Support Chinese and English.
+* **Prompts (required)** : Support Chinese and English.
 
-* **Model text command (optional)**  : You can control video output specifications using parameters such as `resolution`, `ratio`, `duration`, `seed`, `camera_fixed`, and `watermark`.
+* **Model text command (optional)** : You can control video output specifications using parameters such as `resolution`, `ratio`, `duration`, `seed`, `camera_fixed`, and `watermark`.
 
    * Recommended way: Pass directly in the request body
 
@@ -39,7 +39,7 @@ In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/15
           "content": [
               {
                   "type": "text",
-                      "text": "The kitten is yawning at the camera"
+                  "text": "The kitten is yawning at the camera"
               }
           ],
           // All parameters must be written in full; abbreviations are not supported
@@ -52,31 +52,31 @@ In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/15
           "watermark": true
       ...
       ```
-      
+
 
    * Legacy way: Append \-\-[parameter] after the text prompt
 
       ```JSON
       ...
-          // Specify the aspect ratio of the generated video as 16:9, duration as 5 seconds, resolution as 720p, seed as 11, and include a watermark. The camera is not fixed.
+      // Specify the aspect ratio of the generated video as 16:9, duration as 5 seconds, resolution as 720p, seed as 11, and include a watermark. The camera is not fixed.
       "content": [
               {
                   "type": "text",
-                          "text": "The kitten is yawning at the camera --rs 720p --rt 16:9 --dur 5 --seed 11 --cf false --wm true"
+                  "text": "The kitten is yawning at the camera --rs 720p --rt 16:9 --dur 5 --seed 11 --cf false --wm true"
                   // "text": "The kitten is yawning at the camera --resolution 720p --ratio 16:9 --duration 5 --seed 11 --camerafixed false --watermark true"
               }
       ]
       ...
       ```
-      
+
 
 
 <span id="a6dc7747"></span>
 ## General techniques
 
-**Prompt formula: Subject + Movement + Environment (optional) + Camera movement (optional) + Aesthetic description (optional) + Sound (optional)** 
+**Prompt formula: Subject + Movement + Environment (optional) + Camera movement (optional) + Aesthetic description (optional) + Sound (optional)**
 
-> By detailing elements such as **dialogue content, language choices, emotional progression, camera movement, and narrative structure** , the model can generate audio and visuals that are more closely aligned, meeting the high demand for audio\-visual synchronization in professional production settings.
+> By detailing elements such as **dialogue content, language choices, emotional progression, camera movement, and narrative structure**, the model can generate audio and visuals that are more closely aligned, meeting the high demand for audio\-visual synchronization in professional production settings.
 
 
 <span id="5951a1a6"></span>
@@ -91,7 +91,7 @@ In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/15
 |**Video Generation Example** |||
 |---|---|---|
 |Provide clear, constrained descriptions of the subject and motion |Specify the key visual cues the scene should convey |Use degree adverbs effectively |
-|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/433a4f63bcc4422c8fd1c9b324f791ab" controls></video><br><br><br>> A **man with a weathered face and dressed in medieval pirate costumes** stands **on the black reef by the sea. The man's expression is passionate** , and he **raises his hands powerfully toward** the sky, revealing a desire for freedom. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/bdf2446ea317422e9a0e88c5422a2b36" controls></video><br><br><br>> In a violent storm, **huge waves** rolled up on the sea. The seawater rushed into the city and **destroyed houses on the shore** . Hundreds of citizens **fled in terror** . Eventually, the tsunami engulfed everything. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/234eed3946e3496db83caa093d873b92" controls></video><br><br><br>> The doll first **rotates slowly** , then she **stops rotating** and shows her cuteness in front of the camera. |
+|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/433a4f63bcc4422c8fd1c9b324f791ab" controls></video><br><br><br>> A **man with a weathered face and dressed in medieval pirate costumes** stands **on the black reef by the sea. The man's expression is passionate**, and he **raises his hands powerfully toward** the sky, revealing a desire for freedom. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/bdf2446ea317422e9a0e88c5422a2b36" controls></video><br><br><br>> In a violent storm, **huge waves** rolled up on the sea. The seawater rushed into the city and **destroyed houses on the shore**. Hundreds of citizens **fled in terror**. Eventually, the tsunami engulfed everything. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/234eed3946e3496db83caa093d873b92" controls></video><br><br><br>> The doll first **rotates slowly**, then she **stops rotating** and shows her cuteness in front of the camera. |
 
 
 
@@ -138,13 +138,13 @@ In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/15
 |**Video Generation Example** |||
 |---|---|---|
 |**Cantonese** |**Mandarin** |**Korean** |
-|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/660d427a15834fc58564e9d20e1a53fa" controls></video><br><br><br>> He said in Cantonese, "你好靓呀！，我好中意你呀" |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/9882f9c7961d4051bfb0db462784b9d1" controls></video><br><br><br>> He said in Mandarin: “你好漂亮呀，我好喜欢你呀” |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/38c50e04090740f9a880ff4a14196015" controls></video><br><br><br>> Inside a high\-tech laboratory, two researchers stand at a workbench operating analytical instruments. The cool light from the screens reflects across their faces. The camera gently slides from a front\-side angle, emphasizing the reflections on the equipment and the precision of their actions.<br><br>> **Korean dialogue** :<br><br>> A: "측정값이 불안정해. 다시 보정해야 해."<br><br>> B: "알겠어. 설정값을 바꿔볼게." |
+|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/660d427a15834fc58564e9d20e1a53fa" controls></video><br><br><br>> He said in Cantonese, "你好靓呀！，我好中意你呀" |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/9882f9c7961d4051bfb0db462784b9d1" controls></video><br><br><br>> He said in Mandarin: “你好漂亮呀，我好喜欢你呀” |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/38c50e04090740f9a880ff4a14196015" controls></video><br><br><br>> Inside a high\-tech laboratory, two researchers stand at a workbench operating analytical instruments. The cool light from the screens reflects across their faces. The camera gently slides from a front\-side angle, emphasizing the reflections on the equipment and the precision of their actions.<br><br>> **Korean dialogue**:<br><br>> A: "측정값이 불안정해. 다시 보정해야 해."<br><br>> B: "알겠어. 설정값을 바꿔볼게." |
 |**Indonesian** |**Spanish** |**English** |
-|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/434a5353c0204f6ead536e6508d75416" controls></video><br><br><br>> On a wooden boardwalk by the sea, three Indonesian friends—two girls and one boy—sit together. The setting sun casts golden reflections across the surface of the ocean. The camera dolly in from a low angle toward the three of them, capturing their laughter and body language. The overall mood is warm and comforting.<br><br>> **Indonesian dialogue** :<br><br>> Girl 1: "Hari ini indah sekali, ya?"<br><br>> Girl 2: "Iya, seperti mimpi."<br><br>> Boy: "Dan kita di sini bersama. Itu yang paling penting." |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/77a1c21484f04d5da5da8c84ddcb994c" controls></video><br><br><br>> On a rainy night, in a dim and rundown underground parking garage, two people meet briefly in the shadows beneath a concrete support pillar. The man in a trench coat hands over a sealed document envelope, his expression alert as his eyes scan the surroundings. Lowering his voice and speaking rapidly, he says: "La cosa está dentro. La contraseña es la fecha de nacimiento de tu madre." The woman takes it and responds: "Entendido. El próximo punto de contacto ha cambiado. Espera la señal segura." |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/99cb5fb87b044038914881f50eb6f93f" controls></video><br><br><br>> In an office pantry, the atmosphere is relaxed with a touch of humor. A middle\-aged Indian man and a young Japanese male colleague stand beside the coffee machine. The Japanese man asks calmly, "What materials will be prepared for this afternoon's project?" The Indian man immediately responds in a fast\-paced voice with a strong accent, "Why did you only ask? Where is the competing product analysis report that the client wants? Hurry up and get it, it's due at two o'clock!" The Japanese man replies in a low voice, flustered and helpless, "I'll go right away, I was just editing the PPT…" Then he nods and exits the frame from one side. |
+|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/434a5353c0204f6ead536e6508d75416" controls></video><br><br><br>> On a wooden boardwalk by the sea, three Indonesian friends—two girls and one boy—sit together. The setting sun casts golden reflections across the surface of the ocean. The camera dolly in from a low angle toward the three of them, capturing their laughter and body language. The overall mood is warm and comforting.<br><br>> **Indonesian dialogue**:<br><br>> Girl 1: "Hari ini indah sekali, ya?"<br><br>> Girl 2: "Iya, seperti mimpi."<br><br>> Boy: "Dan kita di sini bersama. Itu yang paling penting." |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/77a1c21484f04d5da5da8c84ddcb994c" controls></video><br><br><br>> On a rainy night, in a dim and rundown underground parking garage, two people meet briefly in the shadows beneath a concrete support pillar. The man in a trench coat hands over a sealed document envelope, his expression alert as his eyes scan the surroundings. Lowering his voice and speaking rapidly, he says: "La cosa está dentro. La contraseña es la fecha de nacimiento de tu madre." The woman takes it and responds: "Entendido. El próximo punto de contacto ha cambiado. Espera la señal segura." |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/99cb5fb87b044038914881f50eb6f93f" controls></video><br><br><br>> In an office pantry, the atmosphere is relaxed with a touch of humor. A middle\-aged Indian man and a young Japanese male colleague stand beside the coffee machine. The Japanese man asks calmly, "What materials will be prepared for this afternoon's project?" The Indian man immediately responds in a fast\-paced voice with a strong accent, "Why did you only ask? Where is the competing product analysis report that the client wants? Hurry up and get it, it's due at two o'clock!" The Japanese man replies in a low voice, flustered and helpless, "I'll go right away, I was just editing the PPT…" Then he nods and exits the frame from one side. |
 
 
 
-3. **In dialogue scenarios, lip movements can be accurately matched to each character.** 
+3. **In dialogue scenarios, lip movements can be accurately matched to each character.**
 
 > Accurately specify each character's personalized attributes (gender, age, clothing, actions).
 
@@ -154,7 +154,7 @@ In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/15
 |**Video Generation Example** ||
 |---|---|
 |**Two\-person dialogue** |**Multi\-person conversation** |
-|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/05ab0f0c04d7425ebd521b8996e0dfad" controls></video><br><br><br>> In a warm, softly lit independent bookstore, two Americans—a man and a woman—stand shoulder to shoulder, flipping through the same book. The light falls across the pages and their faces. The camera makes an extremely subtle dolly\-in, creating a quiet and intimate atmosphere.<br><br>> **English dialogue** :<br><br>> Man: "Did you ever read this one before?"<br><br>> Woman: "No, but… I think I want to, with you." |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/c83a9545cf4e436db30bccaaef054c2c" controls></video><br><br><br>> In a library filled with diffused warm light, four students sit around a long table discussing their project: a white female, a Black male, an Asian female, and a white male. The warm light falls across their side profiles and the tabletop. The camera moves with a slight lateral slide, presenting a quiet yet contemplative atmosphere.<br><br>> The group speaks in English:<br><br>> White female: "So… what's our next step?"<br><br>> Black male: "We need a clearer direction."<br><br>> Asian female: "Agreed. Let's break it down."<br><br>> White male: "Okay, let's start from the beginning." |
+|<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/05ab0f0c04d7425ebd521b8996e0dfad" controls></video><br><br><br>> In a warm, softly lit independent bookstore, two Americans—a man and a woman—stand shoulder to shoulder, flipping through the same book. The light falls across the pages and their faces. The camera makes an extremely subtle dolly\-in, creating a quiet and intimate atmosphere.<br><br>> **English dialogue**:<br><br>> Man: "Did you ever read this one before?"<br><br>> Woman: "No, but… I think I want to, with you." |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/c83a9545cf4e436db30bccaaef054c2c" controls></video><br><br><br>> In a library filled with diffused warm light, four students sit around a long table discussing their project: a white female, a Black male, an Asian female, and a white male. The warm light falls across their side profiles and the tabletop. The camera moves with a slight lateral slide, presenting a quiet yet contemplative atmosphere.<br><br>> The group speaks in English:<br><br>> White female: "So… what's our next step?"<br><br>> Black male: "We need a clearer direction."<br><br>> Asian female: "Agreed. Let's break it down."<br><br>> White male: "Okay, let's start from the beginning." |
 
 
 
@@ -343,7 +343,3 @@ In [Create video generation task API](https://docs.byteplus.com/docs/ModelArk/15
 |---|---|---|---|
 |**Accurately describe the trigger timing** |**Accurately describe the transformation process** |**Accurately describe the details after transformation** |**Audio Design** |
 |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/16ee46894e3a4da1a7298b4d073d87eb" controls></video><br><br><br>> She inadvertently gently touched the old Christmas ball with her finger, and instantly, the inside of the ball lit up with a soft golden light like snowflake crystals. This light spread out from the ball like ripples, and wherever it reached, tiny light spots condensed in the air. The light first wrapped around the girl's entire body, her clothes were reshaped into Christmas attire, and her makeup was delicate; at the same time, the Christmas tree grew from the ground, the colored lights lit up one by one, and snowflakes condensed and fell out of thin air outside the window. The entire scene transformed into a Christmas\-themed bedroom |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/b553f1f2e65f4d1faa9e0c258178cd38" controls></video><br><br><br>> The cat is wrapped in a soft and warm bubble halo, its body gradually elongating as it stands up. Its fur evolves into fluffy orange short hair, while its ears remain as cute cat ears, and its tail sways gently. Its clothing changes to a Japanese\-style casual sweatshirt and skirt. Finally, it transforms into an anime\-style girl with cat pupils and cat ears, making a "meow" gesture at the camera with a cute and playful expression. Please focus on depicting the cute continuity from the cat to the character's demeanor, with the transformation process being as soft and smooth as a marshmallow. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/0b5c65e71ddd4912af2d024ab3356fc5" controls></video><br><br><br>> Her pupil color changed from blue to red. Starting from the corner of her eye, her once delicate skin began to harden and bulge. Deep black dragon scales seemed to pierce through from beneath the skin, quickly spreading along the cheekbones towards the neck. Along with a small amount of dark red sparks spilling out from the gaps between the scales, half of her face completed the material transformation from human skin to hard dragon armor within two seconds. Dark Fantasy, Cthulhu style, body horror aesthetics, extremely realistic 8K material details. |<video src="https://p9-arcosite.byteimg.com/obj/tos-cn-i-goo7wpa0wc/be1bc9f0208d43a49ba34c19db68d2d3" controls></video><br><br><br>> A warm beam of sunlight pierces through the dark clouds and shines precisely on the center point of the concrete wall. Taking the light spot as the center, the gray concrete surface instantly fades and softens. Fresh green moss and vines spread out wildly in all directions at the speed of time\-lapse photography. Immediately afterwards, countless colorful wildflowers burst into bloom on the vines. In just a few seconds, the once lifeless wall transforms into a vertical sea of flowers swaying in the wind. Solarpunk, with a Ghibli content style, is full of vitality, and the colors instantly shift from dull gray to highly saturated splendor. |
-
-
-
-

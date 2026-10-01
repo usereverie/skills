@@ -1,34 +1,17 @@
 The Seedream models natively support text, single\-image, and multi\-image inputs, enabling diverse workflows such as multi\-image fusion based on subject consistency, image editing, and batch image generation. This provides creators with greater flexibility and control over the image\-creation process.
 
-This document uses seedream\-5\-0\-lite as an example to illustrate how to use [Image generation API](https://docs.byteplus.com/en/docs/ModelArk/1541523) for image creation. To use the seedream\-5\-0\-pro, seedream\-4\-5, and seedream\-4\-0 models, replace the model field in the code samples below.
+This document uses seedream\-5\-0\-lite as an example to illustrate how to use [Image generation API](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/image-generation-api) for image creation. To use the seedream\-5\-0\-pro, seedream\-5\-0\-flash, seedream\-4\-5, and seedream\-4\-0 models, replace the model field in the code samples below.
 
 <div data-tips="true" data-tips-type="warning" data-tips-is-title="true">New model available</div>
 
 
-<div data-tips="true" data-tips-type="warning"><strong>dola\-seedream\-5\-0\-pro</strong> (Model ID: <code>dola-seedream-5-0-pro-260628</code>) is now available. It is designed for high\-precision image editing scenarios and provides more precise control over positions and elements.</div>
+<div data-tips="true" data-tips-type="warning"><strong>Dola Seedream 5.0 flash</strong> (Model ID: <code>dola-seedream-5-0-flash-260915</code>) is now available. It supports precise image editing by specifying edit locations with coordinates, bounding boxes, arrows, and other markers; decomposing a single image into one base image and up to 16 independent layers; and native multilingual generation.</div>
 
 
-<div data-tips="true" data-tips-type="warning"><strong>It supports precise image editing by specifying edit locations with coordinates, bounding boxes, arrows, and other markers. It also supports native multilingual generation.</strong> For details, see <a href="https://docs.byteplus.com/en/docs/ModelArk/2582774">Seedream 5.0 pro tutorial</a>.</div>
+<div data-tips="true" data-tips-type="warning"><strong>Seedream 5.0 flash generates images faster and costs less</strong>, making it suitable for latency\- and cost\-sensitive applications.</div>
 
 
-<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
-
-
-
-* <div data-tips="true" data-tips-type="tip"><strong>Region availability</strong> : seedream\-5\-0\-lite is supported in both the <code>ap-southeast-1</code> and <code>eu-west-1</code> regions.</div>
-
-
-* <div data-tips="true" data-tips-type="tip">Base URL by region:</div>
-
-
-   * <div data-tips="true" data-tips-type="tip"><code>ap-southeast-1</code>: <code>https://ark.ap-southeast.bytepluses.com/api/v3</code></div>
-
-
-   * <div data-tips="true" data-tips-type="tip"><code>eu-west-1</code>: <code>https://ark.eu-west.bytepluses.com/api/v3</code></div>
-
-
-
-<div data-tips="true" data-tips-type="tip">For more information, see <a href="https://docs.byteplus.com/en/docs/ModelArk/2191806">Region availability</a>.</div>
+<div data-tips="true" data-tips-type="warning">For details, see <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-5-0-pro">Seedream 5.0 pro / flash tutorial</a>.</div>
 
 
 <span id="2cf5cace"></span>
@@ -38,7 +21,8 @@ This document uses seedream\-5\-0\-lite as an example to illustrate how to use [
 <span aceTableMode="list" aceTableWidth="4,3,3"></span>
 |Use cases |Input |Output |
 |---|---|---|
-|Interactive editing<br><br>&nbsp;<br><br>\> Seedream 5.0 pro lets you specify the edit region with markers. The model recognizes the marked area and generates content that blends naturally into the original scene. |<span>![图片](https://ark-project.tos-cn-beijing.volces.com/doc_image/seedream_50_pro_input2.png) </span><br><br>Edit the image based on the hand\-drawn sketch. Add a stack of realistic magazines or art books in the marked area at the lower left, and add a ceramic cup of coffee with a saucer in the marked area on the right. Remove all sketch lines. Keep the composition unchanged. |<span>![图片](https://ark-project.tos-cn-beijing.volces.com/doc_image/seedream_50_pro_output2.png) </span> |
+|Layer decomposition<br><br>&nbsp;<br><br>\> Seedream 5.0 pro and Seedream 5.0 flash can decompose elements into independently editable layers for fine\-grained editing such as dragging, scaling, and recomposition. |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_layer_input.png) </span><br><br>Precisely decompose the image into layers. The text coordinates to separate are `<bbox>180 64 812 198</bbox>`, `<bbox>757 210 939 280</bbox>`, `<bbox>63 212 320 282</bbox>`, `<bbox>178 714 826 810</bbox>`, `<bbox>814 819 949 894</bbox>`, and `<bbox>326 824 669 930</bbox>`. The parrot coordinates are `<bbox>347 305 642 997</bbox>`. |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_layer_output2.gif) </span> |
+|Interactive editing<br><br>&nbsp;<br><br>\> Seedream 5.0 pro and Seedream 5.0 flash let you specify the edit region with markers. The model recognizes the marked area and generates content that blends naturally into the original scene. |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_input2.png) </span><br><br>Edit the image based on the hand\-drawn sketch. Add a stack of realistic magazines or art books in the marked area at the lower left, and add a ceramic cup of coffee with a saucer in the marked area on the right. Remove all sketch lines. Keep the composition unchanged. |<span>![图片](https://arkdocs-en.tos-ap-southeast-1.volces.com/images/image-generation/seedream_50_pro_output2.png) </span> |
 |Multi\-reference image\-to\-image generation<br><br>&nbsp;<br><br>\> Input multiple images as reference, blend styles and elements to generate new images |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/2198d4bef000400bbfea18025850ed82~tplv-goo7wpa0wc-image.image) </span><br><br>Replace the clothing in image 1 with the outfit from image 2. |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/94fa391195e248fbb709691892ea7eb9~tplv-goo7wpa0wc-image.image) </span> |
 |Image sequence generation<br><br>\> Based on text and images entered by the user, generate a set of content\-related images |<span>![图片](https://p9-arcosite.byteimg.com/tos-cn-i-goo7wpa0wc/a215e8241dd94f50901948790da121e1~tplv-goo7wpa0wc-image.image) </span><br><br>Referring to Figure 1, generate four images with characters wearing sunglasses, riding motorcycles, wearing hats, and holding lollipops |<span>![图片](https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/uz4ozCg6b_fy7XwYvWRLa.jpeg) </span> |
 
@@ -49,21 +33,22 @@ This document uses seedream\-5\-0\-lite as an example to illustrate how to use [
 The following table compares the capabilities and parameters of each Seedream model version to help you choose the model that best fits your business needs.
 
 
-<span aceTableMode="list" aceTableWidth="1.5,2,3,3,3,3"></span>
-|Model Name | |[seedream-5-0-pro](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=dola-seedream-5-0-pro) |[seedream-5-0-lite](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=seedream-5-0) |[seedream-4-5](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=seedream-4-5) |[seedream-4-0](https://console.byteplus.com/ark/region:ark+ap-southeast-1/model/detail?Id=seedream-4-0) |
-|---|---|---|---|---|---|
-|Model ID | |dola\-seedream\-5\-0\-pro\-260628 |seedream\-5\-0\-260128 (also supports: seedream\-5\-0\-lite\-260128) |seedream\-4\-5\-251128 |seedream\-4\-0\-250828 |
-|[Text-to-image](https://docs.byteplus.com/en/docs/ModelArk/1824121#9695d195) | |✓ |✓ |✓ |✓ |
-|[Text-to-multiple images](https://docs.byteplus.com/en/docs/ModelArk/1824121#ec79cfda) | |✗ |✓ |✓ |✓ |
-|[Single/multiple images to image](https://docs.byteplus.com/en/docs/ModelArk/1824121#8bc49063) | |✓ |✓ |✓ |✓ |
-|[Single/multiple images to multiple images](https://docs.byteplus.com/en/docs/ModelArk/1824121#fc9f85e4) | |✗ |✓ |✓ |✓ |
-|[Interactive editing](https://docs.byteplus.com/en/docs/ModelArk/1824121#interactive_edit) | |✓ |✗ |✗ |✗ |
-|[Streaming output](https://docs.byteplus.com/en/docs/ModelArk/1824121#e5bef0d7) | |✗ |✓ |✓ |✓ |
-|Model parameters |Resolution |1K, 2K |2K, 3K, 4K |2K, 4K |1K, 2K, 4K |
-||Output format |png, jpeg |png, jpeg |jpeg |jpeg |
-||Prompt optimization mode |standard mode, fast mode |standard mode |standard mode |standard mode, fast mode |
-||Number of generated images |Supports single\-image and multi\-layer image generation |Number of input reference images + number of generated images ≤ 15. | | |
-|Max Images per Minute | |500 |500 |500 |500 |
+<span aceTableMode="list" aceTableWidth="1.5,2,3,3,3,3,3"></span>
+|Model Name | |[seedream-5-0-pro](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-pro) |[seedream-5-0-flash](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=dola-seedream-5-0-flash) |[seedream-5-0-lite](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-5-0) |[seedream-4-5](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-4-5) |[seedream-4-0](https://ai.byteplus.com/ark/region:ap-southeast-1/model/detail?Id=seedream-4-0) |
+|---|---|---|---|---|---|---|
+|Model ID | |dola\-seedream\-5\-0\-pro\-260628 |dola\-seedream\-5\-0\-flash\-260915 |seedream\-5\-0\-260128 (also supports: seedream\-5\-0\-lite\-260128) |seedream\-4\-5\-251128 |seedream\-4\-0\-250828 |
+|[Text-to-image](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-4-0-5-0#9695d195) | |✓ |✓ |✓ |✓ |✓ |
+|[Text-to-multiple images](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-4-0-5-0#ec79cfda) | |✗ |✗ |✓ |✓ |✓ |
+|[Single/multiple images to image](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-4-0-5-0#8bc49063) | |✓ |✓ |✓ |✓ |✓ |
+|[Single/multiple images to multiple images](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-4-0-5-0#fc9f85e4) | |✗ |✗ |✓ |✓ |✓ |
+|[Interactive editing](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-4-0-5-0#2cf5cace) | |✓ |✓ |✗ |✗ |✗ |
+|[Layer decomposition](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-5-0-pro#layer-decomposition) | |✓ |✓ |✗ |✗ |✗ |
+|[Streaming output](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-4-0-5-0#e5bef0d7) | |✗ |✗ |✓ |✓ |✓ |
+|Model parameters |Resolution |1K, 1.5K, 2K |1K, 1.5K, 2K |2K, 3K, 4K |2K, 4K |1K, 2K, 4K |
+||Output format |png, jpeg |png, jpeg |png, jpeg |jpeg |jpeg |
+||Prompt optimization mode |standard mode, fast mode |standard mode |standard mode |standard mode |standard mode, fast mode |
+||Number of generated images |Supports single\-image and multi\-layer image generation (one base image + 16 layers) |Supports single\-image and multi\-layer image generation (one base image + 16 layers) |Number of input reference images + number of generated images ≤ 15. | | |
+|Max Images per Minute | |500 |500 |500 |500 |500 |
 
 
 <span id="88612aa1"></span>
@@ -72,7 +57,7 @@ The following table compares the capabilities and parameters of each Seedream mo
 <div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Tip</div>
 
 
-<div data-tips="true" data-tips-type="tip">If you're new to ModelArk, see <a href="https://docs.byteplus.com/en/docs/ModelArk/1399008">Quick start</a> to get up and running quickly.</div>
+<div data-tips="true" data-tips-type="tip">If you're new to ModelArk, see <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/quick-start">Quick start</a> to get up and running quickly.</div>
 
 
 <span id="386b6ea2"></span>
@@ -99,7 +84,7 @@ Provide clear and accurate text instructions to the model to quickly generate a 
 
 
 <Tabs>
-<Tab zoneid="Lg9pptFKxz" title="Curl">
+<Tab zoneid="AMj1BzL3G9" title="Curl">
 <TabTitle>Curl</TabTitle>
 
 ```Bash
@@ -117,22 +102,22 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 
 
 
-* You may replace the Model ID as needed. See [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) for available models.
+* You may replace the Model ID as needed. See [Model list](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/model-list) for available models.
 
 
 </Tab>
-<Tab zoneid="cDVI8s0Z1I" title="Python">
+<Tab zoneid="ydyzRuTh5v" title="Python">
 <TabTitle>Python</TabTitle>
 
 ```Python
 import os
-# Install SDK:  pip install byteplus-python-sdk-v2 .
-from byteplussdkarkruntime import Ark
+# Install SDK:  pip install arkruntime .
+from arkruntime import Ark
 
 client = Ark(
     # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -152,15 +137,15 @@ print(imagesResponse.data[0].url)
 
 
 </Tab>
-<Tab zoneid="D5mOZYP84C" title="Java">
+<Tab zoneid="KOTN7uKRD2" title="Java">
 <TabTitle>Java</TabTitle>
 
 ```Java
 package com.ark.sample;
 
 
-import com.byteplus.ark.runtime.model.images.generation.*;
-import com.byteplus.ark.runtime.service.ArkService;
+import com.volcengine.ark.runtime.models.images.*;
+import com.volcengine.ark.runtime.service.ArkService;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 
@@ -170,28 +155,29 @@ import java.util.concurrent.TimeUnit;
 
 public class ImageGenerationsExample {
     public static void main(String[] args) {
-        // Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+        // Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
         String apiKey = System.getenv("ARK_API_KEY");
         ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
         Dispatcher dispatcher = new Dispatcher();
         ArkService service = ArkService.builder()
-                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3")
+                // The base URL for model invocation
                 .dispatcher(dispatcher)
                 .connectionPool(connectionPool)
                 .apiKey(apiKey)
                 .build();
 
-        GenerateImagesRequest generateRequest = GenerateImagesRequest.builder()
+        CreateImageGenerationRequest generateRequest = CreateImageGenerationRequest.builder()
                  .model("seedream-5-0-lite-260128") // Replace with Model ID
                 .prompt("Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot on medium format, dramatic studio lighting.")
                 .size("2K")
-                .sequentialImageGeneration("disabled")
-                .outputFormat("png")
-                .responseFormat(ResponseFormat.Url)
+                .sequentialImageGeneration(SequentialImageGenerationMode.DISABLED)
+                .outputFormat(OutputFormat.PNG)
+                .responseFormat(ResponseFormat.URL)
                 .stream(false)
                 .watermark(false)
                 .build();
-        ImagesResponse imagesResponse = service.generateImages(generateRequest);
+        ImageGenerationResponse imagesResponse = service.generateImages(generateRequest);
         System.out.println(imagesResponse.getData().get(0).getUrl());
 
         service.shutdownExecutor();
@@ -202,7 +188,7 @@ public class ImageGenerationsExample {
 
 
 </Tab>
-<Tab zoneid="GgizoK9DZd" title="Go">
+<Tab zoneid="fByav5Xxz0" title="Go">
 <TabTitle>Go</TabTitle>
 
 ```Go
@@ -213,14 +199,13 @@ import (
     "fmt"
     "os"
 
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
+    "github.com/volcengine/ark-runtime-go/arkruntime"
+    model "github.com/volcengine/ark-runtime-go/arkruntime/model/images"
 )
 
 func main() {
     client := arkruntime.NewClientWithApiKey(
-        // Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+        // Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
         os.Getenv("ARK_API_KEY"),
         // The base URL for model invocation
         arkruntime.WithBaseUrl("https://ark.ap-southeast.bytepluses.com/api/v3"),
@@ -229,13 +214,13 @@ func main() {
     outputFormat := model.OutputFormatPNG
 
 
-    generateReq := model.GenerateImagesRequest{
+    generateReq := &model.CreateImageGenerationRequest{
        Model:          "seedream-5-0-lite-260128", // Replace with Model ID
-       Prompt:         "Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot on medium format, dramatic studio lighting.",
-       Size:           byteplus.String("2K"),
-       OutputFormat:   &outputFormat,
-       ResponseFormat: byteplus.String("url"),
-       Watermark:      byteplus.Bool(false),
+       Prompt:         model.NewOptString("Vibrant close-up editorial portrait, model with piercing gaze, wearing a sculptural hat, rich color blocking, sharp focus on eyes, shallow depth of field, Vogue magazine cover aesthetic, shot on medium format, dramatic studio lighting."),
+       Size:           model.NewOptString("2K"),
+       OutputFormat: model.NewOptOutputFormat(outputFormat),
+       ResponseFormat: model.NewOptResponseFormat(model.ResponseFormatURL),
+       Watermark:      model.NewOptBool(false),
     }
 
     imagesResponse, err := client.GenerateImages(ctx, generateReq)
@@ -244,14 +229,14 @@ func main() {
        return
     }
 
-    fmt.Printf("%s\n", *imagesResponse.Data[0].Url)
+    fmt.Printf("%s\n", imagesResponse.Data[0].URL.Or(""))
 }
 ```
 
 
 
 </Tab>
-<Tab zoneid="HzQKJhL1Tp" title="OpenAI">
+<Tab zoneid="uHbOkt6zw1" title="OpenAI">
 <TabTitle>OpenAI</TabTitle>
 
 ```Python
@@ -261,7 +246,7 @@ from openai import OpenAI
 client = OpenAI(
     # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -300,7 +285,7 @@ Edit an existing image using text instructions, including adding or removing ele
 
 
 <Tabs>
-<Tab zoneid="TuCgU8tLZ3" title="Curl">
+<Tab zoneid="zdGoaGr86i" title="Curl">
 <TabTitle>Curl</TabTitle>
 
 ```Bash
@@ -319,22 +304,22 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 
 
 
-* You may replace the Model ID as needed. See [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) for available models.
+* You may replace the Model ID as needed. See [Model list](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/model-list) for available models.
 
 
 </Tab>
-<Tab zoneid="gMM7KdbRIb" title="Python">
+<Tab zoneid="QvDyAfaOra" title="Python">
 <TabTitle>Python</TabTitle>
 
 ```Python
 import os
-# Install SDK:  pip install byteplus-python-sdk-v2
-from byteplussdkarkruntime import Ark
+# Install SDK:  pip install arkruntime
+from arkruntime import Ark
 
 client = Ark(
     # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -355,15 +340,15 @@ print(imagesResponse.data[0].url)
 
 
 </Tab>
-<Tab zoneid="bJmhf3JwoR" title="Java">
+<Tab zoneid="AM6w2MfJbp" title="Java">
 <TabTitle>Java</TabTitle>
 
 ```Java
 package com.ark.sample;
 
 
-import com.byteplus.ark.runtime.model.images.generation.*;
-import com.byteplus.ark.runtime.service.ArkService;
+import com.volcengine.ark.runtime.models.images.*;
+import com.volcengine.ark.runtime.service.ArkService;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 
@@ -377,25 +362,26 @@ public class ImageGenerationsExample {
         ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
         Dispatcher dispatcher = new Dispatcher();
         ArkService service = ArkService.builder()
-                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3")
+                // The base URL for model invocation
                 .dispatcher(dispatcher)
                 .connectionPool(connectionPool)
                 .apiKey(apiKey)
                 .build();
 
-        GenerateImagesRequest generateRequest = GenerateImagesRequest.builder()
+        CreateImageGenerationRequest generateRequest = CreateImageGenerationRequest.builder()
                 .model("seedream-5-0-lite-260128") // Replace with Model ID
                 .prompt("Keep the model's pose and the flowing shape of the liquid dress unchanged. Change the clothing material from silver metal to completely transparent clear water (or glass). Through the liquid water, the model's skin details are visible. Lighting changes from reflection to refraction.")
-                .image("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_5_imageToimage.png")
+                .image(CreateImageGenerationRequestImage.ofString("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_5_imageToimage.png"))
                 .size("2K")
-                .sequentialImageGeneration("disabled")
-                .outputFormat("png")
-                .responseFormat(ResponseFormat.Url)
+                .sequentialImageGeneration(SequentialImageGenerationMode.DISABLED)
+                .outputFormat(OutputFormat.PNG)
+                .responseFormat(ResponseFormat.URL)
                 .stream(false)
                 .watermark(false)
                 .build();
 
-        ImagesResponse imagesResponse = service.generateImages(generateRequest);
+        ImageGenerationResponse imagesResponse = service.generateImages(generateRequest);
         System.out.println(imagesResponse.getData().get(0).getUrl());
 
         service.shutdownExecutor();
@@ -406,7 +392,7 @@ public class ImageGenerationsExample {
 
 
 </Tab>
-<Tab zoneid="lJczPzbwIw" title="Go">
+<Tab zoneid="sVreMMasjs" title="Go">
 <TabTitle>Go</TabTitle>
 
 ```Go
@@ -417,9 +403,8 @@ import (
     "fmt"
     "os"
 
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
+    "github.com/volcengine/ark-runtime-go/arkruntime"
+    model "github.com/volcengine/ark-runtime-go/arkruntime/model/images"
 )
 
 func main() {
@@ -431,14 +416,14 @@ func main() {
     ctx := context.Background()
     outputFormat := model.OutputFormatPNG
 
-    generateReq := model.GenerateImagesRequest{
+    generateReq := &model.CreateImageGenerationRequest{
        Model:          "seedream-5-0-lite-260128",
-       Prompt:         "Keep the model's pose and the flowing shape of the liquid dress unchanged. Change the clothing material from silver metal to completely transparent clear water (or glass). Through the liquid water, the model's skin details are visible. Lighting changes from reflection to refraction.",
-       Image:          byteplus.String("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_5_imageToimage.png"),
-       Size:           byteplus.String("2K"),
-       OutputFormat:   &outputFormat,
-       ResponseFormat: byteplus.String("url"),
-       Watermark:      byteplus.Bool(false),
+       Prompt:         model.NewOptString("Keep the model's pose and the flowing shape of the liquid dress unchanged. Change the clothing material from silver metal to completely transparent clear water (or glass). Through the liquid water, the model's skin details are visible. Lighting changes from reflection to refraction."),
+       Image: model.NewOptCreateImageGenerationRequestImage(model.NewStringArrayCreateImageGenerationRequestImage([]string{"https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_5_imageToimage.png"})),
+       Size:           model.NewOptString("2K"),
+       OutputFormat: model.NewOptOutputFormat(outputFormat),
+       ResponseFormat: model.NewOptResponseFormat(model.ResponseFormatURL),
+       Watermark:      model.NewOptBool(false),
     }
 
     imagesResponse, err := client.GenerateImages(ctx, generateReq)
@@ -447,14 +432,14 @@ func main() {
        return
     }
 
-    fmt.Printf("%s\n", *imagesResponse.Data[0].Url)
+    fmt.Printf("%s\n", imagesResponse.Data[0].URL.Or(""))
 }
 ```
 
 
 
 </Tab>
-<Tab zoneid="eZjsY4ISuC" title="OpenAI">
+<Tab zoneid="JVqhXQtE6F" title="OpenAI">
 <TabTitle>OpenAI</TabTitle>
 
 ```Python
@@ -464,7 +449,7 @@ from openai import OpenAI
 client = OpenAI(
     # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -503,7 +488,7 @@ Generate a new image by blending styles and visual elements from your prompt and
 
 
 <Tabs>
-<Tab zoneid="AaDLYTUQ7f" title="Curl">
+<Tab zoneid="M9hm1eBjXy" title="Curl">
 <TabTitle>Curl</TabTitle>
 
 ```Bash
@@ -522,22 +507,22 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 
 
 
-* You may replace the Model ID as needed. See [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) for available models.
+* You may replace the Model ID as needed. See [Model list](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/model-list) for available models.
 
 
 </Tab>
-<Tab zoneid="aZHRiQUeX5" title="Python">
+<Tab zoneid="Hi78XSrVAO" title="Python">
 <TabTitle>Python</TabTitle>
 
 ```Python
 import os
-# Install SDK:  pip install byteplus-python-sdk-v2
-from byteplussdkarkruntime import Ark
+# Install SDK:  pip install arkruntime
+from arkruntime import Ark
 
 client = Ark(
     # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 imagesResponse = client.images.generate(
@@ -557,15 +542,15 @@ print(imagesResponse.data[0].url)
 
 
 </Tab>
-<Tab zoneid="n5zv0qlFnI" title="Java">
+<Tab zoneid="UmHDwoI2Nq" title="Java">
 <TabTitle>Java</TabTitle>
 
 ```Java
 package com.ark.sample;
 
 
-import com.byteplus.ark.runtime.model.images.generation.*;
-import com.byteplus.ark.runtime.service.ArkService;
+import com.volcengine.ark.runtime.models.images.*;
+import com.volcengine.ark.runtime.service.ArkService;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 
@@ -579,26 +564,27 @@ public class ImageGenerationsExample {
         ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
         Dispatcher dispatcher = new Dispatcher();
         ArkService service = ArkService.builder()
-                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3")
+                // The base URL for model invocation
                 .dispatcher(dispatcher)
                 .connectionPool(connectionPool)
                 .apiKey(apiKey)
                 .build();
 
-        GenerateImagesRequest generateRequest = GenerateImagesRequest.builder()
+        CreateImageGenerationRequest generateRequest = CreateImageGenerationRequest.builder()
                 .model("seedream-5-0-lite-260128") // Replace with Model ID
                 .prompt("Replace the clothing in image 1 with the outfit from image 2.")
-                .image(Arrays.asList(
+                .image(CreateImageGenerationRequestImage.ofList(Arrays.asList(
                     "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imagesToimage_1.png",
                     "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_5_imagesToimage_2.png"
-                ))
+                )))
                 .size("2K")
-                .outputFormat("png")
-                .responseFormat(ResponseFormat.Url)
+                .outputFormat(OutputFormat.PNG)
+                .responseFormat(ResponseFormat.URL)
                 .stream(false)
                 .watermark(false)
                 .build();
-        ImagesResponse imagesResponse = service.generateImages(generateRequest);
+        ImageGenerationResponse imagesResponse = service.generateImages(generateRequest);
         System.out.println(imagesResponse.getData().get(0).getUrl());
 
         service.shutdownExecutor();
@@ -609,7 +595,7 @@ public class ImageGenerationsExample {
 
 
 </Tab>
-<Tab zoneid="cZrWFXzYro" title="Go">
+<Tab zoneid="ZiVYLKZu46" title="Go">
 <TabTitle>Go</TabTitle>
 
 ```Go
@@ -620,9 +606,8 @@ import (
     "fmt"
     "os"
 
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
+    "github.com/volcengine/ark-runtime-go/arkruntime"
+    model "github.com/volcengine/ark-runtime-go/arkruntime/model/images"
 )
 
 func main() {
@@ -634,17 +619,17 @@ func main() {
     ctx := context.Background()
     outputFormat := model.OutputFormatPNG
 
-    generateReq := model.GenerateImagesRequest{
+    generateReq := &model.CreateImageGenerationRequest{
        Model:          "seedream-5-0-lite-260128",
-       Prompt:         "Replace the clothing in image 1 with the outfit from image 2.",
-       Image:         []string{
+       Prompt:         model.NewOptString("Replace the clothing in image 1 with the outfit from image 2."),
+       Image:         model.NewOptCreateImageGenerationRequestImage(model.NewStringArrayCreateImageGenerationRequestImage([]string{
            "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imagesToimage_1.png",
            "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_5_imagesToimage_2.png",
-       },
-       Size:           byteplus.String("2K"),
-       OutputFormat:   &outputFormat,
-       ResponseFormat: byteplus.String("url"),
-       Watermark:      byteplus.Bool(false),
+       })),
+       Size:           model.NewOptString("2K"),
+       OutputFormat: model.NewOptOutputFormat(outputFormat),
+       ResponseFormat: model.NewOptResponseFormat(model.ResponseFormatURL),
+       Watermark:      model.NewOptBool(false),
     }
 
     imagesResponse, err := client.GenerateImages(ctx, generateReq)
@@ -653,14 +638,14 @@ func main() {
        return
     }
 
-    fmt.Printf("%s\n", *imagesResponse.Data[0].Url)
+    fmt.Printf("%s\n", imagesResponse.Data[0].URL.Or(""))
 }
 ```
 
 
 
 </Tab>
-<Tab zoneid="PJCagL8pWE" title="OpenAI">
+<Tab zoneid="WWpkp6Mbh3" title="OpenAI">
 <TabTitle>OpenAI</TabTitle>
 
 ```Python
@@ -670,7 +655,7 @@ from openai import OpenAI
 client = OpenAI(
     # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -698,6 +683,9 @@ print(imagesResponse.data[0].url)
 <span id="b4da5e23"></span>
 ## Batch image output
 
+> Seedream 5.0 pro and Seedream 5.0 flash do not support this capability.
+
+
 Generate a set of thematically related images—such as comic storyboards or brand visuals—using one or more images combined with text descriptions.
 
 Specify the parameter **sequential_image_generation** as `auto`.
@@ -714,7 +702,7 @@ Specify the parameter **sequential_image_generation** as `auto`.
 
 
 <Tabs>
-<Tab zoneid="ImCRqtMXEx" title="Curl">
+<Tab zoneid="J0CL3D9Qj9" title="Curl">
 <TabTitle>Curl</TabTitle>
 
 ```Bash
@@ -738,23 +726,23 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 
 
 
-* You may replace the Model ID as needed. See [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) for available models.
+* You may replace the Model ID as needed. See [Model list](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/model-list) for available models.
 
 
 </Tab>
-<Tab zoneid="HwpM5WiSrC" title="Python">
+<Tab zoneid="dzhe1KyYWv" title="Python">
 <TabTitle>Python</TabTitle>
 
 ```Python
 import os
-# Install SDK:  pip install byteplus-python-sdk-v2
-from byteplussdkarkruntime import Ark
-from byteplussdkarkruntime.types.images.images import SequentialImageGenerationOptions
+# Install SDK:  pip install arkruntime
+from arkruntime import Ark
+from arkruntime.types.images import SequentialImageGenerationOptionsParam
 
 client = Ark(
     # The base URL for model invocation .
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -764,7 +752,7 @@ imagesResponse = client.images.generate(
     prompt="Generate a set of four cinematic sci-fi realistic film storyboard scenes:Scene 1: An astronaut repairs a spacecraft at a space station, featuring intricate external mechanical structures, a deep starry sky + Milky Way background. The astronaut wears a highly detailed white spacesuit, holds professional repair tools, and focuses on inspecting the spacecraft's exterior. Medium full shot, rim-lit by side-backlighting, cool-toned sci-fi lighting with space station lights accenting the scene, a zero-gravity environment, exquisite metallic textures, and a serene yet precise atmosphere. Scene 2: Suddenly hit by a meteorite belt. Wide-angle epic shot, with numerous meteorites of varying sizes rushing in at high speed. The meteorite surfaces are sharply textured, with burning tails, motion blur emphasizing speed, and an overwhelming sense of pressure. The spacecraft and space station are positioned on one side of the frame, with the dark, deep space background creating strong light-shadow contrast. Intense disaster atmosphere with powerful visual impact. Scene 3: The astronaut dodges urgently. Close-up dynamic capture, showing the astronaut in zero gravity swiftly twisting to avoid impact, with full dynamic tension in their posture. They reach out to grab a fixed handrail, with meteorites streaking past in the background. Slight camera shake enhances the sense of immediacy. Details like spacesuit creases and tubing are clearly visible. Tense and urgent, with cold, sharp lighting and a focused subject without clutter. Scene 4: The astronaut, injured, escapes back to the spacecraft in a thrilling sequence. Medium-close narrative shot. The astronaut's spacesuit shows minor abrasions and scratches, looking slightly disheveled yet determined, stumbling toward the open spacecraft hatch. The warm interior light contrasts with the cold light of space, with meteorites fading into the background. A tense escape atmosphere, with realistic details and full emotional intensity.",
     size="2K",
     sequential_image_generation="auto",
-    sequential_image_generation_options=SequentialImageGenerationOptions(max_images=4),
+    sequential_image_generation_options=SequentialImageGenerationOptionsParam(max_images=4),
     output_format="png",
     response_format="url",
     watermark=False
@@ -779,15 +767,15 @@ for image in imagesResponse.data:
 
 
 </Tab>
-<Tab zoneid="uVJFc9ueQX" title="Java">
+<Tab zoneid="d53h5dDme4" title="Java">
 <TabTitle>Java</TabTitle>
 
 ```Java
 package com.ark.sample;
 
 
-import com.byteplus.ark.runtime.model.images.generation.*;
-import com.byteplus.ark.runtime.service.ArkService;
+import com.volcengine.ark.runtime.models.images.*;
+import com.volcengine.ark.runtime.service.ArkService;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 
@@ -801,26 +789,27 @@ public class ImageGenerationsExample {
         ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
         Dispatcher dispatcher = new Dispatcher();
         ArkService service = ArkService.builder()
-                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3")
+                // The base URL for model invocation
                 .dispatcher(dispatcher)
                 .connectionPool(connectionPool)
                 .apiKey(apiKey)
                 .build();
 
-        GenerateImagesRequest.SequentialImageGenerationOptions sequentialImageGenerationOptions = new GenerateImagesRequest.SequentialImageGenerationOptions();
+        SequentialImageGenerationOptions sequentialImageGenerationOptions = new SequentialImageGenerationOptions();
         sequentialImageGenerationOptions.setMaxImages(4);
-        GenerateImagesRequest generateRequest = GenerateImagesRequest.builder()
+        CreateImageGenerationRequest generateRequest = CreateImageGenerationRequest.builder()
                  .model("seedream-5-0-lite-260128")  // Replace with Model ID
                  .prompt("Generate a set of four cinematic sci-fi realistic film storyboard scenes:Scene 1: An astronaut repairs a spacecraft at a space station, featuring intricate external mechanical structures, a deep starry sky + Milky Way background. The astronaut wears a highly detailed white spacesuit, holds professional repair tools, and focuses on inspecting the spacecraft's exterior. Medium full shot, rim-lit by side-backlighting, cool-toned sci-fi lighting with space station lights accenting the scene, a zero-gravity environment, exquisite metallic textures, and a serene yet precise atmosphere. Scene 2: Suddenly hit by a meteorite belt. Wide-angle epic shot, with numerous meteorites of varying sizes rushing in at high speed. The meteorite surfaces are sharply textured, with burning tails, motion blur emphasizing speed, and an overwhelming sense of pressure. The spacecraft and space station are positioned on one side of the frame, with the dark, deep space background creating strong light-shadow contrast. Intense disaster atmosphere with powerful visual impact. Scene 3: The astronaut dodges urgently. Close-up dynamic capture, showing the astronaut in zero gravity swiftly twisting to avoid impact, with full dynamic tension in their posture. They reach out to grab a fixed handrail, with meteorites streaking past in the background. Slight camera shake enhances the sense of immediacy. Details like spacesuit creases and tubing are clearly visible. Tense and urgent, with cold, sharp lighting and a focused subject without clutter. Scene 4: The astronaut, injured, escapes back to the spacecraft in a thrilling sequence. Medium-close narrative shot. The astronaut's spacesuit shows minor abrasions and scratches, looking slightly disheveled yet determined, stumbling toward the open spacecraft hatch. The warm interior light contrasts with the cold light of space, with meteorites fading into the background. A tense escape atmosphere, with realistic details and full emotional intensity.")
                  .size("2K")
-                 .sequentialImageGeneration("auto")
+                 .sequentialImageGeneration(SequentialImageGenerationMode.AUTO)
                  .sequentialImageGenerationOptions(sequentialImageGenerationOptions)
-                 .outputFormat("png")
-                 .responseFormat(ResponseFormat.Url)
+                 .outputFormat(OutputFormat.PNG)
+                 .responseFormat(ResponseFormat.URL)
                  .stream(false)
                  .watermark(false)
                  .build();
-        ImagesResponse imagesResponse = service.generateImages(generateRequest);
+        ImageGenerationResponse imagesResponse = service.generateImages(generateRequest);
         // Iterate through all image data
         if (imagesResponse != null && imagesResponse.getData() != null) {
             for (int i = 0; i < imagesResponse.getData().size(); i++) {
@@ -843,7 +832,7 @@ public class ImageGenerationsExample {
 
 
 </Tab>
-<Tab zoneid="xDS5T2jQMl" title="Go">
+<Tab zoneid="WjJo3c0xG1" title="Go">
 <TabTitle>Go</TabTitle>
 
 ```Go
@@ -854,9 +843,8 @@ import (
     "fmt"
     "os"
 
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
+    "github.com/volcengine/ark-runtime-go/arkruntime"
+    model "github.com/volcengine/ark-runtime-go/arkruntime/model/images"
 )
 
 func main() {
@@ -867,20 +855,20 @@ func main() {
     )
     ctx := context.Background()
     outputFormat := model.OutputFormatPNG
-    var sequentialImageGeneration model.SequentialImageGeneration = "auto"
+    var sequentialImageGeneration model.SequentialImageGenerationMode = "auto"
     maxImages := 4
 
-    generateReq := model.GenerateImagesRequest{
+    generateReq := &model.CreateImageGenerationRequest{
        Model:          "seedream-5-0-lite-260128",
-       Prompt:         "Generate a set of four cinematic sci-fi realistic film storyboard scenes:Scene 1: An astronaut repairs a spacecraft at a space station, featuring intricate external mechanical structures, a deep starry sky + Milky Way background. The astronaut wears a highly detailed white spacesuit, holds professional repair tools, and focuses on inspecting the spacecraft's exterior. Medium full shot, rim-lit by side-backlighting, cool-toned sci-fi lighting with space station lights accenting the scene, a zero-gravity environment, exquisite metallic textures, and a serene yet precise atmosphere. Scene 2: Suddenly hit by a meteorite belt. Wide-angle epic shot, with numerous meteorites of varying sizes rushing in at high speed. The meteorite surfaces are sharply textured, with burning tails, motion blur emphasizing speed, and an overwhelming sense of pressure. The spacecraft and space station are positioned on one side of the frame, with the dark, deep space background creating strong light-shadow contrast. Intense disaster atmosphere with powerful visual impact. Scene 3: The astronaut dodges urgently. Close-up dynamic capture, showing the astronaut in zero gravity swiftly twisting to avoid impact, with full dynamic tension in their posture. They reach out to grab a fixed handrail, with meteorites streaking past in the background. Slight camera shake enhances the sense of immediacy. Details like spacesuit creases and tubing are clearly visible. Tense and urgent, with cold, sharp lighting and a focused subject without clutter. Scene 4: The astronaut, injured, escapes back to the spacecraft in a thrilling sequence. Medium-close narrative shot. The astronaut's spacesuit shows minor abrasions and scratches, looking slightly disheveled yet determined, stumbling toward the open spacecraft hatch. The warm interior light contrasts with the cold light of space, with meteorites fading into the background. A tense escape atmosphere, with realistic details and full emotional intensity.",
-       Size:           byteplus.String("2K"),
-       OutputFormat:   &outputFormat,
-       ResponseFormat: byteplus.String("url"),
-       Watermark:      byteplus.Bool(false),
-       SequentialImageGeneration: &sequentialImageGeneration,
-       SequentialImageGenerationOptions: &model.SequentialImageGenerationOptions{
-          MaxImages: &maxImages,
-       },
+       Prompt:         model.NewOptString("Generate a set of four cinematic sci-fi realistic film storyboard scenes:Scene 1: An astronaut repairs a spacecraft at a space station, featuring intricate external mechanical structures, a deep starry sky + Milky Way background. The astronaut wears a highly detailed white spacesuit, holds professional repair tools, and focuses on inspecting the spacecraft's exterior. Medium full shot, rim-lit by side-backlighting, cool-toned sci-fi lighting with space station lights accenting the scene, a zero-gravity environment, exquisite metallic textures, and a serene yet precise atmosphere. Scene 2: Suddenly hit by a meteorite belt. Wide-angle epic shot, with numerous meteorites of varying sizes rushing in at high speed. The meteorite surfaces are sharply textured, with burning tails, motion blur emphasizing speed, and an overwhelming sense of pressure. The spacecraft and space station are positioned on one side of the frame, with the dark, deep space background creating strong light-shadow contrast. Intense disaster atmosphere with powerful visual impact. Scene 3: The astronaut dodges urgently. Close-up dynamic capture, showing the astronaut in zero gravity swiftly twisting to avoid impact, with full dynamic tension in their posture. They reach out to grab a fixed handrail, with meteorites streaking past in the background. Slight camera shake enhances the sense of immediacy. Details like spacesuit creases and tubing are clearly visible. Tense and urgent, with cold, sharp lighting and a focused subject without clutter. Scene 4: The astronaut, injured, escapes back to the spacecraft in a thrilling sequence. Medium-close narrative shot. The astronaut's spacesuit shows minor abrasions and scratches, looking slightly disheveled yet determined, stumbling toward the open spacecraft hatch. The warm interior light contrasts with the cold light of space, with meteorites fading into the background. A tense escape atmosphere, with realistic details and full emotional intensity."),
+       Size:           model.NewOptString("2K"),
+       OutputFormat: model.NewOptOutputFormat(outputFormat),
+       ResponseFormat: model.NewOptResponseFormat(model.ResponseFormatURL),
+       Watermark:      model.NewOptBool(false),
+       SequentialImageGeneration: model.NewOptSequentialImageGenerationMode(sequentialImageGeneration),
+       SequentialImageGenerationOptions: model.NewOptSequentialImageGenerationOptions(model.SequentialImageGenerationOptions{
+          MaxImages: model.NewOptInt32(int32(maxImages)),
+       }),
     }
 
     resp, err := client.GenerateImages(ctx, generateReq)
@@ -889,8 +877,8 @@ func main() {
         return
     }
 
-    if resp.Error != nil {
-        fmt.Printf("API returned error: %s - %s\n", resp.Error.Code, resp.Error.Message)
+    if resp.Error.IsSet() {
+        fmt.Printf("API returned error: %s - %s\n", resp.Error.Value.Code, resp.Error.Value.Message)
         return
     }
 
@@ -898,12 +886,12 @@ func main() {
     fmt.Printf("Generated %d images:\n", len(resp.Data))
     for i, image := range resp.Data {
         var url string
-        if image.Url != nil {
-            url = *image.Url
+        if image.URL.IsSet() {
+            url = image.URL.Or("")
         } else {
             url = "N/A"
         }
-        fmt.Printf("Image %d: Size: %s, URL: %s\n", i+1, image.Size, url)
+        fmt.Printf("Image %d: Size: %s, URL: %s\n", i+1, image.Size.Or(""), url)
     }
 }
 ```
@@ -911,7 +899,7 @@ func main() {
 
 
 </Tab>
-<Tab zoneid="cbiwt88et7" title="OpenAI">
+<Tab zoneid="KGVGTe4HG1" title="OpenAI">
 <TabTitle>OpenAI</TabTitle>
 
 ```Python
@@ -921,7 +909,7 @@ from openai import OpenAI
 client = OpenAI(
     # The base URL for model invocation .
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -964,7 +952,7 @@ for image in imagesResponse.data:
 
 
 <Tabs>
-<Tab zoneid="Mh0ii83EJb" title="Curl">
+<Tab zoneid="z7uiFTQsOz" title="Curl">
 <TabTitle>Curl</TabTitle>
 
 ```Bash
@@ -989,23 +977,23 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 
 
 
-* You may replace the Model ID as needed. See [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) for available models.
+* You may replace the Model ID as needed. See [Model list](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/model-list) for available models.
 
 
 </Tab>
-<Tab zoneid="XR7mXo311g" title="Python">
+<Tab zoneid="OzNymdQNiy" title="Python">
 <TabTitle>Python</TabTitle>
 
 ```Python
 import os
-# Install SDK:  pip install byteplus-python-sdk-v2 .
-from byteplussdkarkruntime import Ark
-from byteplussdkarkruntime.types.images.images import SequentialImageGenerationOptions
+# Install SDK:  pip install arkruntime .
+from arkruntime import Ark
+from arkruntime.types.images import SequentialImageGenerationOptionsParam
 
 client = Ark(
     # The base URL for model invocation .
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -1016,7 +1004,7 @@ imagesResponse = client.images.generate(
     image="https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imageToimages.png",
     size="2K",
     sequential_image_generation="auto",
-    sequential_image_generation_options=SequentialImageGenerationOptions(max_images=4),
+    sequential_image_generation_options=SequentialImageGenerationOptionsParam(max_images=4),
     output_format="png",
     response_format="url",
     watermark=False
@@ -1031,15 +1019,15 @@ for image in imagesResponse.data:
 
 
 </Tab>
-<Tab zoneid="IHCZOEBtJy" title="Java">
+<Tab zoneid="DECUNzqjDt" title="Java">
 <TabTitle>Java</TabTitle>
 
 ```Java
 package com.ark.sample;
 
 
-import com.byteplus.ark.runtime.model.images.generation.*;
-import com.byteplus.ark.runtime.service.ArkService;
+import com.volcengine.ark.runtime.models.images.*;
+import com.volcengine.ark.runtime.service.ArkService;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 
@@ -1053,27 +1041,28 @@ public class ImageGenerationsExample {
         ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
         Dispatcher dispatcher = new Dispatcher();
         ArkService service = ArkService.builder()
-                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3")
+                // The base URL for model invocation
                 .dispatcher(dispatcher)
                 .connectionPool(connectionPool)
                 .apiKey(apiKey)
                 .build();
 
-        GenerateImagesRequest.SequentialImageGenerationOptions sequentialImageGenerationOptions = new GenerateImagesRequest.SequentialImageGenerationOptions();
+        SequentialImageGenerationOptions sequentialImageGenerationOptions = new SequentialImageGenerationOptions();
         sequentialImageGenerationOptions.setMaxImages(4);
-        GenerateImagesRequest generateRequest = GenerateImagesRequest.builder()
+        CreateImageGenerationRequest generateRequest = CreateImageGenerationRequest.builder()
                  .model("seedream-5-0-lite-260128") // Replace with Model ID
                  .prompt("Using this LOGO as a reference, create a visual design system for an outdoor sports brand named GREEN, including packaging bags, hats, cards, lanyards, etc. Main visual tone is green, with a fun, simple, and modern style.")
-                 .image("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imageToimages.png")
+                 .image(CreateImageGenerationRequestImage.ofString("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imageToimages.png"))
                  .size("2K")
-                 .sequentialImageGeneration("auto")
+                 .sequentialImageGeneration(SequentialImageGenerationMode.AUTO)
                  .sequentialImageGenerationOptions(sequentialImageGenerationOptions)
-                 .outputFormat("png")
-                 .responseFormat(ResponseFormat.Url)
+                 .outputFormat(OutputFormat.PNG)
+                 .responseFormat(ResponseFormat.URL)
                  .stream(false)
                  .watermark(false)
                  .build();
-        ImagesResponse imagesResponse = service.generateImages(generateRequest);
+        ImageGenerationResponse imagesResponse = service.generateImages(generateRequest);
         // Iterate through all image data
         if (imagesResponse != null && imagesResponse.getData() != null) {
             for (int i = 0; i < imagesResponse.getData().size(); i++) {
@@ -1096,7 +1085,7 @@ public class ImageGenerationsExample {
 
 
 </Tab>
-<Tab zoneid="E4Y8LwODRu" title="Go">
+<Tab zoneid="OjLv9x10Bt" title="Go">
 <TabTitle>Go</TabTitle>
 
 ```Go
@@ -1107,9 +1096,8 @@ import (
     "fmt"
     "os"
 
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
+    "github.com/volcengine/ark-runtime-go/arkruntime"
+    model "github.com/volcengine/ark-runtime-go/arkruntime/model/images"
 )
 
 func main() {
@@ -1120,21 +1108,21 @@ func main() {
     )
     ctx := context.Background()
     outputFormat := model.OutputFormatPNG
-    var sequentialImageGeneration model.SequentialImageGeneration = "auto"
+    var sequentialImageGeneration model.SequentialImageGenerationMode = "auto"
     maxImages := 4
 
-    generateReq := model.GenerateImagesRequest{
+    generateReq := &model.CreateImageGenerationRequest{
        Model:          "seedream-5-0-lite-260128",
-       Prompt:         "Using this LOGO as a reference, create a visual design system for an outdoor sports brand named GREEN, including packaging bags, hats, cards, lanyards, etc. Main visual tone is green, with a fun, simple, and modern style.",
-       Image:          byteplus.String("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imageToimages.png"),
-       Size:           byteplus.String("2K"),
-       OutputFormat:   &outputFormat,
-       ResponseFormat: byteplus.String("url"),
-       Watermark:      byteplus.Bool(false),
-       SequentialImageGeneration: &sequentialImageGeneration,
-       SequentialImageGenerationOptions: &model.SequentialImageGenerationOptions{
-          MaxImages: &maxImages,
-       },
+       Prompt:         model.NewOptString("Using this LOGO as a reference, create a visual design system for an outdoor sports brand named GREEN, including packaging bags, hats, cards, lanyards, etc. Main visual tone is green, with a fun, simple, and modern style."),
+       Image: model.NewOptCreateImageGenerationRequestImage(model.NewStringArrayCreateImageGenerationRequestImage([]string{"https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imageToimages.png"})),
+       Size:           model.NewOptString("2K"),
+       OutputFormat: model.NewOptOutputFormat(outputFormat),
+       ResponseFormat: model.NewOptResponseFormat(model.ResponseFormatURL),
+       Watermark:      model.NewOptBool(false),
+       SequentialImageGeneration: model.NewOptSequentialImageGenerationMode(sequentialImageGeneration),
+       SequentialImageGenerationOptions: model.NewOptSequentialImageGenerationOptions(model.SequentialImageGenerationOptions{
+          MaxImages: model.NewOptInt32(int32(maxImages)),
+       }),
     }
 
     resp, err := client.GenerateImages(ctx, generateReq)
@@ -1143,8 +1131,8 @@ func main() {
         return
     }
 
-    if resp.Error != nil {
-        fmt.Printf("API returned error: %s - %s\n", resp.Error.Code, resp.Error.Message)
+    if resp.Error.IsSet() {
+        fmt.Printf("API returned error: %s - %s\n", resp.Error.Value.Code, resp.Error.Value.Message)
         return
     }
 
@@ -1152,12 +1140,12 @@ func main() {
     fmt.Printf("Generated %d images:\n", len(resp.Data))
     for i, image := range resp.Data {
         var url string
-        if image.Url != nil {
-            url = *image.Url
+        if image.URL.IsSet() {
+            url = image.URL.Or("")
         } else {
             url = "N/A"
         }
-        fmt.Printf("Image %d: Size: %s, URL: %s\n", i+1, image.Size, url)
+        fmt.Printf("Image %d: Size: %s, URL: %s\n", i+1, image.Size.Or(""), url)
     }
 }
 ```
@@ -1165,7 +1153,7 @@ func main() {
 
 
 </Tab>
-<Tab zoneid="XfW4wm6ImJ" title="OpenAI">
+<Tab zoneid="LINTeXcqDK" title="OpenAI">
 <TabTitle>OpenAI</TabTitle>
 
 ```Python
@@ -1175,7 +1163,7 @@ from openai import OpenAI
 client = OpenAI(
     # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -1219,7 +1207,7 @@ for image in imagesResponse.data:
 
 
 <Tabs>
-<Tab zoneid="wQsBjr16xQ" title="Curl">
+<Tab zoneid="mcbjs38qZS" title="Curl">
 <TabTitle>Curl</TabTitle>
 
 ```Bash
@@ -1242,23 +1230,23 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 
 
 
-* You may replace the Model ID as needed. See [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) for available models.
+* You may replace the Model ID as needed. See [Model list](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/model-list) for available models.
 
 
 </Tab>
-<Tab zoneid="ac19GymWXA" title="Python">
+<Tab zoneid="zYzr29reSP" title="Python">
 <TabTitle>Python</TabTitle>
 
 ```Python
 import os
-# Install SDK:  pip install byteplus-python-sdk-v2 .
-from byteplussdkarkruntime import Ark
-from byteplussdkarkruntime.types.images.images import SequentialImageGenerationOptions
+# Install SDK:  pip install arkruntime .
+from arkruntime import Ark
+from arkruntime.types.images import SequentialImageGenerationOptionsParam
 
 client = Ark(
     # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -1269,7 +1257,7 @@ imagesResponse = client.images.generate(
     image=["https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imagesToimages_1.png", "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imagesToimages_2.png"],
     size="2K",
     sequential_image_generation="auto",
-    sequential_image_generation_options=SequentialImageGenerationOptions(max_images=3),
+    sequential_image_generation_options=SequentialImageGenerationOptionsParam(max_images=3),
     output_format="png",
     response_format="url",
     watermark=False
@@ -1284,15 +1272,15 @@ for image in imagesResponse.data:
 
 
 </Tab>
-<Tab zoneid="HUOxKm0wXo" title="Java">
+<Tab zoneid="UuWbs2o70J" title="Java">
 <TabTitle>Java</TabTitle>
 
 ```Java
 package com.ark.sample;
 
 
-import com.byteplus.ark.runtime.model.images.generation.*;
-import com.byteplus.ark.runtime.service.ArkService;
+import com.volcengine.ark.runtime.models.images.*;
+import com.volcengine.ark.runtime.service.ArkService;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 
@@ -1306,31 +1294,32 @@ public class ImageGenerationsExample {
         ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
         Dispatcher dispatcher = new Dispatcher();
         ArkService service = ArkService.builder()
-                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3")
+                // The base URL for model invocation
                 .dispatcher(dispatcher)
                 .connectionPool(connectionPool)
                 .apiKey(apiKey)
                 .build();
 
-        GenerateImagesRequest.SequentialImageGenerationOptions sequentialImageGenerationOptions = new GenerateImagesRequest.SequentialImageGenerationOptions();
+        SequentialImageGenerationOptions sequentialImageGenerationOptions = new SequentialImageGenerationOptions();
         sequentialImageGenerationOptions.setMaxImages(3);
-        GenerateImagesRequest generateRequest = GenerateImagesRequest.builder()
+        CreateImageGenerationRequest generateRequest = CreateImageGenerationRequest.builder()
                  .model("seedream-5-0-lite-260128") // Replace with Model ID
                  .prompt("Generate 3 images of a girl and a cow plushie happily riding a roller coaster in an amusement park, depicting morning, noon, and night.")
-                 .image(Arrays.asList(
+                 .image(CreateImageGenerationRequestImage.ofList(Arrays.asList(
                      "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imagesToimages_1.png",
                      "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imagesToimages_2.png"
-                 ))
-                 .outputFormat("png")
+                 )))
+                 .outputFormat(OutputFormat.PNG)
                  .size("2K")
-                 .sequentialImageGeneration("auto")
+                 .sequentialImageGeneration(SequentialImageGenerationMode.AUTO)
                  .sequentialImageGenerationOptions(sequentialImageGenerationOptions)
 
-                 .responseFormat(ResponseFormat.Url)
+                 .responseFormat(ResponseFormat.URL)
                  .stream(false)
                  .watermark(false)
                  .build();
-        ImagesResponse imagesResponse = service.generateImages(generateRequest);
+        ImageGenerationResponse imagesResponse = service.generateImages(generateRequest);
 
         // Iterate through all image data
         if (imagesResponse != null && imagesResponse.getData() != null) {
@@ -1354,7 +1343,7 @@ public class ImageGenerationsExample {
 
 
 </Tab>
-<Tab zoneid="N8R9jWBBPX" title="Go">
+<Tab zoneid="zK34olTRUB" title="Go">
 <TabTitle>Go</TabTitle>
 
 ```Go
@@ -1365,9 +1354,8 @@ import (
     "fmt"
     "os"
 
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
+    "github.com/volcengine/ark-runtime-go/arkruntime"
+    model "github.com/volcengine/ark-runtime-go/arkruntime/model/images"
 )
 
 func main() {
@@ -1378,25 +1366,25 @@ func main() {
     )
     ctx := context.Background()
     outputFormat := model.OutputFormatPNG
-    var sequentialImageGeneration model.SequentialImageGeneration = "auto"
+    var sequentialImageGeneration model.SequentialImageGenerationMode = "auto"
     maxImages := 3
 
-    generateReq := model.GenerateImagesRequest{
+    generateReq := &model.CreateImageGenerationRequest{
        Model:          "seedream-5-0-lite-260128",
-       Prompt:         "Generate 3 images of a girl and a cow plushie happily riding a roller coaster in an amusement park, depicting morning, noon, and night.",
-       Image:         []string{
+       Prompt:         model.NewOptString("Generate 3 images of a girl and a cow plushie happily riding a roller coaster in an amusement park, depicting morning, noon, and night."),
+       Image:         model.NewOptCreateImageGenerationRequestImage(model.NewStringArrayCreateImageGenerationRequestImage([]string{
            "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imagesToimages_1.png",
            "https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imagesToimages_2.png",
-       },
+       })),
 
-       Size:           byteplus.String("2K"),
-       OutputFormat:   &outputFormat,
-       ResponseFormat: byteplus.String("url"),
-       Watermark:      byteplus.Bool(false),
-       SequentialImageGeneration: &sequentialImageGeneration,
-       SequentialImageGenerationOptions: &model.SequentialImageGenerationOptions{
-          MaxImages: &maxImages,
-       },
+       Size:           model.NewOptString("2K"),
+       OutputFormat: model.NewOptOutputFormat(outputFormat),
+       ResponseFormat: model.NewOptResponseFormat(model.ResponseFormatURL),
+       Watermark:      model.NewOptBool(false),
+       SequentialImageGeneration: model.NewOptSequentialImageGenerationMode(sequentialImageGeneration),
+       SequentialImageGenerationOptions: model.NewOptSequentialImageGenerationOptions(model.SequentialImageGenerationOptions{
+          MaxImages: model.NewOptInt32(int32(maxImages)),
+       }),
     }
 
     resp, err := client.GenerateImages(ctx, generateReq)
@@ -1405,8 +1393,8 @@ func main() {
         return
     }
 
-    if resp.Error != nil {
-        fmt.Printf("API returned error: %s - %s\n", resp.Error.Code, resp.Error.Message)
+    if resp.Error.IsSet() {
+        fmt.Printf("API returned error: %s - %s\n", resp.Error.Value.Code, resp.Error.Value.Message)
         return
     }
 
@@ -1414,12 +1402,12 @@ func main() {
     fmt.Printf("Generated %d images:\n", len(resp.Data))
     for i, image := range resp.Data {
         var url string
-        if image.Url != nil {
-            url = *image.Url
+        if image.URL.IsSet() {
+            url = image.URL.Or("")
         } else {
             url = "N/A"
         }
-        fmt.Printf("Image %d: Size: %s, URL: %s\n", i+1, image.Size, url)
+        fmt.Printf("Image %d: Size: %s, URL: %s\n", i+1, image.Size.Or(""), url)
     }
 }
 ```
@@ -1427,7 +1415,7 @@ func main() {
 
 
 </Tab>
-<Tab zoneid="qCStgw1y5d" title="OpenAI">
+<Tab zoneid="VtWWjurHET" title="OpenAI">
 <TabTitle>OpenAI</TabTitle>
 
 ```Python
@@ -1437,7 +1425,7 @@ from openai import OpenAI
 client = OpenAI(
     # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -1473,7 +1461,7 @@ for image in imagesResponse.data:
 ## **Prompt recommendations**
 
 
-* Use coherent natural language to describe the **subject + action + environment** . If aesthetics matter, include descriptors of **style,**  **color,**  **lighting,**  or **composition** . For details, see [Seedream 4.0-5.0 prompt guide](https://docs.byteplus.com/en/docs/ModelArk/1829186).
+* Use coherent natural language to describe the **subject + action + environment**. If aesthetics matter, include descriptors of **style,**  **color,**  **lighting,**  or **composition**. For details, see [Seedream 4.0-5.0 prompt guide](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/seedream-4-0-5-0-prompt-guide).
 
 * Keep text prompts under 600 English words. Very long prompts may scatter the information, causing the model to overlook details and focus only on key points, which can result in missing elements in the generated image.
 
@@ -1484,7 +1472,7 @@ for image in imagesResponse.data:
 <span id="e5bef0d7"></span>
 ## Streaming output
 
-> dola\-seedream\-5\-0\-pro does not support this capability.
+> Dola Seedream 5.0 pro and Dola Seedream 5.0 flash do not support this capability.
 
 
 seedream\-5\-0\-lite, seedream\-4\-5 and seedream\-4\-0 models support streaming image generation. Results are returned as soon as an image is created, enabling faster browsing and improving end\-user experience.
@@ -1495,7 +1483,7 @@ Enable streaming output mode by setting the **stream** parameter to `true`.
 
 
 <Tabs>
-<Tab zoneid="PUm10rhJVg" title="Curl">
+<Tab zoneid="nQPEI220gS" title="Curl">
 <TabTitle>Curl</TabTitle>
 
 ```Bash
@@ -1519,23 +1507,23 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 
 
 
-* You may replace the Model ID as needed. See [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) for available models.
+* You may replace the Model ID as needed. See [Model list](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/model-list) for available models.
 
 
 </Tab>
-<Tab zoneid="Z1rxSAAOvD" title="Python">
+<Tab zoneid="U7Sykuf0Rf" title="Python">
 <TabTitle>Python</TabTitle>
 
 ```Python
 import os
-# Install SDK:  pip install byteplus-python-sdk-v2
-from byteplussdkarkruntime import Ark
-from byteplussdkarkruntime.types.images.images import SequentialImageGenerationOptions
+# Install SDK:  pip install arkruntime
+from arkruntime import Ark
+from arkruntime.types.images import SequentialImageGenerationOptionsParam
 
 client = Ark(
     # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -1547,7 +1535,7 @@ if __name__ == "__main__":
         image="https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imageToimages_1.png",
         size="2K",
         sequential_image_generation="auto",
-        sequential_image_generation_options=SequentialImageGenerationOptions(max_images=4),
+        sequential_image_generation_options=SequentialImageGenerationOptionsParam(max_images=4),
         output_format="png",
         response_format="url",
         stream=True,
@@ -1574,15 +1562,15 @@ if __name__ == "__main__":
 
 
 </Tab>
-<Tab zoneid="oR9dM3GTfT" title="Java">
+<Tab zoneid="Ba93fcXcrb" title="Java">
 <TabTitle>Java</TabTitle>
 
 ```Java
 package com.ark.sample;
 
 
-import com.byteplus.ark.runtime.model.images.generation.*;
-import com.byteplus.ark.runtime.service.ArkService;
+import com.volcengine.ark.runtime.models.images.*;
+import com.volcengine.ark.runtime.service.ArkService;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
 
@@ -1596,23 +1584,24 @@ public class ImageGenerationsExample {
         ConnectionPool connectionPool = new ConnectionPool(5, 1, TimeUnit.SECONDS);
         Dispatcher dispatcher = new Dispatcher();
         ArkService service = ArkService.builder()
-                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3") // The base URL for model invocation
+                .baseUrl("https://ark.ap-southeast.bytepluses.com/api/v3")
+                // The base URL for model invocation
                 .dispatcher(dispatcher)
                 .connectionPool(connectionPool)
                 .apiKey(apiKey)
                 .build();
 
-        GenerateImagesRequest.SequentialImageGenerationOptions sequentialImageGenerationOptions = new GenerateImagesRequest.SequentialImageGenerationOptions();
+        SequentialImageGenerationOptions sequentialImageGenerationOptions = new SequentialImageGenerationOptions();
         sequentialImageGenerationOptions.setMaxImages(4);
-        GenerateImagesRequest generateRequest = GenerateImagesRequest.builder()
+        CreateImageGenerationRequest generateRequest = CreateImageGenerationRequest.builder()
                  .model("seedream-5-0-lite-260128") //Replace with Model ID .
                  .prompt("Referring to Figure 1, generate four images with characters wearing sunglasses, riding motorcycles, wearing hats, and holding lollipops")
-                 .image("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imageToimages_1.png")
+                 .image(CreateImageGenerationRequestImage.ofString("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imageToimages_1.png"))
                  .size("2K")
-                 .sequentialImageGeneration("auto")
+                 .sequentialImageGeneration(SequentialImageGenerationMode.AUTO)
                  .sequentialImageGenerationOptions(sequentialImageGenerationOptions)
-                 .outputFormat("png")
-                 .responseFormat(ResponseFormat.Url)
+                 .outputFormat(OutputFormat.PNG)
+                 .responseFormat(ResponseFormat.URL)
                  .stream(true)
                  .watermark(false)
                  .build();
@@ -1622,7 +1611,7 @@ public class ImageGenerationsExample {
                 .blockingForEach(
                         choice -> {
                             if (choice == null) return;
-                            if ("image_generation.partial_failed".equals(choice.getType())) {
+                            if (ImageGenerationStreamEventType.IMAGE_GENERATION_PARTIAL_FAILED.equals(choice.getType())) {
                                 if (choice.getError() != null) {
                                     System.err.println("Stream generate images error: " + choice.getError());
                                     if (choice.getError().getCode() != null && choice.getError().getCode().equals("InternalServiceError")) {
@@ -1630,12 +1619,12 @@ public class ImageGenerationsExample {
                                     }
                                 }
                             }
-                            else if ("image_generation.partial_succeeded".equals(choice.getType())) {
+                            else if (ImageGenerationStreamEventType.IMAGE_GENERATION_PARTIAL_SUCCEEDED.equals(choice.getType())) {
                                 if (choice.getError() == null && choice.getUrl() != null && !choice.getUrl().isEmpty()) {
                                     System.out.printf("recv.Size: %s, recv.Url: %s%n", choice.getSize(), choice.getUrl());
                                 }
                             }
-                            else if ("image_generation.completed".equals(choice.getType())) {
+                            else if (ImageGenerationStreamEventType.IMAGE_GENERATION_COMPLETED.equals(choice.getType())) {
                                 if (choice.getError() == null && choice.getUsage() != null) {
                                     System.out.println("recv.Usage: " + choice.getUsage().toString());
                                 }
@@ -1650,7 +1639,7 @@ public class ImageGenerationsExample {
 
 
 </Tab>
-<Tab zoneid="jB7mzusoTp" title="Go">
+<Tab zoneid="VwVDqfTy4P" title="Go">
 <TabTitle>Go</TabTitle>
 
 ```Go
@@ -1663,9 +1652,8 @@ import (
     "os"
     "strings"
 
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/service/arkruntime/model"
-    "github.com/byteplus-sdk/byteplus-go-sdk-v2/byteplus"
+    "github.com/volcengine/ark-runtime-go/arkruntime"
+    model "github.com/volcengine/ark-runtime-go/arkruntime/model/images"
 )
 
 func main() {
@@ -1676,21 +1664,21 @@ func main() {
     )
     ctx := context.Background()
     outputFormat := model.OutputFormatPNG
-    var sequentialImageGeneration model.SequentialImageGeneration = "auto"
+    var sequentialImageGeneration model.SequentialImageGenerationMode = "auto"
     maxImages := 4
 
-    generateReq := model.GenerateImagesRequest{
+    generateReq := &model.CreateImageGenerationRequest{
        Model:          "seedream-5-0-lite-260128",
-       Prompt:         "Referring to Figure 1, generate four images with characters wearing sunglasses, riding motorcycles, wearing hats, and holding lollipops",
-       Image:          byteplus.String("https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imageToimages_1.png"),
-       Size:           byteplus.String("2K"),
-       OutputFormat:   &outputFormat,
-       ResponseFormat: byteplus.String("url"),
-       Watermark:      byteplus.Bool(false),
-       SequentialImageGeneration: &sequentialImageGeneration,
-       SequentialImageGenerationOptions: &model.SequentialImageGenerationOptions{
-          MaxImages: &maxImages,
-       },
+       Prompt:         model.NewOptString("Referring to Figure 1, generate four images with characters wearing sunglasses, riding motorcycles, wearing hats, and holding lollipops"),
+       Image: model.NewOptCreateImageGenerationRequestImage(model.NewStringArrayCreateImageGenerationRequestImage([]string{"https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_imageToimages_1.png"})),
+       Size:           model.NewOptString("2K"),
+       OutputFormat: model.NewOptOutputFormat(outputFormat),
+       ResponseFormat: model.NewOptResponseFormat(model.ResponseFormatURL),
+       Watermark:      model.NewOptBool(false),
+       SequentialImageGeneration: model.NewOptSequentialImageGenerationMode(sequentialImageGeneration),
+       SequentialImageGenerationOptions: model.NewOptSequentialImageGenerationOptions(model.SequentialImageGenerationOptions{
+          MaxImages: model.NewOptInt32(int32(maxImages)),
+       }),
     }
 
     stream, err := client.GenerateImagesStreaming(ctx, generateReq)
@@ -1708,20 +1696,20 @@ func main() {
           fmt.Printf("Stream generate images error: %v\n", err)
           break
        }
-       if recv.Type == "image_generation.partial_failed" {
+       if recv.Type == model.ImageGenerationStreamEventTypeImageGenerationPartialFailed {
           fmt.Printf("Stream generate images error: %v\n", recv.Error)
-          if strings.EqualFold(recv.Error.Code, "InternalServiceError") {
+          if strings.EqualFold(recv.Error.Value.Code, "InternalServiceError") {
              break
           }
        }
-       if recv.Type == "image_generation.partial_succeeded" {
-          if recv.Error == nil && recv.Url != nil {
-             fmt.Printf("recv.Size: %s, recv.Url: %s\n", recv.Size, *recv.Url)
+       if recv.Type == model.ImageGenerationStreamEventTypeImageGenerationPartialSucceeded {
+          if !recv.Error.IsSet() && recv.URL.IsSet() {
+             fmt.Printf("recv.Size: %s, recv.Url: %s\n", recv.Size.Or(""), recv.URL.Or(""))
           }
        }
-       if recv.Type == "image_generation.completed" {
-          if recv.Error == nil {
-             fmt.Printf("recv.Usage: %v\n", *recv.Usage)
+       if recv.Type == model.ImageGenerationStreamEventTypeImageGenerationCompleted {
+          if !recv.Error.IsSet() {
+             fmt.Printf("recv.Usage: %v\n", recv.Usage.Or(model.Usage{}))
           }
        }
     }
@@ -1731,7 +1719,7 @@ func main() {
 
 
 </Tab>
-<Tab zoneid="xclJZtFgTo" title="OpenAI">
+<Tab zoneid="AermJ1FgyK" title="OpenAI">
 <TabTitle>OpenAI</TabTitle>
 
 ```Python
@@ -1741,7 +1729,7 @@ from openai import OpenAI
 client = OpenAI(
     # The base URL for model invocation .
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -1781,19 +1769,19 @@ if __name__ == "__main__":
 
 
 <span id="6b32fe21"></span>
-## Prompt optimization control
+## Configure faster image generation
 
-Set the **optimize_prompt_options.mode** parameter to choose between the `standard` mode and `fast` mode to optimize prompts for different requirements of picture quality and generation speed.
+Set **optimize_prompt_options.mode** to choose between `standard` and `fast` based on your image quality and generation speed requirements.
 
 
-* To balance generation speed and image quality, seedream\-5\-0\-pro and seedream\-4\-0 allows you to set **optimize_prompt_options.mode** to `fast` to significantly increase generation speed, though this will come at the cost of some image quality.
+* To balance generation speed and image quality, Seedream 5.0 pro and Seedream 4.0 support setting **optimize_prompt_options.mode** to `fast`. This significantly increases generation speed but may reduce image quality.
 
-* seedream\-5\-0\-lite and seedream\-4\-5 focus on high\-quality image generation and only support `standard` mode.
+* Seedream 5.0 flash, Seedream 5.0 lite, and Seedream 4.5 support only `standard`.
 
 
 
 <Tabs>
-<Tab zoneid="fxg4xC6Kc9" title="Curl">
+<Tab zoneid="FA3JSM5sR3" title="Curl">
 <TabTitle>Curl</TabTitle>
 
 ```Bash
@@ -1820,11 +1808,11 @@ curl https://ark.ap-southeast.bytepluses.com/api/v3/images/generations \
 
 
 
-* You may replace the Model ID as needed. See [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) for available models.
+* You may replace the Model ID as needed. See [Model list](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/model-list) for available models.
 
 
 </Tab>
-<Tab zoneid="d1iACuo8i5" title="Python">
+<Tab zoneid="Xok8goce6f" title="Python">
 <TabTitle>Python</TabTitle>
 
 ```Python
@@ -1837,7 +1825,7 @@ from byteplussdkarkruntime.types.images.images import OptimizePromptOptions
 client = Ark(
     # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -1863,7 +1851,7 @@ for image in imagesResponse.data:
 
 
 </Tab>
-<Tab zoneid="s9z7KAQNoH" title="Java">
+<Tab zoneid="CjsdZsTkwl" title="Java">
 <TabTitle>Java</TabTitle>
 
 ```Java
@@ -1932,7 +1920,7 @@ public class ImageGenerationsExample {
 
 
 </Tab>
-<Tab zoneid="r4eShXJcRz" title="Go">
+<Tab zoneid="HX0hdGdmqz" title="Go">
 <TabTitle>Go</TabTitle>
 
 ```Go
@@ -2006,7 +1994,7 @@ func main() {
 
 
 </Tab>
-<Tab zoneid="Ub0i7Y06mm" title="OpenAI">
+<Tab zoneid="qYbo7kLZmy" title="OpenAI">
 <TabTitle>OpenAI</TabTitle>
 
 ```Python
@@ -2016,7 +2004,7 @@ from openai import OpenAI
 client = OpenAI(
     # The base URL for model invocation
     base_url="https://ark.ap-southeast.bytepluses.com/api/v3",
-    # Get API Key: https://console.byteplus.com/ark/region:ark+ap-southeast-1/apikey
+    # Get API Key: https://ai.byteplus.com/ark/region:ap-southeast-1/apikey
     api_key=os.getenv('ARK_API_KEY'),
 )
 
@@ -2044,7 +2032,7 @@ for image in imagesResponse.data:
 
 
 
-* You may replace the Model ID as needed. See [Model list](https://docs.byteplus.com/en/docs/ModelArk/1330310) for available models.
+* You may replace the Model ID as needed. See [Model list](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/model-list) for available models.
 
 
 </Tab>
@@ -2057,13 +2045,13 @@ for image in imagesResponse.data:
 You can configure the following parameters to control image output specifications:
 
 
-* **size** : The dimensions of the output image.
+* **size**: The dimensions of the output image.
 
-* **response_format** : The format of the generated image.
+* **response_format**: The format of the generated image.
 
-* **output_format** : The format of the output image.
+* **output_format**: The format of the output image.
 
-* **watermark** : Whether to add a watermark to the output image.
+* **watermark**: Whether to add a watermark to the output image.
 
     &nbsp;
 
@@ -2071,14 +2059,16 @@ You can configure the following parameters to control image output specification
 <span id="image-output-dimensions"></span>
 ## Image output dimensions
 
-The following methods are available. The two methods cannot be used at the same time.
+**Image generation scenarios**
+
+Specify the dimensions of the generated image. You can specify a resolution level, such as `2K`, or specify the width and height in pixels, such as `2048x2048`. The two methods cannot be used at the same time. Available resolutions, default values, total pixel ranges, and aspect ratio ranges vary by model.
 
 **Method 1: Specify a resolution level (recommended)** 
 
 Describe the image aspect ratio, shape, or purpose in the prompt using natural language. The model determines the final image size. Available values:
 
 
-* seedream\-5\-0\-pro: `1K`, `2K`
+* seedream\-5\-0\-pro: `1K`, `1.5K`, `2K`
 
 * seedream\-5\-0\-lite: `2K`, `3K`, `4K`
 
@@ -2087,19 +2077,25 @@ Describe the image aspect ratio, shape, or purpose in the prompt using natural l
 * seedream\-4\-0: `1K`, `2K`, `4K`
 
 
+<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
+
+
+<div data-tips="true" data-tips-type="warning">For seedream\-5\-0\-pro, <code>1.5K</code> has the same price as <code>1K</code> and provides better image generation quality.</div>
+
+
 When using method 1 and describing a specific aspect ratio in the prompt, the model maps the width and height to the following reference pixel values:
 
 > The supported aspect ratios are not limited to the standard values listed below. The following only shows common aspect ratios as examples.
 
 
 
-<span aceTableMode="list" aceTableWidth="4,4,4,4,4"></span>
-| |1K |2K |3K |4K |
-|---|---|---|---|---|
-|seedream\-5\-0\-pro |`1:1`: 1024x1024<br><br>`4:3`: 1152x864<br><br>`3:4`: 864x1152<br><br>`16:9`: 1424x800<br><br>`9:16`: 800x1424<br><br>`3:2`: 1248x832<br><br>`2:3`: 832x1248<br><br>`21:9`: 1568x672 |`1:1`: 2048x2048<br><br>`4:3`: 2368x1776<br><br>`3:4`: 1776x2368<br><br>`16:9`: 2816x1584<br><br>`9:16`: 1584x2816<br><br>`3:2`: 2496x1664<br><br>`2:3`: 1664x2496<br><br>`21:9`: 3136x1344 |Not supported |Not supported |
-|seedream\-5\-0\-lite |Not supported |`1:1`: 2048x2048<br><br>`4:3`: 2304x1728<br><br>`3:4`: 1728x2304<br><br>`16:9`: 2848x1600<br><br>`9:16`: 1600x2848<br><br>`3:2`: 2496x1664<br><br>`2:3`: 1664x2496<br><br>`21:9`: 3136x1344 |`1:1`: 3072x3072<br><br>`4:3`: 3456x2592<br><br>`3:4`: 2592x3456<br><br>`16:9`: 4096x2304<br><br>`9:16`: 2304x4096<br><br>`3:2`: 3744x2496<br><br>`2:3`: 2496x3744<br><br>`21:9`: 4704x2016 |`1:1`: 4096x4096<br><br>`4:3`: 4704x3520<br><br>`3:4`: 3520x4704<br><br>`16:9`: 5504x3040<br><br>`9:16`: 3040x5504<br><br>`3:2`: 4992x3328<br><br>`2:3`: 3328x4992<br><br>`21:9`: 6240x2656 |
-|seedream\-4\-5 |Not supported |`1:1`: 2048x2048<br><br>`4:3`: 2304x1728<br><br>`3:4`: 1728x2304<br><br>`16:9`: 2848x1600<br><br>`9:16`: 1600x2848<br><br>`3:2`: 2496x1664<br><br>`2:3`: 1664x2496<br><br>`21:9`: 3136x1344 |Not supported |`1:1`: 4096x4096<br><br>`4:3`: 4704x3520<br><br>`3:4`: 3520x4704<br><br>`16:9`: 5504x3040<br><br>`9:16`: 3040x5504<br><br>`3:2`: 4992x3328<br><br>`2:3`: 3328x4992<br><br>`21:9`: 6240x2656 |
-|seedream\-4\-0 |`1:1`: 1024x1024<br><br>`4:3`: 1152x864<br><br>`3:4`: 864x1152<br><br>`16:9`: 1312x736<br><br>`9:16`: 736x1312<br><br>`3:2`: 1248x832<br><br>`2:3`: 832x1248<br><br>`21:9`: 1568x672 |`1:1`: 2048x2048<br><br>`4:3`: 2304x1728<br><br>`3:4`: 1728x2304<br><br>`16:9`: 2848x1600<br><br>`9:16`: 1600x2848<br><br>`3:2`: 2496x1664<br><br>`2:3`: 1664x2496<br><br>`21:9`: 3136x1344 |Not supported |`1:1`: 4096x4096<br><br>`4:3`: 4704x3520<br><br>`3:4`: 3520x4704<br><br>`16:9`: 5504x3040<br><br>`9:16`: 3040x5504<br><br>`3:2`: 4992x3328<br><br>`2:3`: 3328x4992<br><br>`21:9`: 6240x2656 |
+<span aceTableMode="list" aceTableWidth="4,4,4,4,4,4"></span>
+| |1K |1.5K |2K |3K |4K |
+|---|---|---|---|---|---|
+|seedream\-5\-0\-pro |`1:1`: 1024x1024<br><br>`4:3`: 1152x864<br><br>`3:4`: 864x1152<br><br>`16:9`: 1424x800<br><br>`9:16`: 800x1424<br><br>`3:2`: 1248x832<br><br>`2:3`: 832x1248<br><br>`21:9`: 1568x672 |`1:1`: 1536x1536<br><br>`4:3`: 1792x1344<br><br>`3:4`: 1344x1792<br><br>`16:9`: 2048x1152<br><br>`9:16`: 1152x2048<br><br>`3:2`: 1872x1248<br><br>`2:3`: 1248x1872<br><br>`21:9`: 2352x1008 |`1:1`: 2048x2048<br><br>`4:3`: 2368x1776<br><br>`3:4`: 1776x2368<br><br>`16:9`: 2816x1584<br><br>`9:16`: 1584x2816<br><br>`3:2`: 2496x1664<br><br>`2:3`: 1664x2496<br><br>`21:9`: 3136x1344 |Not supported |Not supported |
+|seedream\-5\-0\-lite |Not supported |Not supported |`1:1`: 2048x2048<br><br>`4:3`: 2304x1728<br><br>`3:4`: 1728x2304<br><br>`16:9`: 2848x1600<br><br>`9:16`: 1600x2848<br><br>`3:2`: 2496x1664<br><br>`2:3`: 1664x2496<br><br>`21:9`: 3136x1344 |`1:1`: 3072x3072<br><br>`4:3`: 3456x2592<br><br>`3:4`: 2592x3456<br><br>`16:9`: 4096x2304<br><br>`9:16`: 2304x4096<br><br>`3:2`: 3744x2496<br><br>`2:3`: 2496x3744<br><br>`21:9`: 4704x2016 |`1:1`: 4096x4096<br><br>`4:3`: 4704x3520<br><br>`3:4`: 3520x4704<br><br>`16:9`: 5504x3040<br><br>`9:16`: 3040x5504<br><br>`3:2`: 4992x3328<br><br>`2:3`: 3328x4992<br><br>`21:9`: 6240x2656 |
+|seedream\-4\-5 |Not supported |Not supported |`1:1`: 2048x2048<br><br>`4:3`: 2304x1728<br><br>`3:4`: 1728x2304<br><br>`16:9`: 2848x1600<br><br>`9:16`: 1600x2848<br><br>`3:2`: 2496x1664<br><br>`2:3`: 1664x2496<br><br>`21:9`: 3136x1344 |Not supported |`1:1`: 4096x4096<br><br>`4:3`: 4704x3520<br><br>`3:4`: 3520x4704<br><br>`16:9`: 5504x3040<br><br>`9:16`: 3040x5504<br><br>`3:2`: 4992x3328<br><br>`2:3`: 3328x4992<br><br>`21:9`: 6240x2656 |
+|seedream\-4\-0 |`1:1`: 1024x1024<br><br>`4:3`: 1152x864<br><br>`3:4`: 864x1152<br><br>`16:9`: 1312x736<br><br>`9:16`: 736x1312<br><br>`3:2`: 1248x832<br><br>`2:3`: 832x1248<br><br>`21:9`: 1568x672 |Not supported |`1:1`: 2048x2048<br><br>`4:3`: 2304x1728<br><br>`3:4`: 1728x2304<br><br>`16:9`: 2848x1600<br><br>`9:16`: 1600x2848<br><br>`3:2`: 2496x1664<br><br>`2:3`: 1664x2496<br><br>`21:9`: 3136x1344 |Not supported |`1:1`: 4096x4096<br><br>`4:3`: 4704x3520<br><br>`3:4`: 3520x4704<br><br>`16:9`: 5504x3040<br><br>`9:16`: 3040x5504<br><br>`3:2`: 4992x3328<br><br>`2:3`: 3328x4992<br><br>`21:9`: 6240x2656 |
 
 
 **Method 2: Specify the width and height in pixels (** **`widthxheight`** **)** 
@@ -2119,6 +2115,47 @@ Parameter constraints by model:
 |Method 1 |Method 2 |
 |---|---|
 |```JSON```<br>```{```<br>```    "prompt": "Generate a series of 4 posters focusing on the same corner of a courtyard across the four seasons, presented in a unified style that captures the unique colors, elements, and atmosphere of each season.", // In the prompt, use natural language to describe the aspect ratio, shape, or purpose of the image```<br>```    "size": "2K"  // Specify the resolution of the generated image via the size parameter```<br>```}```<br> |```JSON```<br>```{```<br>```    "prompt": "Generate a series of 4 coherent illustrations focusing on the same corner of a courtyard across the four seasons, presented in a unified style that captures the unique colors, elements, and atmosphere of each season.",```<br>```    "size": "2048x2048"  // Specify the width and height of the generated image in pixels```<br>```}```<br> |
+
+
+**Layer decomposition scenarios**
+
+Layer decomposition supports only resolution levels. The output image resolution follows these rules:
+
+
+* **Base image**: The output base image resolution is the same as the resolution specified by `size`. The output base image keeps the same aspect ratio as the original image to decompose.
+
+* **Each layer**: The output layer resolution is close to the resolution specified by `size`. Each output layer keeps the same aspect ratio as its region in the original image.
+
+
+Default value and available values of `size`:
+
+
+* Default value: `auto`
+
+* Available values: `1K`, `1.5K`, `2K`, and `auto`. In `auto` mode, the output is adapted based on the input image size and aspect ratio.
+
+
+<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Pricing note</div>
+
+
+<div data-tips="true" data-tips-type="warning"><code>1.5K</code> has the same price as <code>1K</code>. For details, see <a href="https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/model-pricing#c02be6ee">Model pricing</a>.</div>
+
+
+<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">auto adaptation rules</div>
+
+
+<div data-tips="true" data-tips-type="tip">In <code>auto</code> mode, the model outputs the base image and each layer based on their original sizes in the input image, while preserving their respective aspect ratios in the original image:</div>
+
+
+
+* <div data-tips="true" data-tips-type="tip">If the original size of the base image and each layer in the input image is between [<code>1280x720</code> (921,600), <code>2048x2048x1.1025</code> (4,624,220)], the base image and each layer are output at their original sizes.</div>
+
+
+* <div data-tips="true" data-tips-type="tip">If the original size of the base image and each layer in the input image is smaller than 1K, the base image and each layer are output at 1K.</div>
+
+
+* <div data-tips="true" data-tips-type="tip">If the original size of the base image and each layer in the input image is larger than 2K, the base image and each layer are output at 2K.</div>
+
 
 
 <span id="b4306703"></span>
@@ -2159,22 +2196,10 @@ seedream\-5\-0\-pro and seedream\-5\-0\-lite allow specifying the format of gene
 ```
 
 
-<span id="6be7edc7"></span>
-## Add a watermark to the image
-
-Control whether to add a watermark to the generated image by setting the **watermark** parameter.
+<div data-tips="true" data-tips-type="warning" data-tips-is-title="true">Note</div>
 
 
-* `false`: No watermark.
-
-* `true`: Add an "AI generated" watermark on the bottom\-right corner of the image.
-
-
-```JSON
-{
-    "watermark": true
-}
-```
+<div data-tips="true" data-tips-type="warning">In layer decomposition scenarios, <code>output_format</code> controls only the output format of the base image. Layers are always output in PNG format.</div>
 
 
 <span id="31037d05"></span>
@@ -2182,22 +2207,40 @@ Control whether to add a watermark to the generated image by setting the **water
 
 **SDK version upgrade**
 
-To ensure model functionalities, upgrade to the latest SDK version. Refer to [Install and upgrade SDK](https://docs.byteplus.com/en/docs/ModelArk/1541595) for details.
+To ensure model functionalities, upgrade to the latest SDK version. Refer to [Install and upgrade SDK](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/install-and-upgrade-sdk) for details.
 
 **Image input limitations**
 
+Image input methods are the same for both scenarios:
 
-* Image format: jpeg, png, webp, bmp, tiff, gif, heic, heif
 
-* Aspect ratio (width/height): Between [1/16, 16]
+* Image URL: Make sure that the image URL is accessible.
 
-* Width and height (px): Greater than 14 px
+   Example: `https://ark-doc.tos-ap-southeast-1.bytepluses.com/doc_image/seedream4_5_imageToimage.png`
 
-* Size: up to 30 MB
+* Base64 encoding: Use the format `data:image/<image_format>;base64,<Base64_encoding>`. Note that `<image_format>` must use lowercase letters, such as `data:image/png;base64,<base64_image>`.
 
-* Total pixels: No more than `6000x6000=36000000` px (The total pixel limit applies to the product of the single image's width and height, rather than to either dimension individually.)
+   To obtain the Base64 encoding of an image, you can use a third\-party tool, such as https://base64.guru/converter/encode/image.
 
-* Reference images: seedream\-5\-0\-pro supports up to 10 reference images. seedream\-5\-0\-lite, seedream\-4\-5, and seedream\-4\-0 support up to 14 reference images.
+
+Input image constraints vary by scenario, as shown in the following table:
+
+
+<span aceTableMode="list" aceTableWidth="2,3,3"></span>
+|Constraint |Image generation scenarios |Layer decomposition scenarios |
+|---|---|---|
+|Image format |jpeg, png, webp, bmp, tiff, gif, heic, heif |png, jpeg |
+|Total pixels (width × height) |[196, `6000×6000` (36 million)] |[`512×512` (262,144), `6000×6000` (36 million)] |
+|Width and height (px) |Greater than 14 |— |
+|Aspect ratio (width/height) |[1/16, 16] |[1/16, 16] |
+|Size |Up to 30 MB |Up to 30 MB |
+|Number of input images |Seedream 5.0 pro and Seedream 5.0 flash support up to 10 images. Seedream 5.0 lite, Seedream 4.5, and Seedream 4.0 support up to 14 images. |Only one image is supported. |
+
+
+<div data-tips="true" data-tips-type="tip" data-tips-is-title="true">Note</div>
+
+
+<div data-tips="true" data-tips-type="tip">Total pixels refer to the product of the width and height of a single image, rather than a limit on either dimension individually.</div>
 
 
 **Retention period**
@@ -2207,9 +2250,11 @@ Image URL is retained for 24 hours and will be automatically cleared after expir
 **Rate limits information**
 
 
-* RPM rate limit: The maximum number of pictures that can be generated per minute by a specific version of a model under an account. If the limit is exceeded, an error will occur.
+* IPM rate limit: The maximum number of images that can be generated per minute by a specific version of a model under an account. If the limit is exceeded, an error will occur.
 
-* The limit values vary by model. For more details, see [Image generation](https://docs.byteplus.com/en/docs/ModelArk/1330310#9df4d9fd).
+   * In layer decomposition scenarios, each request pre\-deducts 17 IPM, reserving quota for up to one base image and 16 layers. After all images are generated, the excess deducted quota is returned based on the actual number of generated images.
+
+* The limit values vary by model. For more details, see [Image generation](https://ai.byteplus.com/ark/region:ap-southeast-1/docs/ModelArk/model-list#9df4d9fd).
 
 
 

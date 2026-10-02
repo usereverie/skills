@@ -100,7 +100,9 @@ the ones matching `type`):
 - **image:** `size` (e.g. `2048x2048`), `aestheticMode`
   (`balanced` \| `high_aesthetic` \| `photorealism` \| `cinematic`),
   `guidanceScale` (supported models only), `outputFormat` (`jpeg` \| `png`),
-  `batchSize` (1..model max, sequential)
+  `batchSize` (1..model max, sequential), `background` (`opaque` \|
+  `transparent` — `5.0-Pro` / `5.0-Flash`; transparent needs exactly one
+  connected input image that has an alpha channel, and returns a PNG)
 - **video:** `ratio` (e.g. `9:16`), `resolution` (e.g. `720p`), `duration` (s,
   within model min/max), `generateAudio`, `serviceTier` (`default` \| `flex`),
   `frames` (`25+4n`, overrides duration; supported models only), `draft`
@@ -114,7 +116,8 @@ must match the others' ratio + resolution.
 
 **Model quick-reference** (always confirm with `flow_list_models` — this is a
 convenience map, not the source of truth):
-- Image `modelId`: `5.0-Pro` (max 1 sequential image), `5.0` / `4.5` / `4.0`
+- Image `modelId`: `5.0-Pro` / `5.0-Flash` (max 1 sequential image; 1K / 1.5K /
+  2K sizes such as `1536x1536`; `background`), `5.0` / `4.5` / `4.0`
   (up to 10 sequential images), `5.0-Lite` (supports `guidanceScale`,
   `outputFormat`). "Sequential images" is `batchSize`/output count, not a
   reference-image cap — image models don't expose `maxRefImages`; for an image

@@ -17,8 +17,8 @@ Generate images from text prompts using Seedream models.
 | Parameter | Type | Default | Options | Required |
 |-----------|------|---------|---------|----------|
 | `prompt` | string | — | Free text | Yes |
-| `model` | string | `"4.0"` | `"5.0-Pro"`, `"5.0"`, `"5.0-Lite"`, `"4.5"`, `"4.0"` | No |
-| `resolution` | string | `"1K"` | `"1K"`, `"2K"`, `"3K"`, `"4K"` (per-model — see Model Capabilities) | No |
+| `model` | string | `"4.0"` | `"5.0-Pro"`, `"5.0-Flash"`, `"5.0"`, `"5.0-Lite"`, `"4.5"`, `"4.0"` | No |
+| `resolution` | string | `"1K"` | `"1K"`, `"1.5K"`, `"2K"`, `"3K"`, `"4K"` (per-model — see Model Capabilities) | No |
 | `batch_size` | int | `1` | 1–10 | No |
 | `aspect_ratio` | string | `"1:1"` | `"1:1"`, `"16:9"`, `"4:3"`, `"3:4"`, `"9:16"`, `"21:9"`, `"adaptive"` | No |
 | `watermark` | bool | `false` | — | No |
@@ -30,6 +30,7 @@ Generate images from text prompts using Seedream models.
 | `seed` | int | `null` | `-1` to `2147483647` for reproducibility | No |
 | `output_format` | string | `null` | `"jpeg"`, `"png"` — models with `supports_output_format` only (`5.0-Lite`) | No |
 | `guidance_scale` | float | `null` | 1–10 — models with `supports_guidance_scale` only (`5.0-Lite`) | No |
+| `background` | string | `null` | `"transparent"` → PNG with alpha (`5.0-Pro` / `5.0-Flash`); needs exactly one reference image that has an alpha channel; `output_format` must be omitted or `"png"`. `"opaque"` = default | No |
 
 > **Defaults are cost-optimised** (`4.0` @ `1K`, single image) — always pass `model` and `resolution` explicitly rather than relying on the default when the user wants higher quality. Optional parameters left `null` are not sent; passing `output_format` or `guidance_scale` to a model that doesn't support it returns an error.
 
@@ -37,7 +38,8 @@ Generate images from text prompts using Seedream models.
 
 | Model | Best For | Resolution | Max sequential (batch) images | `guidance_scale` | `output_format` |
 |-------|----------|-----------|--------------------------------|------------------|-----------------|
-| **5.0-Pro** | Single highest-fidelity hero shot | 1K, 2K | 1 — don't pass batch params | No | default |
+| **5.0-Pro** | Single highest-fidelity hero shot | 1K, 1.5K, 2K | 1 — don't pass batch params | No | default |
+| **5.0-Flash** | Pro-quality single image at the lowest price ($0.018) | 1K, 1.5K, 2K | 1 — don't pass batch params | No | default |
 | **5.0** | Top quality, up to 10 sequential | 2K, 3K, 4K | 10 | No | default |
 | **4.5** (recommended) | High quality, up to 10 sequential | 2K, 3K, 4K | 10 | No | default |
 | **4.0** | Legacy, widest resolution range | 1K, 2K, 3K, 4K | 10 | No | default |
@@ -46,12 +48,13 @@ Generate images from text prompts using Seedream models.
 > "Max sequential (batch) images" is the `batch_size` cap (output count per call). The same knobs exist on the Flows canvas `generatorNode` as `guidanceScale` / `outputFormat`. Reference-image (`reference_image_urls`) support is a separate axis from batch size — see Constraints below. `list_models` is the live source for every flag in this table.
 
 ### Constraints
-- Resolution is per-model: `5.0-Pro` = 1K/2K; `5.0` / `4.5` / `5.0-Lite` = 2K/3K/4K; `4.0` = 1K/2K/3K/4K.
+- Resolution is per-model: `5.0-Pro` / `5.0-Flash` = 1K/1.5K/2K (1.5K is priced as 1K); `5.0` / `4.5` / `5.0-Lite` = 2K/3K/4K; `4.0` = 1K/2K/3K/4K.
 - `batch_size` > 1 is disabled at `1K` resolution.
-- `batch_size` (sequential output images per call) max: **1 for `5.0-Pro`, up to 10 for `5.0` / `4.5` / `4.0` / `5.0-Lite`** — see Model Capabilities above.
+- `batch_size` (sequential output images per call) max: **1 for `5.0-Pro` / `5.0-Flash`, up to 10 for `5.0` / `4.5` / `4.0` / `5.0-Lite`** — see Model Capabilities above.
 - `reference_image_urls`: up to **9** per call on every image model (a platform cap below ModelArk's own limits).
 - `guidance_scale` (1–10) and `output_format` (`jpeg` / `png`) are `5.0-Lite` only; other models reject them.
-- `optimize_prompt="fast"` is honoured only where the model supports fast mode (today `4.0`); the other models quietly run it as standard — no error.
+- `optimize_prompt="fast"` is honoured only where the model supports fast mode (`5.0-Pro`, `4.0` — `list_models` → `optimize_prompt_modes`); the others, **including `5.0-Flash`**, quietly run it as standard — no error.
+- `background="transparent"`: `5.0-Pro` / `5.0-Flash` only, exactly one reference image with an alpha channel (a JPEG input is rejected by ModelArk), PNG output.
 - `adaptive` aspect ratio fits the input reference image dimensions.
 
 ### Resolution Pixel Mapping (pixel-resolution image models)
@@ -160,12 +163,13 @@ Apply a targeted, instruction-based edit to an existing image (Seedream i2i mode
 |-----------|------|---------|---------|----------|
 | `prompt` | string | — | Description of the edit to apply | Yes |
 | `image_url` | string | — | Public URL of the image to edit | Yes |
-| `model` | string | `"4.5"` | `"4.5"`, `"5.0-Pro"`, `"5.0"`, `"5.0-Lite"`, `"4.0"` | No |
+| `model` | string | `"4.5"` | `"4.5"`, `"5.0-Pro"`, `"5.0-Flash"`, `"5.0"`, `"5.0-Lite"`, `"4.0"` | No |
 | `seed` | int | `null` | `-1` to `2147483647` for reproducibility | No |
 | `watermark` | bool | `false` | — | No |
 | `project_name` | string | `null` | Case-insensitive Studio project name (defaults to "General") | No |
 | `name` | string | `null` | Friendly name for the output visual | No |
 | `guidance_scale` | float | `null` (server default 5.5) | 1–10 — applied only by `5.0-Lite`; other models ignore it | No |
+| `background` | string | `null` | `"transparent"` → PNG with alpha (`5.0-Pro` / `5.0-Flash`); `image_url` must itself have an alpha channel | No |
 
 > `edit_image` has no `output_format` parameter — the edit endpoint does not take one.
 

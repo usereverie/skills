@@ -106,7 +106,9 @@ the ones matching `type`):
 - **video:** `ratio` (e.g. `9:16`), `resolution` (e.g. `720p`), `duration` (s,
   within model min/max), `generateAudio`, `serviceTier` (`default` \| `flex`),
   `frames` (`25+4n`, overrides duration; supported models only), `draft`
-  (1.5 Pro only), `returnLastFrame`, `referenceVideoUrls`, `referenceAudioUrls`
+  (`2.5` only — forced to 480p; promote a succeeded draft to 1080p with the
+  `finalize_draft_video` tool, not on the canvas), `returnLastFrame`,
+  `referenceVideoUrls`, `referenceAudioUrls`
 - **both:** `seed`
 
 `lastFrameNode` / `stitchNode` accept **only a video `generatorNode`** source —
@@ -122,8 +124,8 @@ convenience map, not the source of truth):
   `outputFormat`). "Sequential images" is `batchSize`/output count, not a
   reference-image cap — image models don't expose `maxRefImages`; for an image
   model's reference-image support, read its capabilities from `list_models`.
-- Video `modelId`: `1.5 Pro` (480p–1080p, 4–12s, audio, `draft`),
-  `1.0 Pro` / `1.0 Pro-Fast` (1–12s, **no audio**; `Pro-Fast` has **no last
+- Video `modelId`: `2.5` (480p–1080p, 4–30s, audio, `draft`, `taskType`,
+  `maxRefImages` = 30), `1.0 Pro` / `1.0 Pro-Fast` (1–12s, **no audio**; `Pro-Fast` has **no last
   frame**; `maxRefImages` = 0), `2.0 Pro` (up to 4K, 4–15s, audio,
   `maxRefImages` = 9), `2.0 Pro-Fast` (480/720p, audio), `2.0 Mini`
   (480/720p, no audio). `maxRefImages` is a **video-model-only** field.

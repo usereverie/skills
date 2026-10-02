@@ -207,7 +207,7 @@ Generate videos from text prompts using Seedance models. Video generation is **a
 | `frames` | int | `null` | `25 + 4n` in `[29, 289]`, overrides `duration` — 1.0 family only | No |
 | `watermark` | bool | `null` | Watermark the output | No |
 | `return_last_frame` | bool | `null` (server default on) | Also return the watermark-free last frame, for chaining clips | No |
-| `draft` | bool | `null` | Cheap 480p preview — models with `supports_draft` only | No |
+| `draft` | bool | `null` | Cheap 480p preview — `"2.5"` only (`supports_draft`); any `resolution` is coerced to 480p. Promote with `finalize_draft_video` (see Draft two-step) | No |
 | `task_type` | string | `null` | `"2.5"` only — `"text_to_video"`, `"reference_to_video"`, `"edit"`, `"extend"`, `"first_last_frame"` (see below) | No |
 | `input_mode` | string | `null` | `"frames"` or `"references"` — records the input mode; inferred when omitted | No |
 | `project_name` | string | `null` | Case-insensitive Studio project name (defaults to "General") | No |
@@ -361,6 +361,33 @@ or all person slots are used.
 - **Smart duration** (`duration=-1`) is available on `2.0 Pro`, `2.0 Pro-Fast`, and `2.5`; `2.0 Mini` and the 1.0 family require an explicit `duration`.
 - **References:** `2.0 Pro` / `2.0 Pro-Fast` accept up to **9 images + 3 videos + 3 audio**; `2.0 Mini` up to **9 images only**; `2.5` up to **30 images + 10 videos + 10 audio**, and audio may be the only reference. The 2.0 family needs an image or video alongside any audio. Video/audio reference URLs must be account-hosted (`create_media_upload` → `finalize_media_upload`) or `asset://`.
 - `frames` and `camera_fixed` are 1.0-family only; the 2.0 family and `2.5` reject them.
+
+### Draft two-step (`"2.5"` only) — `finalize_draft_video`
+
+Preview a clip cheaply before paying for 1080p:
+
+1. `generate_video(model="2.5", draft=True, prompt=..., ...)` — always renders at **480p**
+   (any `resolution` you pass is coerced, not rejected). Poll `check_generation_status`
+   until it succeeds and check the preview with the user.
+2. `finalize_draft_video(task_id="<draft task_id>")` — creates the **1080p final** from the
+   draft. Returns the final's `task_id` (poll it like any video), `visual_id`, and
+   `estimated_credits`. The final appears next to the draft in the same visual thread.
+
+| Parameter | Type | Default | Notes | Required |
+|-----------|------|---------|-------|----------|
+| `task_id` | string | — | The **draft** task id from step 1 | Yes |
+| `watermark` | bool | `null` | Watermark the final | No |
+| `return_last_frame` | bool | `null` (on) | Also return the final's last frame | No |
+| `name` | string | `null` | Name for the final (defaults to the draft's) | No |
+
+Rules (each failure returns an error naming the rule):
+- The final **reuses** the draft's prompt, references, ratio, duration, seed and audio
+  setting — to change any of them, make a new draft.
+- Only a **succeeded** draft can be finalized; a draft can be finalized **once** (retry is
+  allowed only if the previous final failed).
+- Draft ids expire **7 days** after creation (finalize is refused from 6 days 23 hours).
+- Billing: the draft and the final are separate charges. The final is billed at the
+  1080p rate — the lower *with-video-input* rate if the draft had reference videos.
 
 ### Workflow Pattern
 

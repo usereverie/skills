@@ -3,7 +3,7 @@ name: reverie
 description: Generate, edit, and plan images, videos, and text using the Reverie MCP server (Seedream, Seededit, Seedance, Seed LLM). Guides agents to call Reverie MCP tools correctly and to craft prompts from ModelArk best-practice docs bundled under prompts-guide/. Use when the user asks to generate, create, edit, modify, or plan images, videos, or text with Reverie or ProjectReverie. Includes a routing rubric for choosing direct generation vs the Flows canvas (flow_* tools), with call mechanics in flow-reference.md.
 metadata:
   author: project-reverie
-  version: "0.6.1"
+  version: "0.6.2"
 ---
 
 # Reverie — AI Generation Skill

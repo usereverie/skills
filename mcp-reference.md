@@ -170,12 +170,50 @@ Apply a targeted, instruction-based edit to an existing image (Seedream i2i mode
 | `name` | string | `null` | Friendly name for the output visual | No |
 | `guidance_scale` | float | `null` (server default 5.5) | 1–10 — applied only by `5.0-Lite`; other models ignore it | No |
 | `background` | string | `null` | `"transparent"` → PNG with alpha (`5.0-Pro` / `5.0-Flash`); `image_url` must itself have an alpha channel | No |
+| `mode` | string | `"edit"` | `"edit"` or `"layers"` — decompose the image into layers (`5.0-Pro` / `5.0-Flash`; see below) | No |
 
 > `edit_image` has no `output_format` parameter — the edit endpoint does not take one.
 
 ### Constraints
 - Input image must be JPEG or PNG, ≤ 10 MB, aspect ratio between 1:3 and 3:1, and ≤ 36,000,000 total pixels.
 - `edit_image` always produces a *new* visual row — it does not modify the source. To iterate on the *prompt* of a visual in place, use `create_variant` instead.
+
+### Decompose into layers (`edit_image(mode="layers")`)
+
+Splits one image into a **base image plus up to 16 editable layers** (subjects, text, background elements), each a PNG with a transparent background. `5.0-Pro` and `5.0-Flash` only (`list_models` → `supports_layer_decomposition`, `max_layers`).
+
+```
+edit_image(prompt="", image_url="{url}", model="5.0-Pro", mode="layers")
+```
+
+- `prompt` may be `""`, or say what to separate ("Split the title text and the product from the background"). Asking for more than 16 layers loses some.
+- **One** input image. The output size follows the input image.
+- Returns a list: the base first (`metadata.z_index` 0, `layer_role` `"base"`), then each layer in stacking order (higher `z_index` = on top), each with `metadata.name`, `metadata.description`, and `metadata.bounding_box`:
+  - `absolute` — `[left, top, right, bottom]` in pixels of the base image;
+  - `normalized` — the same box on a **0–1000** scale (not the 0–999 scale of the editing tags below).
+- All entries share one `layer_group_id` and one visual id: they land as consecutive entries in **one** visual thread.
+- To restack: place each layer at its `bounding_box.absolute` on top of the base, in ascending `z_index`.
+- Billing: **every output image** (base + each layer) at the model's layers rate — `5.0-Pro` $0.0225, `5.0-Flash` $0.018 per image. A 6-layer result is 7 images.
+- If any layer fails, the whole call fails — there is no partial result.
+
+### Interactive editing — point at a region (`5.0-Pro` / `5.0-Flash`)
+
+Target an edit at an exact place in a reference image by putting **coordinate tags in the prompt** — no extra parameter (`list_models` → `supports_interactive_editing`). Works with `generate_image` (with `reference_image_urls`) and `edit_image`.
+
+- Coordinates are **normalized to 0–999** per image: top-left `0 0`, bottom-right `999 999`. Convert pixels as `x = round(px / width × 999)`, `y = round(py / height × 999)`.
+- `<point>x y</point>` — a point; the model decides the affected object.
+- `<bbox>x1 y1 x2 y2</bbox>` — top-left and bottom-right corners of the area to change.
+- Name the image the tag refers to by its position among the references: **"Image 1"**, **"Image 2"**, …
+
+| Goal | Prompt |
+|------|--------|
+| Replace the object near a point | `Replace the object at <point>520 460</point> in Image 1 with a crown.` |
+| Replace an area | `Replace the area <bbox>120 180 640 760</bbox> in Image 1 with a garden.` |
+| Move a subject across images | `Place the subject from Image 1 <bbox>179 283 796 986</bbox> at the position of Image 2 <bbox>118 331 933 871</bbox>.` |
+
+A marked-up reference also works: draw on a copy of the image (circle, arrow, scribble) and pass that as the reference with a prompt saying what to do in the marked area.
+
+Layers and interactive editing combine well: decompose first, read a layer's `bounding_box.normalized` (0–1000), scale it to 0–999, and use it as a `<bbox>` to edit just that element.
 
 ---
 

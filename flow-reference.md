@@ -93,6 +93,10 @@ to it directly, so you never need a round-trip to learn real node ids.
 | `lastFrameNode` | Extract an upstream video's last frame as an image (shot chaining) | **none** | video generator → image |
 | `stitchNode` | Join 2+ videos in `in-0..in-7` order, hard cuts | **none** | 2+ video generators → asset |
 
+Think nodes (`seedNode`, `anyLlmNode`, `visualAnalysisNode`): an unset `modelId` runs
+`2.0 Lite` (the canvas's *Balanced* tier). Set `2.0 Mini` for the cheapest run, `2.0 Pro LLM`
+for the best.
+
 **`generatorNode` params** (image and video sets are mutually exclusive — set
 the ones matching `type`):
 - `type` — `image` \| `video` \| `edit`
@@ -104,7 +108,9 @@ the ones matching `type`):
   `transparent` — `5.0-Pro` / `5.0-Flash`; transparent needs exactly one
   connected input image that has an alpha channel, and returns a PNG)
 - **video:** `ratio` (e.g. `9:16`), `resolution` (e.g. `720p`), `duration` (s,
-  within model min/max), `generateAudio`, `serviceTier` (`default` \| `flex`),
+  within model min/max) — an unset one runs the model's `default_params` from
+  `flow_list_models` (today `16:9` / `480p` / `5` s; set `resolution` explicitly
+  for 720p and up), `generateAudio`, `serviceTier` (`default` \| `flex`),
   `frames` (`25+4n`, overrides duration; supported models only), `draft`
   (`2.5` only — forced to 480p; promote a succeeded draft to 1080p with the
   `finalize_draft_video` tool, not on the canvas), `returnLastFrame`,
@@ -119,18 +125,22 @@ must match the others' ratio + resolution.
 **Model quick-reference** (always confirm with `flow_list_models` — this is a
 convenience map, not the source of truth):
 - Image `modelId`: `5.0-Pro` / `5.0-Flash` (max 1 sequential image; 1K / 1.5K /
-  2K sizes such as `1536x1536`; `background`), `5.0` / `4.5` / `4.0`
+  2K sizes such as `1024x1024` / `1536x1536`; unset `size` runs `1536x1536`;
+  `background`), `5.0` / `4.5` / `4.0`
   (up to 10 sequential images), `5.0-Lite` (`outputFormat` jpeg/png, as on
   `5.0-Pro` / `5.0-Flash`; no current model supports `guidanceScale` or an image `seed`). "Sequential images" is `batchSize`/output count, not a
   reference-image cap — image models don't expose `maxRefImages`; for an image
   model's reference-image support, read its capabilities from `list_models`.
 - Video `modelId`: `2.5` (480p–1080p, 4–30s, audio, `draft`, `taskType`,
-  `maxRefImages` = 30), `1.0 Pro` / `1.0 Pro-Fast` (1–12s, **no audio**; `Pro-Fast` has **no last
-  frame**; `maxRefImages` = 0), `2.0 Pro` (up to 4K, 4–15s, audio,
+  `maxRefImages` = 30), `1.0 Pro` / `1.0 Pro-Fast` (2–12s, **no audio**; `Pro-Fast` takes **no
+  last-frame input**; `maxRefImages` = 0), `2.0 Pro` (up to 4K, 4–15s, audio,
   `maxRefImages` = 9), `2.0 Pro-Fast` (480/720p, audio), `2.0 Mini`
   (480/720p, audio optional). `maxRefImages` is a **video-model-only** field.
-- For `first_frame` chaining, pick a video model with first/last-frame support
-  (all except `1.0 Pro-Fast`, which cannot emit a last frame).
+- Every video model takes a `first_frame` (`supportFirstFrame` in
+  `flow_list_models`); only `1.0 Pro-Fast` lacks a `last_frame` input
+  (`supportLastFrame` absent — wiring one fails the node before anything is
+  charged). Every model can still *return* a last frame (`returnLastFrame`), so
+  any of them can feed a `lastFrameNode` → next generator's `first_frame` chain.
 
 ## Layout
 **Omit positions.** The server auto-places every node in its category column, so

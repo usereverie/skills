@@ -267,6 +267,10 @@ human-subject video job, pick one:
   The still → `first_frame_url` chain works normally. Cheapest fix; often no creative loss.
 - **Preset portrait** — build on an `asset://` portrait in reference mode from the start.
   Trades literal frame control for a character that clears the filter.
+- **The user's own character** (a mascot, an AI influencer, a recurring lead) — if the
+  account has a character quota, turn it into a private character
+  (`create_character`, below) and use its `asset://` images. It stays consistent across
+  every video, with no 30-day limit.
 - **A face you generated** — fine for **stills**, but do not plan video off it.
 
 ### Private real-human assets — verified people (quota-gated)
@@ -281,7 +285,7 @@ against that person and yield `asset://` URIs that pass the likeness filter):
 | `check_verification_status(session_id)` | Poll ~every 30 s until `completed` (returns the new `group_id`), or `failed`/`expired` (start a new session). |
 | `upload_private_asset(group_id, url, name?)` | Add an asset by public https URL (image ≤30MB / video ≤50MB / audio ≤15MB). Ingestion is async and face-matched — starts as `Processing`. |
 | `check_private_asset_status(asset_id)` | Re-sync from ARK. `Active` → use `asset://<id>` as a generation reference; `Failed` → error code/message (face mismatch is the common cause). |
-| `list_private_assets(group_id?, asset_type?, offset?)` | Browse Active assets, 3 per page with thumbnails. |
+| `list_private_assets(group_id?, asset_type?, offset?, library?)` | Browse Active assets, 3 per page with thumbnails. `library="people"` (default) or `"characters"`. |
 
 The liveness step is the one thing an agent cannot do — always relay the H5
 link and wait. Renaming/deleting people or assets is **not** available via
@@ -291,6 +295,42 @@ assets; per-asset pencil/trash icons rename/delete one asset).
 
 Quota errors (403/409) mean the account has no private-asset quota (admin-set)
 or all person slots are used.
+
+### Private characters — the user's own original characters (quota-gated)
+
+For users granted a character quota: a character is an asset group of images (or
+video/audio) of an original, non-real character, such as a brand mascot, an AI
+influencer or a recurring fictional lead. Its `asset://` URIs keep the character
+consistent across Seedance videos. No liveness check, but the **user must confirm
+they own it**:
+
+> I created this character or have full rights to it. It is original, it doesn't
+> depict or resemble any real person, and it contains no third-party logos or
+> trademarks.
+
+Show that statement and wait for an explicit yes before passing
+`rights_confirmed=True`. Never assume it, and never use characters for real people
+(that's `start_person_verification`).
+
+| Tool | Purpose |
+|---|---|
+| `create_character(name, rights_confirmed, description?)` | Create the character (name ≤ 64, description ≤ 300). Without `rights_confirmed=True` it only returns the statement to show the user. |
+| `upload_private_asset(group_id, url, name?, rights_confirmed)` | Same tool as for people. Character uploads need `rights_confirmed=True`; BytePlus content review replaces face matching. Best results: one vertical full-body front image plus one vertical face close-up. |
+| `check_private_asset_status(asset_id)` | `Active` → use `asset://<id>`; `Failed` on a character usually means content review rejected it (it must be original and not look like a real person). |
+| `list_private_assets(library="characters")` | Browse the user's Active character assets. |
+
+```
+create_character(name="Mika", rights_confirmed=True)        # after the user said yes
+upload_private_asset(group_id="group-…", url="https://…/mika-front.jpg", rights_confirmed=True)
+check_private_asset_status(asset_id="asset-…")              # until Active
+generate_video(prompt="The girl in Image 1 waves…", reference_image_urls=["asset://asset-…"], model="2.0 Pro")
+```
+
+Account-wide limits apply on top of the user's quota: uploads are capped at **3 per
+minute for the whole platform**. If a reply says "Try again in N seconds", wait that
+long and retry; don't spread the batch across users. 409 "The asset library is full"
+means the shared capacity is used up, so tell the user rather than retrying.
+Renaming/deleting characters is UI-only: **Sources → Private characters**.
 
 ### Audio / speech behaviour
 

@@ -27,9 +27,9 @@ Generate images from text prompts using Seedream models.
 | `reference_image_urls` | list[str] | `null` | Image URLs (third-party auto-cloned into account storage), up to 9 | No |
 | `project_name` | string | `null` | Case-insensitive Studio project name (defaults to "General") | No |
 | `name` | string | `null` | Friendly name for the output visual | No |
-| `seed` | int | `null` | `-1` to `2147483647` for reproducibility | No |
-| `output_format` | string | `null` | `"jpeg"`, `"png"` — models with `supports_output_format` only (`5.0-Lite`) | No |
-| `guidance_scale` | float | `null` | 1–10 — models with `supports_guidance_scale` only (`5.0-Lite`) | No |
+| `seed` | int | `null` | **Don't use** — no current Seedream model honours a seed (ModelArk ignores it), so it is rejected. Images are not reproducible | No |
+| `output_format` | string | `null` | `"jpeg"`, `"png"` — `5.0-Pro`, `5.0-Flash`, `5.0-Lite` (`supports_output_format`) | No |
+| `guidance_scale` | float | `null` | **Don't use** — no current Seedream model supports it; rejected | No |
 | `background` | string | `null` | `"transparent"` → PNG with alpha (`5.0-Pro` / `5.0-Flash`); needs exactly one reference image that has an alpha channel; `output_format` must be omitted or `"png"`. `"opaque"` = default | No |
 
 > **Defaults are cost-optimised** (`4.0` @ `1K`, single image) — always pass `model` and `resolution` explicitly rather than relying on the default when the user wants higher quality. Optional parameters left `null` are not sent; passing `output_format` or `guidance_scale` to a model that doesn't support it returns an error.
@@ -38,12 +38,12 @@ Generate images from text prompts using Seedream models.
 
 | Model | Best For | Resolution | Max sequential (batch) images | `guidance_scale` | `output_format` |
 |-------|----------|-----------|--------------------------------|------------------|-----------------|
-| **5.0-Pro** | Single highest-fidelity hero shot | 1K, 1.5K, 2K | 1 — don't pass batch params | No | default |
-| **5.0-Flash** | Pro-quality single image at the lowest price ($0.018) | 1K, 1.5K, 2K | 1 — don't pass batch params | No | default |
+| **5.0-Pro** | Single highest-fidelity hero shot | 1K, 1.5K, 2K | 1 — don't pass batch params | No | `"jpeg"`, `"png"` |
+| **5.0-Flash** | Pro-quality single image at the lowest price ($0.018) | 1K, 1.5K, 2K | 1 — don't pass batch params | No | `"jpeg"`, `"png"` |
 | **5.0** | Top quality, up to 10 sequential | 2K, 3K, 4K | 10 | No | default |
 | **4.5** (recommended) | High quality, up to 10 sequential | 2K, 3K, 4K | 10 | No | default |
 | **4.0** | Legacy, widest resolution range | 1K, 2K, 3K, 4K | 10 | No | default |
-| **5.0-Lite** | Fast; tunable guidance + format | 2K, 3K, 4K | 10 | Yes (1–10) | `"jpeg"`, `"png"` |
+| **5.0-Lite** | Fast; PNG or JPEG output | 2K, 3K, 4K | 10 | No | `"jpeg"`, `"png"` |
 
 > "Max sequential (batch) images" is the `batch_size` cap (output count per call). The same knobs exist on the Flows canvas `generatorNode` as `guidanceScale` / `outputFormat`. Reference-image (`reference_image_urls`) support is a separate axis from batch size — see Constraints below. `list_models` is the live source for every flag in this table.
 
@@ -52,7 +52,8 @@ Generate images from text prompts using Seedream models.
 - `batch_size` > 1 is disabled at `1K` resolution.
 - `batch_size` (sequential output images per call) max: **1 for `5.0-Pro` / `5.0-Flash`, up to 10 for `5.0` / `4.5` / `4.0` / `5.0-Lite`** — see Model Capabilities above.
 - `reference_image_urls`: up to **9** per call on every image model (a platform cap below ModelArk's own limits).
-- `guidance_scale` (1–10) and `output_format` (`jpeg` / `png`) are `5.0-Lite` only; other models reject them.
+- `output_format` (`jpeg` / `png`) works on `5.0-Pro`, `5.0-Flash` and `5.0-Lite`; other models reject it.
+- `seed` and `guidance_scale` are **not supported by any current Seedream model** (BytePlus removed them in September 2026) and are rejected. Don't promise reproducible images; to iterate on a look, reuse the prompt and pass the earlier image as a reference.
 - `optimize_prompt="fast"` is honoured only where the model supports fast mode (`5.0-Pro`, `4.0` — `list_models` → `optimize_prompt_modes`); the others, **including `5.0-Flash`**, quietly run it as standard — no error.
 - `background="transparent"`: `5.0-Pro` / `5.0-Flash` only, exactly one reference image with an alpha channel (a JPEG input is rejected by ModelArk), PNG output.
 - `adaptive` aspect ratio fits the input reference image dimensions.
@@ -164,11 +165,11 @@ Apply a targeted, instruction-based edit to an existing image (Seedream i2i mode
 | `prompt` | string | — | Description of the edit to apply | Yes |
 | `image_url` | string | — | Public URL of the image to edit | Yes |
 | `model` | string | `"4.5"` | `"4.5"`, `"5.0-Pro"`, `"5.0-Flash"`, `"5.0"`, `"5.0-Lite"`, `"4.0"` | No |
-| `seed` | int | `null` | `-1` to `2147483647` for reproducibility | No |
+| `seed` | int | `null` | **Don't use** — not supported by current Seedream models; rejected | No |
 | `watermark` | bool | `false` | — | No |
 | `project_name` | string | `null` | Case-insensitive Studio project name (defaults to "General") | No |
 | `name` | string | `null` | Friendly name for the output visual | No |
-| `guidance_scale` | float | `null` (server default 5.5) | 1–10 — applied only by `5.0-Lite`; other models ignore it | No |
+| `guidance_scale` | float | `null` | Ignored — no current Seedream model supports it | No |
 | `background` | string | `null` | `"transparent"` → PNG with alpha (`5.0-Pro` / `5.0-Flash`); `image_url` must itself have an alpha channel | No |
 | `mode` | string | `"edit"` | `"edit"` or `"layers"` — decompose the image into layers (`5.0-Pro` / `5.0-Flash`; see below) | No |
 
@@ -190,7 +191,7 @@ edit_image(prompt="", image_url="{url}", model="5.0-Pro", mode="layers")
 - **One** input image. The output size follows the input image.
 - Returns a list: the base first (`metadata.z_index` 0, `layer_role` `"base"`), then each layer in stacking order (higher `z_index` = on top), each with `metadata.name`, `metadata.description`, and `metadata.bounding_box`:
   - `absolute` — `[left, top, right, bottom]` in pixels of the base image;
-  - `normalized` — the same box on a **0–1000** scale (not the 0–999 scale of the editing tags below).
+  - `normalized` — the same box on the vendor's **0–1000** scale (observed values top out at 999), `[left, top, right, bottom]`.
 - All entries share one `layer_group_id` and one visual id: they land as consecutive entries in **one** visual thread.
 - To restack: place each layer at its `bounding_box.absolute` on top of the base, in ascending `z_index`.
 - Billing: **every output image** (base + each layer) at the model's layers rate — `5.0-Pro` $0.0225, `5.0-Flash` $0.018 per image. A 6-layer result is 7 images.
@@ -213,7 +214,7 @@ Target an edit at an exact place in a reference image by putting **coordinate ta
 
 A marked-up reference also works: draw on a copy of the image (circle, arrow, scribble) and pass that as the reference with a prompt saying what to do in the marked area.
 
-Layers and interactive editing combine well: decompose first, read a layer's `bounding_box.normalized` (0–1000), scale it to 0–999, and use it as a `<bbox>` to edit just that element.
+Layers and interactive editing combine well: decompose first, read a layer's `bounding_box.normalized`, clamp each value to 999 (×0.999 is fine), and use it as a `<bbox>` to edit just that element.
 
 ---
 
@@ -221,7 +222,7 @@ Layers and interactive editing combine well: decompose first, read a layer's `bo
 
 Generate videos from text prompts using Seedance models. Video generation is **async** — you get a `task_id` back and must poll `check_generation_status` (the unified status tool — works for video task IDs and image visual IDs). Note the parameter name: `check_generation_status` takes `generation_id`, not `task_id` — pass the `task_id` value there.
 
-> **Audio default:** Videos should be generated **with audio** by default. Pass `generate_audio=true` and use an audio-capable model (`"2.5"`, `"2.0 Pro"`, `"2.0 Pro-Fast"`) unless the user explicitly asks for a silent / no-audio video. This is especially important when the prompt contains speech cues like "make it say", "says", "speaks", "narrates", "sings", "voiceover", or references music, dialogue, or sound effects. Audio doubles generation cost (2x) — mention this once when the user's prompt is expensive or ambiguous, but don't ask permission for every clip.
+> **Audio default:** Videos should be generated **with audio** by default. Pass `generate_audio=true` and use an audio-capable model (`"2.5"`, `"2.0 Pro"`, `"2.0 Pro-Fast"`, `"2.0 Mini"`) unless the user explicitly asks for a silent / no-audio video. This is especially important when the prompt contains speech cues like "make it say", "says", "speaks", "narrates", "sings", "voiceover", or references music, dialogue, or sound effects. Audio doubles generation cost (2x) — mention this once when the user's prompt is expensive or ambiguous, but don't ask permission for every clip.
 
 ### Parameters
 
@@ -373,9 +374,9 @@ or all person slots are used.
 
 ### Audio / speech behaviour
 
-- **Default to `generate_audio=true`** for every video request, unless the user says "no audio", "silent", "mute", "no sound", or similar. Use any audio-capable model: `2.5`, `2.0 Pro`, or `2.0 Pro-Fast`.
+- **Default to `generate_audio=true`** for every video request, unless the user says "no audio", "silent", "mute", "no sound", or similar. Use any audio-capable model: `2.5`, `2.0 Pro`, `2.0 Pro-Fast`, or `2.0 Mini`.
 - If the user's prompt asks the subject to say, sing, narrate, or speak specific words, **include the exact target line inside the `prompt`** (e.g. `...the presenter says: "Assalamualaikum, hari ini Re:source Friday saya ke 10"`). Keep the quoted line verbatim — do not translate or paraphrase.
-- If the user picks (or you must pick) a model that does **not** support audio (`1.0 Pro`, `1.0 Pro-Fast`, `2.0 Mini`), warn them that the resulting video will be silent and offer `2.5`, `2.0 Pro`, or `2.0 Pro-Fast` as the audio-capable alternative before generating.
+- If the user picks (or you must pick) a model that does **not** support audio (`1.0 Pro`, `1.0 Pro-Fast`), warn them that the resulting video will be silent and offer `2.5`, `2.0 Pro`, or `2.0 Pro-Fast` as the audio-capable alternative before generating.
 - Never silently drop the audio parameter. If you override the default (e.g. to save cost), say so in your response.
 
 ### Model Capabilities
@@ -387,13 +388,13 @@ or all person slots are used.
 | **1.0 Pro-Fast** | Good | 480p / 720p / 1080p | Yes / **No** | No | No | No | 1–12s | Fastest, first-frame only |
 | **2.0 Pro** | Premium | 480p / 720p / 1080p / **4K** | Yes / Yes | **Yes (9 img + 3 vid + 3 aud)** | Yes (2x cost) | Yes | 4–15s | Only model with **4K**; multimodal refs; Smart duration |
 | **2.0 Pro-Fast** | Premium-fast | 480p / 720p | Yes / Yes | **Yes (9 img + 3 vid + 3 aud)** | Yes (2x cost) | Yes | 4–15s | Faster 2.0; caps at 720p; Smart duration |
-| **2.0 Mini** | Premium-lite | 480p / 720p | Yes / Yes | **Yes (9 images only)** | **No** | Yes | 4–15s | Cheapest 2.0; **no audio**; **no Smart duration** (explicit `duration` required); caps at 720p |
+| **2.0 Mini** | Premium-lite | 480p / 720p | Yes / Yes | **Yes (9 images only)** | **No** | Yes | 4–15s | Cheapest 2.0; audio when `generate_audio=true`; **no Smart duration** (explicit `duration` required); caps at 720p |
 
 ### Constraints
 - `4K` resolution is available on **`2.0 Pro` only**. `2.0 Pro-Fast` and `2.0 Mini` cap at `720p`; the 1.0 family and `2.5` top out at `1080p`.
 - Image inputs (frame OR reference) do **not** restrict resolution — valid resolutions are per-model only. Check `list_models` before picking a combination.
 - `last_frame_url` is NOT supported by `1.0 Pro-Fast` (first-frame only).
-- `generate_audio` is supported by `2.5`, `2.0 Pro`, and `2.0 Pro-Fast` only; doubles the generation cost. `1.0 Pro`, `1.0 Pro-Fast`, and `2.0 Mini` are silent.
+- `generate_audio` is supported by `2.5` and the whole 2.0 family (`2.0 Pro`, `2.0 Pro-Fast`, `2.0 Mini`); doubles the generation cost. `1.0 Pro` and `1.0 Pro-Fast` are silent. Leaving `generate_audio` unset means **no audio** — the tool sends `false` for you.
 - **Duration:** 1.0 family (`1.0 Pro` / `1.0 Pro-Fast`) = 1–12s; 2.0 family (`2.0 Pro` / `2.0 Pro-Fast` / `2.0 Mini`) = 4–15s; `2.5` = 4–30s.
 - **Smart ratio** (`adaptive` aspect ratio) is available on the whole 2.0 family and `2.5`; the 1.0 family is fixed-ratio only.
 - **Smart duration** (`duration=-1`) is available on `2.0 Pro`, `2.0 Pro-Fast`, and `2.5`; `2.0 Mini` and the 1.0 family require an explicit `duration`.
@@ -687,7 +688,7 @@ list_visuals(type="video", limit=10)
 
 ### Generate a video using a character/style reference (not a literal first frame)
 1. Have one or more reference images (e.g. character sheets, mood boards) as public URLs.
-2. `generate_video(prompt="the character walks through a neon-lit alley, cinematic", reference_image_urls=["{url1}", "{url2}"], model="2.0 Pro", generate_audio=true)` — use `2.0 Pro` (or `2.0 Pro-Fast`) for premium quality (up to 9 image refs), `2.5` for longer clips or more references (up to 30 image refs), or `2.0 Mini` for cheaper runs (up to 9 image refs, but no audio).
+2. `generate_video(prompt="the character walks through a neon-lit alley, cinematic", reference_image_urls=["{url1}", "{url2}"], model="2.0 Pro", generate_audio=true)` — use `2.0 Pro` (or `2.0 Pro-Fast`) for premium quality (up to 9 image refs), `2.5` for longer clips or more references (up to 30 image refs), or `2.0 Mini` for cheaper runs (up to 9 image refs).
 3. Poll `check_generation_status(generation_id)` until complete. The model takes inspiration from the references but doesn't insert them as literal frames.
 
 ### Animate an image with spoken line ("make it say …")
@@ -719,8 +720,8 @@ Use this only when the user explicitly wants multiple visuals to compare in para
 
 - **Prompt quality matters.** Be specific about composition, lighting, style, and subject. The `optimize_prompt` setting can help improve vague prompts.
 - **Check your balance** with `get_credit_balance` before batch operations.
-- **Use 4.5 or 5.0 for images** (up to 4K, up to 10 sequential images); reach for `5.0-Pro` for a single highest-fidelity hero shot (1K/2K only, `batch_size` fixed at 1), or `5.0-Lite` for faster generation or `guidance_scale` / `output_format` (`jpeg`–`png`) tuning.
-- **Picking a video model**: reach for `2.5` for audio + frame work, clips longer than 15 s, or editing / extending an existing video (`task_type`); `2.0 Pro` (or the cheaper `2.0 Pro-Fast`) when the user wants premium quality or 4K (2.0 Pro only). Use `2.0 Mini` (the tool default; up to 9 image refs, no audio) when cost matters more than premium quality. Default `generate_audio=true` unless the user asks for a silent clip — "make it say", "sings", and similar prompts imply audio is required.
+- **Use 4.5 or 5.0 for images** (up to 4K, up to 10 sequential images); reach for `5.0-Pro` for a single highest-fidelity hero shot (1K/2K only, `batch_size` fixed at 1), or `5.0-Lite` for faster generation. PNG output: `output_format="png"` on `5.0-Pro` / `5.0-Flash` / `5.0-Lite`.
+- **Picking a video model**: reach for `2.5` for audio + frame work, clips longer than 15 s, or editing / extending an existing video (`task_type`); `2.0 Pro` (or the cheaper `2.0 Pro-Fast`) when the user wants premium quality or 4K (2.0 Pro only). Use `2.0 Mini` (the tool default; up to 9 image refs, audio optional) when cost matters more than premium quality. Default `generate_audio=true` unless the user asks for a silent clip — "make it say", "sings", and similar prompts imply audio is required.
 - **Frame vs reference**: if the user wants the video to literally start (or end) on a specific image, use `first_frame_url` / `last_frame_url`. If they want the model to take stylistic/character cues from images without locking them as frames, use `reference_image_urls` (2.0 Pro, 2.0 Pro-Fast, 2.0 Mini, 2.5 only). Never combine both in the same call.
 - **Video is async.** Always poll `check_generation_status` — do not assume instant results.
 - **Media inputs:** local file → `create_media_upload` / `finalize_media_upload`; web image → `import_image_url` (or rely on auto-clone). Never depend on hotlinked third-party CDNs for Visualfeed display.

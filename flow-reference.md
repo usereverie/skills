@@ -99,7 +99,7 @@ the ones matching `type`):
 - `modelId` — short alias from `flow_list_models` (e.g. `4.5`, `2.0 Pro`)
 - **image:** `size` (e.g. `2048x2048`), `aestheticMode`
   (`balanced` \| `high_aesthetic` \| `photorealism` \| `cinematic`),
-  `guidanceScale` (supported models only), `outputFormat` (`jpeg` \| `png`),
+  `outputFormat` (`jpeg` \| `png`),
   `batchSize` (1..model max, sequential), `background` (`opaque` \|
   `transparent` — `5.0-Pro` / `5.0-Flash`; transparent needs exactly one
   connected input image that has an alpha channel, and returns a PNG)
@@ -120,15 +120,15 @@ must match the others' ratio + resolution.
 convenience map, not the source of truth):
 - Image `modelId`: `5.0-Pro` / `5.0-Flash` (max 1 sequential image; 1K / 1.5K /
   2K sizes such as `1536x1536`; `background`), `5.0` / `4.5` / `4.0`
-  (up to 10 sequential images), `5.0-Lite` (supports `guidanceScale`,
-  `outputFormat`). "Sequential images" is `batchSize`/output count, not a
+  (up to 10 sequential images), `5.0-Lite` (`outputFormat` jpeg/png, as on
+  `5.0-Pro` / `5.0-Flash`; no current model supports `guidanceScale` or an image `seed`). "Sequential images" is `batchSize`/output count, not a
   reference-image cap — image models don't expose `maxRefImages`; for an image
   model's reference-image support, read its capabilities from `list_models`.
 - Video `modelId`: `2.5` (480p–1080p, 4–30s, audio, `draft`, `taskType`,
   `maxRefImages` = 30), `1.0 Pro` / `1.0 Pro-Fast` (1–12s, **no audio**; `Pro-Fast` has **no last
   frame**; `maxRefImages` = 0), `2.0 Pro` (up to 4K, 4–15s, audio,
   `maxRefImages` = 9), `2.0 Pro-Fast` (480/720p, audio), `2.0 Mini`
-  (480/720p, no audio). `maxRefImages` is a **video-model-only** field.
+  (480/720p, audio optional). `maxRefImages` is a **video-model-only** field.
 - For `first_frame` chaining, pick a video model with first/last-frame support
   (all except `1.0 Pro-Fast`, which cannot emit a last frame).
 
